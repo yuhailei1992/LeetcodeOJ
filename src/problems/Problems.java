@@ -3,7 +3,7 @@ package problems;
 import java.util.Stack;
 
 public class Problems {
-	public static void P1 () {//pass
+	public static void reverseWords () {//pass
 		String s = "    the sky is blue";
         s = s.trim();//remove leading and trailing spaces
         System.out.println(s);
@@ -20,7 +20,7 @@ public class Problems {
         System.out.println(buf);
     }
 	
-	public static void P2 () {//pass
+	public static void evalRPN () {//pass
 		String[] tokens = {"3", "-4", "+"};
 		int len = tokens.length;
 		String[] stk = new String[len];
@@ -75,5 +75,22 @@ public class Problems {
 			x_new = -x_new;
 		}
 		System.out.println(x_new);
+	}
+	
+	public static double pow (double x, int n) {//pass
+		if (n == 0) return 1;
+		else if (n == 1) return x;
+		else if (n == -1) return 1/x;
+		else {
+			double temp = pow(x, Math.abs(n/2));
+			if (n < 0) {
+				if (n % 2 == 0) return 1 / (temp * temp);
+				else return 1 / (x * temp * temp);
+			}
+			else {
+				if (n % 2 == 0) return temp * temp;
+				else return x * temp * temp;
+			}
+		}
 	}
 }
