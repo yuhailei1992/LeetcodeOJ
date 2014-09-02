@@ -101,7 +101,7 @@ public class Problems {
 		ListNode n1 = new ListNode(1);
 		ListNode n2 = new ListNode(4);
 		ListNode n3 = new ListNode(3);
-		ListNode n4 = new ListNode(2);
+		ListNode n4 = new ListNode(3);
 		ListNode n5 = new ListNode(5);
 		ListNode n6 = new ListNode(2);
 
@@ -110,12 +110,16 @@ public class Problems {
 		n3.next = n4;
 		n4.next = n5;
 		n5.next = n6;
-		ListNode p = n1;
-		partition(n1, 3);
-		while (p != null) {
-			System.out.println(p.val);
-			p = p.next;
-		}
+		
+		ListNode m1 = new ListNode(1);
+		ListNode m2 = new ListNode(1);
+		m1.next = m2;
+		ListNode t = deleteDuplicates2(m1);
+		while (t != null) {
+			System.out.println(t.val);
+			t = t.next;
+		}		
+
 	}
 	
 	public static ListNode partition (ListNode head, int x) {//pass
@@ -258,4 +262,276 @@ public class Problems {
         }
         return false;
     }
+	
+	public static void testMerge () {
+		ListNode n1 = new ListNode(1);
+		ListNode n2 = new ListNode(4);
+		ListNode n3 = new ListNode(6);
+		ListNode n4 = new ListNode(7);
+		ListNode n5 = new ListNode(9);
+		ListNode n6 = new ListNode(24);
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		
+		ListNode m1 = new ListNode(4);
+		ListNode m2 = new ListNode(6);
+		ListNode m3 = new ListNode(7);
+		ListNode m4 = new ListNode(9);
+		ListNode m5 = new ListNode(10);
+		ListNode m6 = new ListNode(23);
+		m1.next = m2;
+		m2.next = m3;
+		m3.next = m4;
+		m4.next = m5;
+		m5.next = m6;
+		
+	}
+	public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {//pass
+		ListNode addihead = new ListNode(0);
+		ListNode p1 = l1;
+		ListNode p2 = l2;
+		ListNode p3 = addihead;
+		while (p1 != null && p2 != null) {
+			if (p1.val < p2.val) {
+				ListNode temp = new ListNode(p1.val);
+				p3.next = temp;
+				p3 = temp;
+				p1 = p1.next;
+			}
+			else {
+				ListNode temp = new ListNode(p2.val);
+				p3.next = temp;
+				p3 = temp;
+				p2 = p2.next;
+			}
+		}
+		while (p1 != null && p2 == null) {
+			ListNode temp = new ListNode(p1.val);
+			p3.next = temp;
+			p3 = temp;
+			p1 = p1.next;
+		}
+		while (p2 != null && p1 == null) {
+			ListNode temp = new ListNode(p2.val);
+			p3.next = temp;
+			p3 = temp;
+			p2 = p2.next;
+		}
+		//printList
+		ListNode p = addihead.next;
+		while (p != null) {
+			System.out.println(p.val);
+			p = p.next;
+		}
+        return l1;
+    }
+	
+	public static void testMergeArray () {
+		int A[] = {2, 3, 5, 6, 7, 0, 0, 0, 0};
+		int B[] = {4, 6, 8, 9};
+		merge(A, 5, B, 4);
+		for (int i = 0; i < 9; ++i) {
+			System.out.println(A[i]);
+		}
+	}
+	public static void merge(int A[], int m, int B[], int n) {//pass
+		int pm = m - 1;
+		int pn = n - 1;
+		int i = m + n -1;
+		while (i >= 0 && pm >= 0 && pn >= 0) {
+        	if (A[pm] > B[pn]) {
+        		A[i] = A[pm];
+        		pm--;
+        	}
+        	else {
+        		A[i] = B[pn];
+        		pn--;
+        	}
+        	i--;
+        }
+		while (pn >= 0) {
+			A[pn] = B[pn];
+			pn--;
+		}
+    }
+	
+	public static boolean isPalindrome(int x) {//passed but not accepted
+		//because this solution is not in-place
+        String str = Integer.toString(x);
+        char[] strarr = str.toCharArray();
+        System.out.println(strarr[0]);
+        int len = strarr.length;
+        for (int j = 0; j < len; ++j) {
+        	System.out.println(strarr[j]);
+        }
+        for (int i = 0; i < len/2; ++i) {
+        	if (strarr[i] != strarr[len - i - 1]) {
+        		System.out.println("Not palin");
+        		return false;
+        	}
+        }
+		System.out.println("palin");
+        return true;
+    }
+	
+	public static boolean isPalindrome2(int x) {//pass
+		//negative numbers are not palindrome
+		if (x < 0) {
+			return false;
+		}
+		
+		long x_bak = x;
+		long x_new = 0;
+		while (x != 0) {
+			x_new = x_new * 10;
+			x_new += x % 10;
+			x = x / 10;
+		}
+
+		System.out.println(x_new);
+		if (x_bak == x_new) return true;
+		else return false;
+	}
+	
+	public static ListNode insertionSortList(ListNode head) {//passed but exceeded time limit
+		ListNode p1 = head.next;
+		ListNode prev = head;
+		
+		ListNode new_head = new ListNode(0x80000000);
+		ListNode temp = new ListNode(head.val);
+		new_head.next = temp;
+		while (p1 != null) {
+			prev.next = p1.next;
+			ListNode p2_prev = new_head;
+			ListNode p2 = new_head.next;
+			for (; p2 != null; p2 = p2.next, p2_prev = p2_prev.next) {
+				System.out.println("Oh" + p1.val);
+				if (p1.val < p2.val) {
+					p2_prev.next = p1;
+					p1.next = p2;
+					break;
+				}
+			}
+			if (p2 == null) {//p2 is at the tail. Insert after
+				p2_prev.next = p1;
+			}
+			//now, decide whether to continue or not
+			if (prev.next != null) {
+				p1 = prev.next;
+			}
+			else {//no more node
+				break;
+			}
+		}
+		ListNode t = new_head.next;
+		while (t != null) {
+			System.out.println(t.val);
+			t = t.next;
+		}
+		return new_head.next;
+    }
+	
+	public static ListNode insertionSortList2(ListNode head) {//accepted after consulting answer
+		if (head == null || head.next == null) {
+			return head;
+		}
+		else {
+			ListNode dummy = new ListNode(0);
+			ListNode p = dummy;
+			while (head != null) {
+				ListNode toinsert = head;
+				head = head.next;
+				
+				if (toinsert.val < p.val) {
+					p = dummy;//go back to the head;
+				}				
+				while (p.next != null && toinsert.val > p.next.val) {
+					p = p.next;
+				}
+				toinsert.next = p.next;
+				p.next = toinsert;
+			}
+			ListNode t = dummy.next;
+			while (t != null) {
+				System.out.println(t.val);
+				t = t.next;
+			}
+			return dummy.next;
+		}
+ 	}
+	
+	public class Table {
+	       protected java.util.HashMap<String, Integer> map = 
+	             new java.util.HashMap<String, Integer>();
+
+	       public Integer get(String key) { return map.get(key); }
+
+	       public Integer put(String key, Integer value) {
+	          if (map.containsKey(key)) {
+
+	           return value;
+	          } else {
+	            return map.put(key, value);
+	          }
+	       }
+	       // other methods goes here
+	    }
+	
+	public static ListNode deleteDuplicates(ListNode head) {//exceeded time limit
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode dummy = new ListNode(0);
+		dummy.next = head;
+		ListNode prev = dummy;
+		ListNode p = head;
+		
+		java.util.HashMap<Integer, Integer> map1 = new java.util.HashMap<Integer, Integer>();
+		
+		while (p != null) {
+			if (map1.containsKey(p.val)) {
+				if (p.next != null) {
+					prev.next = p.next;
+					p = prev.next;
+				}
+				else {
+					prev.next = p.next;
+				}
+			}
+			else {
+				map1.put(p.val, 0);
+				if (p.next != null) {
+					prev = prev.next;
+					p = prev.next;
+				}
+				else {
+					break;
+				}
+			}
+		}
+		ListNode t = dummy.next;
+		while (t != null) {
+			System.out.println(t.val);
+			t = t.next;
+		}
+        return null;
+    }
+	
+	public static ListNode deleteDuplicates2(ListNode head) {//pass
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode p = head;
+		while (p != null && p.next != null) {
+			while (p.next != null && p.next.val == p.val) {
+				p.next = p.next.next;
+			}
+			p = p.next;
+		}
+		return head;
+	}
+
 }
