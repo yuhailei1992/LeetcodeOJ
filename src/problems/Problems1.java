@@ -1,5 +1,6 @@
 package problems;
 import problems.Datastructures.ListNode;
+import problems.Datastructures.TreeNode;
 
 public class Problems1 {
 	public static int removeDuplicates(int[] A) {
@@ -35,6 +36,10 @@ public class Problems1 {
 		}		
 	}
 	
+	public static void testArray () {
+		int A[] = {1, 3, 5, 6};
+		searchInsert(A, 7);
+	}
 	public static void showList (ListNode head) {
 		System.out.println("Showlist:");
 		ListNode p = head;
@@ -60,5 +65,20 @@ public class Problems1 {
 		}
 		return head.next;
     }
+	
+	public boolean isSameTree(TreeNode p, TreeNode q) {
+		
+        return true;
+    }
+	
+	public static int searchInsert(int[] A, int target) {
+        int len = A.length;
+        int i = 0;
+        while (i < len && A[i] < target) {
+        	i++;
+        }
+        System.out.println(i);
+        return i;
+     }
 
 }
