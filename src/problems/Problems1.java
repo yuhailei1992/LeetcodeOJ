@@ -157,4 +157,18 @@ public class Problems1 {
             else return false;
         }
     }
+	
+	public static int maxProfit(int[] prices) {//passed after consulting the answer
+        int len = prices.length;
+        if (len < 1) {
+        	return 0;
+        }
+        int p = 0;
+        for (int i = 1; i < len; ++i) {
+        	if (prices[i] > prices[i - 1]) {
+        		p += (prices[i] - prices[i - 1]);
+        	}
+        }
+        return p;
+    }
 }
