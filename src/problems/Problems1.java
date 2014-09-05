@@ -1,4 +1,5 @@
 package problems;
+
 import problems.Datastructures.ListNode;
 import problems.Datastructures.TreeNode;
 
@@ -37,8 +38,8 @@ public class Problems1 {
 	}
 	
 	public static void testArray () {
-		int A[] = {1, 3, 5, 6};
-		searchInsert(A, 7);
+		int A[] = {1, 1, 2};
+		removeDuplicates2(A);
 	}
 	public static void showList (ListNode head) {
 		System.out.println("Showlist:");
@@ -79,6 +80,67 @@ public class Problems1 {
         }
         System.out.println(i);
         return i;
-     }
-
+    }
+	
+	public static ListNode detectCycle(ListNode head) {
+		if (head == null) {
+            return null;
+        }
+        ListNode p1 = head;
+        ListNode p2 = head.next;
+        while (p1 != null && p2 != null) {
+            if (p1 == p2) {
+                //do something to remember this position
+            }
+            else {
+                if (p1.next == null) return null;
+                else p1 = p1.next;
+                if ((p2.next == null) || (p2.next != null && p2.next.next == null)) return null;
+                else p2 = p2.next.next;
+            }
+        }
+		return null;
+    }
+	
+	public static int removeDuplicates2(int[] A) {//passed after consulting answer
+		if (A.length < 2) return A.length;
+        int len = A.length;
+        int i = 1;
+        int j = 1;
+        while (j < len) {
+        	if (A[j] > A[i-1]) {
+        		A[i] = A[j];
+        		++i;
+        		j = i;
+        	}
+        	else {
+        		++j;
+        	}
+        }
+        System.out.println(i);
+        return i;
+    }
+	
+	public boolean searchMatrix(int[][] matrix, int target) {//passed after consulting answer
+		if (matrix.length < 1) {
+			return false;
+		}
+        int bottom = 0;
+        int top = matrix.length*matrix[0].length-1;
+        while (bottom <= top) {
+        	int mid = (bottom + top) / 2, 
+        			midX = mid / matrix[0].length,
+                    midY = mid % matrix[0].length;
+        	if (matrix[midX][midY] == target) {
+        		return true;
+        	}
+        	else if (matrix[midX][midY] > target) {
+        		top = mid - 1;
+        	}
+        	else {
+        		bottom = mid + 1;
+        	}
+        }
+        return false;
+    }
 }
