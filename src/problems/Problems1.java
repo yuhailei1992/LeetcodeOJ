@@ -1,5 +1,7 @@
 package problems;
 
+import java.util.*;
+
 import problems.Datastructures.ListNode;
 import problems.Datastructures.TreeNode;
 
@@ -187,4 +189,29 @@ public class Problems1 {
             return retval;
         }
     }
+	
+	public List<Integer> preorderTraversal(TreeNode root) {//passed after consulting
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        ArrayList<Integer> retlist = new ArrayList<Integer>();
+        if (root == null) {
+            return retlist;
+        }
+        else {
+            TreeNode p = root;
+            while (p != null || !stk.isEmpty()) {
+                if (p != null) {
+                    retlist.add(p.val);
+                    stk.push(p);
+                    p = p.left;
+                }
+                else {//p is null, meaning that we have reached the leftmost child. So we need to go back
+                    TreeNode temp = stk.pop();
+                    p = temp.right;
+                }
+            }
+        }
+        return retlist;
+	}
+	
+	
 }
