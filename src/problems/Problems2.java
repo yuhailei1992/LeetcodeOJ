@@ -1,8 +1,12 @@
 package problems;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+
+import com.sun.tools.javac.code.Attribute.Array;
 
 import problems.Datastructures.*;
 
@@ -99,4 +103,64 @@ public class Problems2 {
         connect(root.left);
         connect(root.right);
     }
+	
+	public static int longestConsecutive(int[] num) {
+        Arrays.sort(num);
+        for (int j = 0; j < num.length; ++j) {
+        	System.out.println(num[j]);
+        }
+        int len = 1;
+        int templen = 1;
+        int i = 1;
+        while (i < num.length) {
+        	while (i < num.length && num[i] - num[i-1] == 1) {
+        		++templen;
+        		++i;
+        	}
+        	++i;
+        	if (templen > len) {
+        		len = templen;
+        	}
+        	templen = 1;
+        }
+        return len;
+    }
+	
+	public static int longestConsecutive2(int[] num) {
+		if (num.length == 0 || num == null) {
+			return 0;
+		}
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for (int value : num) {
+			map.put(value, 0);
+		}
+		int maxlen = 1;
+		for (int value : num) {
+			if (map.get(value) == 1) {
+				continue;
+			}
+			int templen = 1;
+			int temp = value;//expand upward
+			while (map.containsKey(temp + 1)) {
+				templen++;
+				temp++;
+				map.put(temp, 1);
+			}
+			temp = value;//expand downward
+			while (map.containsKey(temp - 1)) {
+				templen++;
+				temp--;
+				map.put(temp, 1);
+			}
+			if (templen > maxlen) {
+				maxlen = templen;
+			}
+		}
+		return maxlen;
+	}
+	public static void testArray () {
+		int num[] = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6};
+		int num1[] = {0, 1, 2, 1};
+		System.out.println(longestConsecutive2(num));
+	}
 }
