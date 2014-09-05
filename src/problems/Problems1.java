@@ -67,11 +67,6 @@ public class Problems1 {
 		return head.next;
     }
 	
-	public boolean isSameTree(TreeNode p, TreeNode q) {
-		
-        return true;
-    }
-	
 	public static int searchInsert(int[] A, int target) {
         int len = A.length;
         int i = 0;
@@ -142,5 +137,24 @@ public class Problems1 {
         	}
         }
         return false;
+    }
+	
+	public boolean isSameTree(TreeNode p, TreeNode q) {//passed without even testing on eclipse!
+        if (p == null && q == null) {
+            return true;
+        }
+        else if (p == null && q != null) {
+            return false;
+        }
+        else if (p != null && q == null) {
+            return false;
+        }
+        else {
+            if ((p.val == q.val) && 
+            isSameTree(p.left, q.left) &&
+            isSameTree(p.right, q.right))
+            return true;
+            else return false;
+        }
     }
 }
