@@ -171,4 +171,20 @@ public class Problems1 {
         }
         return p;
     }
+	
+	public int numTrees(int n) {//passed after halfly consulting the answer
+        if (n == 0) {
+            return 1;
+        }
+        else if (n < 3) {
+            return n;
+        }
+        else {
+            int retval = 0;
+            for (int i = 0; i < n; ++i) {
+                retval += numTrees(i) * numTrees(n - 1 - i);
+            }
+            return retval;
+        }
+    }
 }
