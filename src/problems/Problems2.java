@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import problems.Datastructures.TreeNode;
+import problems.Datastructures.*;
 
 public class Problems2 {
 	public static int maxProfit(int[] prices) {//passed after consulting the answer
@@ -81,5 +81,22 @@ public class Problems2 {
             }
         }
         return retlist;
+    }
+	
+	public void connect(TreeLinkNode root) {//passed after consulting
+        if (root == null) return;
+        if (root.left != null) {
+            root.left.next = root.right;
+        }
+        if (root.right != null) {
+            if (root.next == null) {
+                root.right.next = null;
+            }
+            else {
+                root.right.next = root.next.left;
+            }
+        }
+        connect(root.left);
+        connect(root.right);
     }
 }
