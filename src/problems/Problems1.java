@@ -213,5 +213,26 @@ public class Problems1 {
         return retlist;
 	}
 	
-	
+	public List<Integer> inorderTraversal(TreeNode root) {//passed
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        ArrayList<Integer> retlist = new ArrayList<Integer>();
+        if (root == null) {
+            return retlist;
+        }
+        else {
+            TreeNode p = root;
+            while (p != null || !stk.isEmpty()) {
+                if (p != null) {
+                    stk.push(p);
+                    p = p.left;
+                }
+                else {//p is null, meaning that we have reached the leftmost child. So we need to go back
+                    TreeNode temp = stk.pop();
+                    retlist.add(temp.val);
+                    p = temp.right;
+                }
+            }
+        }
+        return retlist;
+    }
 }
