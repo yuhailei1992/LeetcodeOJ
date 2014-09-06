@@ -197,6 +197,19 @@ public class Problems2 {
 			else return 1 + rdepth;
 		}
     }
+    
+    public int maxProfit1(int[] prices) {// passed after consulting the answer
+        int min = 0x7fffffff;
+        int max = 0;
+        for (int i = 0; i < prices.length; ++i) {
+            if (prices[i] < min) min = prices[i];
+            int diff = prices[i] - min;
+            if (diff > max) {
+                max = diff;
+            }
+        }
+        return max;
+    }
 	
 	public static void testArray () {
 		int num[] = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6};
