@@ -31,8 +31,47 @@ public class Problems3 {
     	}
     }
     
+    public static String intToRoman(int num) {//accepted
+        if (num == 0) {
+        	return "";
+        }
+        String buf = "";
+        char roman[][] = {{'I', 'V'}, {'X', 'L'}, {'C', 'D'}, {'M', 'N'}};
+        int scale = 1000;
+        int i = 3;
+        while (num != 0 && i >= 0) {
+        	int temp = num / scale;
+        	if (temp != 0) {
+	        	if (temp <= 3) {
+	        		for (int j = 0; j < temp; ++j) {
+	        			buf += roman[i][0];
+	        		}
+	        	}
+	        	else if (temp < 5) {
+	        		buf += roman[i][0];
+	        		buf += roman[i][1];
+	        	}
+	        	else if (temp <= 8) {
+	        		buf += roman[i][1];
+	        		for (int j = 5; j < temp; ++j) {
+	        			buf += roman[i][0];
+	        		}
+	        	}
+	        	else {
+	        		buf += roman[i][0];
+	        		buf += roman[i + 1][0];
+	        	}
+        	}
+        	num %= scale;
+        	scale /= 10;
+        	--i;
+        }
+        System.out.println(buf);
+        return buf;
+    }
+
     public static void test () {
-    	String s = "DCXXI";
-    	romanToInt(s);
+    	int num = 2014;
+    	intToRoman(num);
     }
 }
