@@ -176,6 +176,28 @@ public class Problems2 {
         return tail + 1;
     }
 	
+	public boolean isBalanced(TreeNode root) {//passed without testing on ide
+        if (root == null) {
+            return true;
+        }
+        if (Math.abs(maxDepth(root.left) - maxDepth(root.right)) < 2 &&
+            isBalanced(root.left) && isBalanced(root.right)) {
+            return true;
+        }
+        else return false;
+    }
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+			return 0;
+		}		
+		else {
+			int ldepth = maxDepth(root.left);
+			int rdepth = maxDepth(root.right);
+			if (ldepth > rdepth) return 1 + ldepth;
+			else return 1 + rdepth;
+		}
+    }
+	
 	public static void testArray () {
 		int num[] = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6};
 		int num1[] = {0, 1, 2, 1};
