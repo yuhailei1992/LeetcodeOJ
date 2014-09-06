@@ -104,7 +104,7 @@ public class Problems2 {
         connect(root.right);
     }
 	
-	public static int longestConsecutive(int[] num) {
+	public static int longestConsecutive(int[] num) {//passed after consulting
         Arrays.sort(num);
         for (int j = 0; j < num.length; ++j) {
         	System.out.println(num[j]);
@@ -158,9 +158,27 @@ public class Problems2 {
 		}
 		return maxlen;
 	}
+	
+	public static int removeElement(int[] A, int elem) {//passed
+		if (A.length == 0) {
+			return 0;
+		}
+        int tail = A.length - 1;
+        for (int i = 0; i <= tail; ++i) {
+            if (A[i] == elem) {
+            	while (i != tail && A[tail] == elem && tail > 0) {
+            		tail--;
+            	}
+                A[i] = A[tail];
+                tail--;
+            }
+        }
+        return tail + 1;
+    }
+	
 	public static void testArray () {
 		int num[] = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6};
 		int num1[] = {0, 1, 2, 1};
-		System.out.println(longestConsecutive2(num));
+		System.out.println(removeElement(num1, 1));
 	}
 }
