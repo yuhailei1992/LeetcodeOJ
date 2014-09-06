@@ -21,8 +21,8 @@ public class DynamicProgramming {
 		}
 	}
 	
-	public static void LIS () {//lis, O(n^2)
-		int num[] = {5, 3, 4, 8, 6, 7};
+	public static void LIS (int num[]) {//lis, O(n^2)
+		
 		int maxlen[] = new int [num.length];
 		for (int i = 0; i < num.length; ++i) {
 			if (i == 0) {
@@ -40,12 +40,52 @@ public class DynamicProgramming {
 				maxlen[i] = tempmax;
 			}
 		}
-		for (int i = 0; i < num.length; ++i) {
-			System.out.println(maxlen[i]);
-		}
+		System.out.println(maxlen[num.length - 1]);
 	}
 	
-	public static void LISbetter () {
-		
+	public static void LISbetter (int num[]) {//use additional array to store the end of 
+		//the sequence of current length. Use sequential search to find the position
+		//to insert.
+		int temp[] = new int [num.length];
+		int maxlen = 1;
+		temp[0] = num[0];
+		for (int i = 1; i < num.length; ++i) {//i is index of num
+			int j = 0;
+			while (j < maxlen && num[i] > temp[j]) {//j is index of temp
+				++j;
+			}
+			if (j >= maxlen) maxlen++;
+			temp[j] = num[i];
+		}
+		System.out.println(maxlen);
+	}
+	
+	public static void LISevenbetter (int num[]) {
+		int temp[] = new int [num.length];
+		int maxlen = 1;
+		temp[0] = num[0];
+		for (int i = 1; i < num.length; ++i) {//i is index of num
+			if (num[i] > temp[maxlen - 1]) {
+				temp[maxlen] = num[i];
+				maxlen++;
+			}
+			else {
+				int bottom = 0;
+				int top = maxlen - 1;
+				int mid = 0;
+				while (top > bottom) {
+					mid = (top + bottom) / 2;
+					if (num[i] > temp[mid]) {
+						bottom = mid + 1;
+					}
+					else {
+						top = mid - 1;
+					}
+				}
+				
+				temp[mid] = num[i];
+			}
+		}
+		System.out.println(maxlen);
 	}
 }
