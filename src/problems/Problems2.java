@@ -210,7 +210,37 @@ public class Problems2 {
         }
         return max;
     }
+    
+    public static ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) {
+            return head;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode p = head;
+        while (n > 0) {
+            p = p.next;
+            n--;
+        }
+        ListNode p2 = dummy;
+        while (p != null) {
+            p = p.next;
+            p2 = p2.next;
+        }
+        if (p2 != null && p2.next != null) {
+            p2.next = p2.next.next;
+        }
+        return dummy.next;
+    }
 	
+    public static void testList () {
+    	ListNode n1 = new ListNode(1);
+    	ListNode t = removeNthFromEnd(n1, 1);
+		while (t != null) {
+			System.out.println(t.val);
+			t = t.next;
+		}	
+    }
 	public static void testArray () {
 		int num[] = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6};
 		int num1[] = {0, 1, 2, 1};

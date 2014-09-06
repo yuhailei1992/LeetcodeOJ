@@ -54,10 +54,6 @@ public class Problems {
 		System.out.println(stk[0]);
 	}
 	
-	public static void P3 () {
-		
-	}
-	
 	public static void reverseInteger () {//pass
 		int x = -321;
 		int isNeg = 0;
@@ -116,8 +112,7 @@ public class Problems {
 		while (t != null) {
 			System.out.println(t.val);
 			t = t.next;
-		}		
-
+		}
 	}
 	
 	public static ListNode partition (ListNode head, int x) {//pass
