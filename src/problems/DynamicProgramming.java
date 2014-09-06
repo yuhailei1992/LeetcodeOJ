@@ -20,4 +20,32 @@ public class DynamicProgramming {
 			System.out.println(min[i]);
 		}
 	}
+	
+	public static void LIS () {//lis, O(n^2)
+		int num[] = {5, 3, 4, 8, 6, 7};
+		int maxlen[] = new int [num.length];
+		for (int i = 0; i < num.length; ++i) {
+			if (i == 0) {
+				maxlen[i] = 1;
+			}
+			else {
+				int tempmax = 1;
+				for (int j = 0; j < i; ++j) {
+					if (num[j] < num[i]) {
+						if (maxlen[j] + 1 > tempmax) {
+							tempmax = maxlen[j] + 1;
+						}
+					}
+				}
+				maxlen[i] = tempmax;
+			}
+		}
+		for (int i = 0; i < num.length; ++i) {
+			System.out.println(maxlen[i]);
+		}
+	}
+	
+	public static void LISbetter () {
+		
+	}
 }
