@@ -341,7 +341,7 @@ public class Problems3 {
         return temp[n];
     }
     
-    public int maxSubArray(int[] A) {//solved after consulting
+    public static int maxSubArray(int[] A) {//solved after consulting
         int tempsum = 0;
         int max = 0x80000000;
         for (int i = 0; i < A.length; ++i) {
@@ -354,15 +354,55 @@ public class Problems3 {
         return max;
     }
     
-    
+    public static int maxSubArray2(int[] A) {//passed after consulting
+        int maxSum = Integer.MIN_VALUE;
+        return findMaxSub(A, 0, A.length - 1, maxSum);
+    }
 
+    public static int findMaxSub(int[] A, int left, int right, int maxSum) {
+        if (left > right) return Integer.MIN_VALUE;//wrong parameters
+        int mid = (left + right) / 2;
+        int leftmax = findMaxEntirelyInLeftRight(A, left, mid);//max sub array entirely in left
+        int rightmax = findMaxEntirelyInLeftRight(A, mid, right);//max sub array entirely in right
+        int max = Math.max(leftmax, rightmax);
+        //left
+        int sum = 0, midLeftMax = 0;
+        for(int i = mid - 1; i >= left; i--) {
+            sum += A[i];
+            if(sum > midLeftMax) midLeftMax = sum;
+            //note: sum is not zeroed even if it is minus 0, since this 
+            //subsequence must be continuous with A[mid];
+        }
+        //right
+        sum = 0;
+        int midRightMax = 0;
+        for(int i = mid + 1; i <= right; i++) {
+            sum += A[i];
+            if(sum > midRightMax) midRightMax = sum;
+        }
+        // get the max value from the left, right and across mid
+        return Math.max(max, midLeftMax + midRightMax + A[mid]);
+    }
+    
+    public static int findMaxEntirelyInLeftRight(int[] A, int left, int right) {
+        int tempsum = 0;
+        int max = Integer.MIN_VALUE;
+        for (int i = left; i <= right; ++i) {
+            tempsum += A[i];
+            if (tempsum > max) max = tempsum;
+            if (tempsum < 0) {
+                tempsum = 0;
+            }
+        }
+        return max;
+    }
+    //test cases
     public static void testsearch () {
-    	//int A[] = {4, 5, 6, 7, 0, 1, 2};
     	int A[] = {1, 3};
     	System.out.println(search(A, 0));
     }
     
-    public static void test () {
+    public static void testList () {
     	ListNode n1 = new ListNode(1);
     	ListNode n2 = new ListNode(2);
     	ListNode n3 = new ListNode(3);
@@ -374,5 +414,9 @@ public class Problems3 {
     		System.out.println(p.val);
     		p = p.next;
     	}
+    }
+    public static void test () {
+    	int A[] = {-2, 1};
+    	System.out.println(maxSubArray2(A));
     }
 }
