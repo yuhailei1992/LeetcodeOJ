@@ -297,6 +297,38 @@ public class Problems3 {
         return false;
     }
     
+    public ListNode detectCycle(ListNode head) {//accepted
+        if (head == null) {
+            return null;
+        }
+        if (head.next == null) {
+            return null;
+        }
+        ListNode p1 = head;
+        ListNode p2 = head.next;
+        while (p1 != null && p2 != null) {
+            if (p1 == p2) {
+                break;
+            }
+            else {
+                if (p1.next == null) return null;
+                else p1 = p1.next;
+                if ((p2.next == null) || (p2.next != null && p2.next.next == null)) return null;
+                else p2 = p2.next.next;
+            }
+        }
+        if (p1 == null || p2 == null) {
+            return null;
+        }
+        //if the program reaches this line, there is cycle.
+        ListNode p3 = head;
+        p2 = p2.next;
+        while (p3 != p2) {
+            p3 = p3.next;
+            p2 = p2.next;
+        }
+        return p2;
+    }
     public static void testsearch () {
     	//int A[] = {4, 5, 6, 7, 0, 1, 2};
     	int A[] = {1, 3};
