@@ -69,9 +69,38 @@ public class Problems3 {
         System.out.println(buf);
         return buf;
     }
+    
+    public static int[] plusOne(int[] digits) {//this solution is good, but overflows.
+        if (digits == null) return digits;
+        long num = 0;
+        for (int i = 0; i < digits.length; ++i) {
+            num *= 10;
+            num += digits[i];
+        }
+        num++;
+        //decide if there is a carry
+        long temp = num;
+        for (int j = 0; j < digits.length; ++j) {
+            temp /= 10;
+        }
+        //
+        int newlen = digits.length;
+        if (temp != 0) {
+            newlen++;
+        }
+        int ret[] = new int[newlen];
+        for (int j = newlen - 1; j >=0; --j) {
+            ret[j] = (int)(num % 10);
+            num /= 10;
+        }
+        for (int j = 0; j < ret.length; ++j) {
+        	System.out.print(ret[j]);
+        }
+        return ret;
+    }
 
     public static void test () {
-    	int num = 2014;
-    	intToRoman(num);
+    	int num[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 1};
+    	plusOne(num);
     }
 }
