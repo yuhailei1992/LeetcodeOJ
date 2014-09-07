@@ -247,6 +247,56 @@ public class Problems3 {
         return -1;
     }
     
+    public boolean search2(int[] A, int target) {
+        if (A == null) return false;//null
+        if (A.length == 1) {//only 1 element
+        	if (A[0] == target) {
+        		return true;
+        	}
+        	else return false;
+        }
+        //more than 1 element
+        int top = A.length - 1;
+        int bottom = 0;
+        //find the fault
+        int realbottom = 1;
+        while (realbottom < top) {
+            if (A[realbottom] < A[realbottom-1]) {
+                break;
+            }
+            realbottom++;
+        }
+        int realtop = realbottom - 1;//realtop is the index of the largest num
+        if (A[top] < target && A[realtop] < target) {
+            return false;
+        }
+        else if (A[bottom] > target && A[realbottom] > target) {
+        	return false;
+        }
+        //target falls between bottom and realtop
+        else if (A[bottom] <= target && target <= A[realtop]) {
+        	top = realtop;
+        }
+        //target falls between realbottom and top
+        else if (target >= A[realbottom] && target <= A[top]) {
+        	bottom = realbottom;
+        }
+        //then use binary search to locate the target
+        while (bottom <= top) {
+        	int mid = (bottom + top) / 2;
+        	if (target == A[mid]) {
+        		return true;
+        	}
+        	else if (target >A[mid]) {
+        		bottom = mid + 1;
+        	}
+        	else {
+        		top = mid - 1;
+        	}
+        }
+        return false;
+    }
+    
     public static void testsearch () {
     	//int A[] = {4, 5, 6, 7, 0, 1, 2};
     	int A[] = {1, 3};
