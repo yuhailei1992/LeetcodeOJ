@@ -329,6 +329,18 @@ public class Problems3 {
         }
         return p2;
     }
+    
+    public int climbStairs(int n) {//accepted after consulting
+        if (n < 2) return n;
+        int temp[] = new int [n+1];
+        temp[0] = 1;
+        temp[1] = 1;
+        for (int i = 2; i <= n; ++i) {
+            temp[i] = temp[i-1] + temp[i-2];
+        }
+        return temp[n];
+    }
+    
     public static void testsearch () {
     	//int A[] = {4, 5, 6, 7, 0, 1, 2};
     	int A[] = {1, 3};
