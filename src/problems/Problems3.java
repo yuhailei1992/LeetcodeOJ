@@ -98,9 +98,35 @@ public class Problems3 {
         }
         return ret;
     }
-
+    
+    public static int[] plusOne1(int[] digits) {//accepted
+    	if (digits == null) return digits;
+    	int len = digits.length;
+    	int carry = 1;
+    	for (int i = len - 1; i >= 0; --i) {
+    		int temp = digits[i] + carry;
+    		digits[i] = temp % 10;
+    		carry = temp / 10;
+    	}
+    	if (carry == 1) {
+    		int ret[] = new int[len + 1];
+    		for (int j = len; j > 0; --j) {
+    			ret[j] = digits[j - 1];
+    		}
+    		ret[0] = 1;
+    		for (int j = 0; j < ret.length; ++j) {
+            	System.out.print(ret[j] + ",");
+            }
+    		return ret;
+    	}
+    	for (int j = 0; j < digits.length; ++j) {
+        	System.out.print(digits[j] + ",");
+        }
+    	return digits;
+    }
     public static void test () {
-    	int num[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 1};
-    	plusOne(num);
+    	//int num[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+    	int num[] = {9, 9, 9, 9};
+    	plusOne1(num);
     }
 }
