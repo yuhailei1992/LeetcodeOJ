@@ -341,6 +341,21 @@ public class Problems3 {
         return temp[n];
     }
     
+    public int maxSubArray(int[] A) {//solved after consulting
+        int tempsum = 0;
+        int max = 0x80000000;
+        for (int i = 0; i < A.length; ++i) {
+            tempsum += A[i];
+            if (tempsum > max) max = tempsum;
+            if (tempsum < 0) {
+                tempsum = 0;
+            }
+        }
+        return max;
+    }
+    
+    
+
     public static void testsearch () {
     	//int A[] = {4, 5, 6, 7, 0, 1, 2};
     	int A[] = {1, 3};
