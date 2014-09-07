@@ -1,5 +1,5 @@
 package problems;
-
+import problems.Datastructures.ListNode;
 public class Problems3 {
 	public static int romanToInt(String s) {//accepted
         if (s == null) {
@@ -99,7 +99,7 @@ public class Problems3 {
         return ret;
     }
     
-    public static int[] plusOne1(int[] digits) {//accepted
+    public static int[] plusOne1(int[] digits) {//acceptedg
     	if (digits == null) return digits;
     	int len = digits.length;
     	int carry = 1;
@@ -124,9 +124,76 @@ public class Problems3 {
         }
     	return digits;
     }
+    
+    public static ListNode rotateRight(ListNode head, int n) {//exceeds time limit
+    	if (head == null || n == 0) {
+            return head;
+        }
+    	//first, count the length
+        int len = 1;
+        ListNode temp = head;
+        while (temp.next != null) {
+        	++len;
+        	temp = temp.next;
+        }
+        //n should be the mod of len;
+        if (len <= n) {
+        	n = n % len;
+        }
+        //then, rotate
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode p = head;
+        ListNode newhead = head;
+        ListNode newhead_prev = dummy;
+        while (n > 0) {
+            newhead = newhead.next;
+            newhead_prev = newhead_prev.next;
+            --n;
+        }
+        while (newhead.next != null) {
+            p = p.next;
+            newhead = newhead.next;
+        }
+        temp.next = head;
+        newhead_prev.next = null;
+        return newhead;
+    }
+    
+    public static ListNode rotateRight2(ListNode head, int n) {//accept!!!
+    	if (head == null || n == 0) {
+            return head;
+        }
+    	ListNode p = head;
+    	int len = 1;
+    	while (p.next != null) {
+    		p = p.next;
+    		++len;
+    	}
+    	n = n % len;
+    	n = len - n;
+    	System.out.println(n);
+    	p.next = head;
+    	ListNode newhead = head;
+    	while (n > 0) {
+    		newhead = newhead.next;
+    		p = p.next;
+    		--n;
+    	}
+    	p.next = null;
+    	return newhead;
+    }
     public static void test () {
-    	//int num[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-    	int num[] = {9, 9, 9, 9};
-    	plusOne1(num);
+    	ListNode n1 = new ListNode(1);
+    	ListNode n2 = new ListNode(2);
+    	ListNode n3 = new ListNode(3);
+    	n1.next = n2;
+    	n2.next = n3;
+    	n3.next = null;
+    	ListNode p = rotateRight2(n1, 1);
+    	while (p != null) {
+    		System.out.println(p.val);
+    		p = p.next;
+    	}
     }
 }
