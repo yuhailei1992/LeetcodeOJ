@@ -43,7 +43,12 @@ public class Problems4 {
     }*/
     public static void test () {
     	String[] strs = {"hello", "hell", "hellodarkness", "hel"};
-    	longestCommonPrefix(strs);
+    	int [] A = {1, 1, 1, 1, 3, 3};
+    	removeDuplicates(A);
+    	//longestCommonPrefix(strs);
+    	for (int i = 0; i < removeDuplicates(A); ++i) {
+    		System.out.println(A[i]);
+    	}
     	
     }
     public static String longestCommonPrefix(String[] strs) {//accepted
@@ -63,5 +68,25 @@ public class Problems4 {
         	}
         }
         return new String(prefix, 0, len);
+    }
+    
+    public static int removeDuplicates(int[] A) {//copied from the answer
+        if (A.length <= 2) return A.length;
+        int len = A.length;
+        int cnt = 0;
+        int j = 0;
+        for (int i = 1; i < len; ++i) {
+        	if (A[i] == A[j]) {
+        		if (cnt == 0) {
+        			A[++j] = A[i];
+        		}
+        		++cnt;
+        	}
+        	else {
+        		A[++j] = A[i];
+        		cnt = 0;
+        	}
+        }
+        return j+1;
     }
 }
