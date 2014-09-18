@@ -31,4 +31,37 @@ public class Problems4 {
         }
         return Math.min(ldepth, rdepth) + 1;
     }
+    
+    /*public static TreeNode sortedArrayToBST(int[] num) {
+        int len = num.length;
+        if (len == 0) return null;
+        int mid = len / 2;
+        TreeNode root = new TreeNode(num[mid]);
+        root.left = new TreeNode(num[mid/2]);
+        root.right = new TreeNode(num[mid + mid/2]);
+        
+    }*/
+    public static void test () {
+    	String[] strs = {"hello", "hell", "hellodarkness", "hel"};
+    	longestCommonPrefix(strs);
+    	
+    }
+    public static String longestCommonPrefix(String[] strs) {//accepted
+    	if (strs == null) return null;
+        if (strs.length == 0) return "";
+        char prefix[] = strs[0].toCharArray();
+        int len = strs[0].length();
+        for (int i = 1; i < strs.length; ++i) {
+        	len = Math.min(len,  strs[i].length());
+        	for (int j = 0; j < len; ++j) {
+        		if (strs[i].charAt(j) != prefix[j]) {
+        			if (j < len) {
+        				len = j;
+        			}
+        			break;
+        		}
+        	}
+        }
+        return new String(prefix, 0, len);
+    }
 }
