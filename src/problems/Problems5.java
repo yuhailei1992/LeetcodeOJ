@@ -67,6 +67,25 @@ public class Problems5 {
 		}
 		System.out.println();
 	}
+
+	public static ListNode swapPairs(ListNode head) {//passed
+        if (head == null || head.next == null) {
+        	return head;
+        }
+        ListNode addi_head = new ListNode(0);
+        addi_head.next = head;
+        ListNode p_prev = addi_head;
+        ListNode p = head;
+        while (p != null && p.next != null) {
+        	ListNode p_next = p.next;
+        	p.next = p_next.next;
+        	p_prev.next = p_next;
+        	p_next.next = p;
+        	p_prev = p_prev.next.next;
+        	p = p.next;
+        }
+        return addi_head.next;
+    }
 	
 	public static void test () {
 		ListNode n0 = new ListNode(3);
@@ -83,6 +102,11 @@ public class Problems5 {
 		n4.next = n5;
 		n5.next = n6;
 		n6.next = null;
-		showList(sortList(n0));
+		ListNode m0 = new ListNode(4);
+		ListNode m1 = new ListNode(5);
+		m0.next = m1;//bug exist
+		
+		showList(swapPairs(m0));
 	}
+
 }
