@@ -55,7 +55,6 @@ public class Problems4 {
     	n4.left = n3;
     	n4.right = n5;
     	isValidBST(n2);
-    	
     }
     public static String longestCommonPrefix(String[] strs) {//accepted
     	if (strs == null) return null;
@@ -124,7 +123,6 @@ public class Problems4 {
     	return ret;
     }
     
-    
     public static boolean isValidBST(TreeNode root) {//passed
         if (root == null) return true;
         ArrayList<Integer> A = new ArrayList<Integer>();
@@ -142,4 +140,20 @@ public class Problems4 {
     	traverse_inorder(root.right, A);
     }
     
+    public static boolean isValidBST2(TreeNode root) {
+    	if (root == null) return true;
+    	return judge(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+    
+    public static boolean judge (TreeNode node, int min, int max) {
+    	if (node == null) return true;
+    	if (node.val <= min || node.val >= max) {
+    		return false;
+    	}
+    	return judge(node.left, min, node.val) && judge(node.right, node.val, max);
+    }
+    
+    public static List<List<Integer>> levelOrder(TreeNode root) {
+        
+    }
 }
