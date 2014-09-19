@@ -1,4 +1,8 @@
 package problems;
+import java.util.*;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 import problems.Datastructures.*;
 
 
@@ -87,6 +91,34 @@ public class Problems5 {
         return addi_head.next;
     }
 	
+	public static List<List<Integer>> generate(int numRows) {//accepted
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        if (numRows == 0) {
+        	return ret;
+        }
+        for (int i = 0; i < numRows; ++i) {
+        	ArrayList<Integer> temp = new ArrayList<Integer>();
+        	if (i == 0) {
+        		temp.add(1);
+        	}
+        	else if (i == 1) {
+        		temp.add(1);
+        		temp.add(1);
+        	}
+        	else {
+        		List<Integer> pre = ret.get(i-1);
+        		temp.add(1);
+        		for (int j = 0; j < pre.size()-1; ++j) {
+        			temp.add(pre.get(j) + pre.get(j+1));
+        		}
+        		temp.add(1);
+        	}
+        	ret.add(temp);
+        }
+        return ret;
+        
+    }
+
 	public static void test () {
 		ListNode n0 = new ListNode(3);
 		ListNode n1 = new ListNode(32);
@@ -105,7 +137,6 @@ public class Problems5 {
 		ListNode m0 = new ListNode(4);
 		ListNode m1 = new ListNode(5);
 		m0.next = m1;//bug exist
-		
 		showList(swapPairs(m0));
 	}
 
