@@ -45,16 +45,9 @@ public class Problems4 {
         
     }*/
     public static void test () {
-    	TreeNode n1 = new TreeNode(0);
-    	TreeNode n2 = new TreeNode(1);
-    	TreeNode n3 = new TreeNode(2);
-    	TreeNode n4 = new TreeNode(3);
-    	TreeNode n5 = new TreeNode(4);
-    	n2.left = n1;
-    	n2.right = n4;
-    	n4.left = n3;
-    	n4.right = n5;
-    	isValidBST(n2);
+    	String haystack = "aaa";
+    	String needle = "a";
+    	System.out.println(strStr(haystack, needle));
     }
     public static String longestCommonPrefix(String[] strs) {//accepted
     	if (strs == null) return null;
@@ -168,5 +161,49 @@ public class Problems4 {
             }
         }
         return capacity;
+    }
+    
+    public static List<Integer> grayCode(int n) {//accepted after consulting
+    	ArrayList<Integer> res = new ArrayList<Integer>();
+        if (n == 0) {
+        	res.add(0);
+        	return res;
+        }
+        else {
+        	ArrayList<Integer> sub = (ArrayList<Integer>)grayCode(n-1);
+        	res.addAll(sub);
+        	int base = 1 << (n-1);
+        	for (int i = base-1; i >= 0; --i) {
+        		res.add(base + sub.get(i));
+        	}
+        }   
+        return res;
+    }
+        	
+	public static String strStr(String haystack, String needle) {//accepted
+        if (needle == null || haystack == null) return null;
+        if (haystack.equals(needle)) return haystack;
+        if (needle == "") {
+            return haystack;
+        }
+        if (haystack == "") {
+            return null;
+        }
+        int n_len = needle.length();
+        int h_len = haystack.length();
+        char h_arr[] = haystack.toCharArray();
+        char n_arr[] = needle.toCharArray();
+        for (int i = 0; i < h_len - n_len; ++i) {
+            int j = 0;
+        	for (; j < n_len; ++j) {
+        		if (h_arr[i+j] != n_arr[j]) {
+        			break;
+        		}
+        	}
+        	if (j == n_len) {
+        		return haystack.substring(i);
+        	}
+        }
+        return null;
     }
 }
