@@ -1,4 +1,7 @@
 package problems;
+import java.util.ArrayList;
+import java.util.*;
+
 import problems.Datastructures.TreeNode;
 
 public class Problems4 {
@@ -89,4 +92,33 @@ public class Problems4 {
         }
         return j+1;
     }
+    
+    public static List<String> anagrams(String[] strs) {//accepted after consulting the solution
+    	ArrayList<String> ret = new ArrayList<String>();
+    	if (strs == null || strs.length == 0) return ret;
+    	HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+    	for (int i = 0; i < strs.length; ++i) {
+    		String temp = strs[i];
+    		char[] chars = temp.toCharArray();
+            Arrays.sort(chars);
+            String sorted = new String(chars);
+            if (map.containsKey(sorted)) {
+            	map.get(sorted).add(strs[i]);
+            }
+            else {
+            	ArrayList<String> list = new ArrayList<String>();
+            	list.add(strs[i]);
+            	map.put(sorted, list);
+            }
+    	}
+    	Iterator<ArrayList<String>> iter = map.values().iterator();
+    	while (iter.hasNext()) {
+    		ArrayList<String> item = (ArrayList<String>)iter.next();
+    		if (item.size() > 1) {
+    			ret.addAll(item);
+    		}
+    	}
+    	return ret;
+    }
+    
 }
