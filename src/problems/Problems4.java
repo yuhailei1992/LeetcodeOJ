@@ -140,7 +140,7 @@ public class Problems4 {
     	traverse_inorder(root.right, A);
     }
     
-    public static boolean isValidBST2(TreeNode root) {
+    public static boolean isValidBST2(TreeNode root) {//better solution
     	if (root == null) return true;
     	return judge(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
@@ -153,7 +153,20 @@ public class Problems4 {
     	return judge(node.left, min, node.val) && judge(node.right, node.val, max);
     }
     
-    public static List<List<Integer>> levelOrder(TreeNode root) {
-        
+    public int maxArea(int[] height) {//passed after consulting solution
+        int start = 0;
+        int end = height.length - 1;
+        int capacity = 0;
+        while (start < end) {
+            int temp = (end - start) * Math.min(height[start], height[end]);
+            capacity = Math.max(capacity, temp);
+            if (height[start] < height[end]) {
+                start++;
+            }
+            else {
+                end--;
+            }
+        }
+        return capacity;
     }
 }
