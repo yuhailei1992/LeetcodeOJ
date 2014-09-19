@@ -206,4 +206,21 @@ public class Problems4 {
         }
         return null;
     }
+	
+	public static TreeNode sortedArrayToBST(int[] num) {//accepted after consulting
+        return buildTree(num, 0, num.length-1);
+    }
+	
+	public static TreeNode buildTree (int[] num, int start, int end) {//accepted after consulting
+		if (start > end) return null;
+		if (start == end) {
+			TreeNode node = new TreeNode(num[start]);
+			return node;
+		}
+		int mid = (start + end)/2;
+		TreeNode node = new TreeNode(num[mid]);
+		node.left = buildTree(num, start, mid-1);
+		node.right = buildTree(num, mid+1, end);
+		return node;
+	}
 }
