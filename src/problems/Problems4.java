@@ -45,13 +45,16 @@ public class Problems4 {
         
     }*/
     public static void test () {
-    	String[] strs = {"hello", "hell", "hellodarkness", "hel"};
-    	int [] A = {1, 1, 1, 1, 3, 3};
-    	removeDuplicates(A);
-    	//longestCommonPrefix(strs);
-    	for (int i = 0; i < removeDuplicates(A); ++i) {
-    		System.out.println(A[i]);
-    	}
+    	TreeNode n1 = new TreeNode(0);
+    	TreeNode n2 = new TreeNode(1);
+    	TreeNode n3 = new TreeNode(2);
+    	TreeNode n4 = new TreeNode(3);
+    	TreeNode n5 = new TreeNode(4);
+    	n2.left = n1;
+    	n2.right = n4;
+    	n4.left = n3;
+    	n4.right = n5;
+    	isValidBST(n2);
     	
     }
     public static String longestCommonPrefix(String[] strs) {//accepted
@@ -119,6 +122,24 @@ public class Problems4 {
     		}
     	}
     	return ret;
+    }
+    
+    
+    public static boolean isValidBST(TreeNode root) {//passed
+        if (root == null) return true;
+        ArrayList<Integer> A = new ArrayList<Integer>();
+        traverse_inorder(root, A);
+        for (int i = 0; i < A.size() - 1; ++i) {
+        	if (A.get(i) >= A.get(i+1)) return false;
+        }
+        return true;
+    }
+    
+    public static void traverse_inorder(TreeNode root, ArrayList<Integer> A) {//passed
+    	if (root == null) return;
+    	traverse_inorder(root.left, A);
+    	A.add(root.val);
+    	traverse_inorder(root.right, A);
     }
     
 }
