@@ -47,7 +47,100 @@ public class Problems6 {
 		System.out.println(sum);
 		return sum;
     }
-	
+
+	/**
+	 * This problem is very boring. 
+	 * 
+	 * To minimize the space usage, we need to use the first row and first column
+	 * to store the "clear flag". Since the first row and column will be modified
+	 * along the way, we need to set another two flags indicating if they should
+	 * be cleared too. 
+	 * 
+	 * Implementation:
+	 * 1, handle corner cases: matrix is null, row is 1, column is 1;
+	 * 2, check the first row and column, see if they need to be cleared
+	 * 3, traverse the whole matrix, set clear flags in the first row and col
+	 * 4, traverse the whole matrix, clear 
+	 * 5, clear the first row and column
+	 * @param matrix
+	 */
+	public static void setZeroes(int[][] matrix) {//AC
+		if (matrix == null) return;
+		int row_zero = 1;
+		int col_zero = 1;
+		int row = matrix.length;
+		int col = matrix[0].length;
+		if (row == 1) {
+			for (int i = 0; i < col; ++i) {
+				if (matrix[0][i] == 0) {
+					for (int j = 0; j < col; ++j) {
+						matrix[0][j] = 0;
+					}
+					return;
+				}
+			}
+			return;
+		}
+		
+		if (col == 1) {
+			for (int i = 0; i < row; ++i) {
+				if (matrix[i][0] == 0) {
+					for (int j = 0; j < row; ++j) {
+						matrix[j][0] = 0;
+					}
+					return;
+				}
+			}
+			return;
+		}
+		
+		for (int i = 0; i < row; ++i) {
+			if (matrix[i][0] == 0) {
+				col_zero = 0;
+				break;
+			}
+		}
+		for (int i = 0; i < col; ++i) {
+			if (matrix[0][i] == 0) {
+				row_zero = 0;
+				break;
+			}
+		}
+		for (int i = 1; i < row; ++i) {
+			for (int j = 1; j < col; ++j) {
+				if (matrix[i][j] == 0) {
+					matrix[i][0] = 0;
+					matrix[0][j] = 0;
+				}
+			}
+		}
+		for (int i = 1; i < row; ++i) {
+			if (matrix[i][0] == 0) {
+				for (int j = 1; j < col; ++j) {
+					matrix[i][j] = 0;
+				}
+			}
+		}
+		for (int i = 1; i < col; ++i) {
+			if (matrix[0][i] == 0) {
+				for (int j = 1; j < row; ++j) {
+					matrix[j][i] = 0;
+				}
+			}
+		}
+		if (row_zero == 0) {
+			for (int i = 0; i < col; ++i) {
+				matrix[0][i] = 0;
+			}
+		}
+		if (col_zero == 0) {
+			for (int i = 0; i < row; ++i) {
+				matrix[i][0] = 0;
+			}
+		}
+		return;
+        
+    }
 	public static void showArray (int[] n) {
 		for (int i = 0; i < n.length; ++i) {
 			System.out.print(n[i]);
@@ -56,7 +149,13 @@ public class Problems6 {
 	}
 	
 	public static void test () {
-		int A[] = {2, 2, 1, 0, 1, 0, 1, 2, 1};
-		trap(A);
+		//int A[] = {2, 2, 1, 0, 1, 0, 1, 2, 1};
+		//trap(A);
+		//int B[][] = {{0,0,0,5},{4,3,1,4},{0,1,1,4},{1,2,1,3},{0,0,1,1}};
+		int B[][] = {{1, 1, 1}, {0, 1, 2}};
+		setZeroes(B);
+		for (int i = 0; i < B.length; ++i) {
+			showArray(B[i]);
+		}
 	}
 }
