@@ -1,8 +1,6 @@
 package problems;
 import java.util.*;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 import problems.Datastructures.*;
 
 
@@ -72,6 +70,26 @@ public class Problems5 {
 		System.out.println();
 	}
 
+	/* swapPairs test case:
+	    ListNode n0 = new ListNode(3);
+		ListNode n1 = new ListNode(32);
+		ListNode n2 = new ListNode(1);
+		ListNode n3 = new ListNode(4);
+		ListNode n4 = new ListNode(6);
+		ListNode n5 = new ListNode(3);
+		ListNode n6 = new ListNode(2);
+		n0.next = n1;
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		n6.next = null;
+		ListNode m0 = new ListNode(4);
+		ListNode m1 = new ListNode(5);
+		m0.next = m1;//bug exist
+		showList(swapPairs(m0));
+	 */
 	public static ListNode swapPairs(ListNode head) {//passed
         if (head == null || head.next == null) {
         	return head;
@@ -116,28 +134,39 @@ public class Problems5 {
         	ret.add(temp);
         }
         return ret;
-        
+    }
+	
+	public static void sortColors(int[] A) {//accepted
+        if (A == null || A.length < 2) return;
+        int pleft = 0, pright = A.length-1;
+        for (int p = 0; p <= pright; p++) {
+        	if (A[p] == 0) {
+        		int temp = A[p];
+        		A[p] = A[pleft];
+        		A[pleft] = temp;
+        		pleft++;
+        	}
+        	else if (A[p] == 2) {
+        		int temp = A[p];
+        		A[p] = A[pright];
+        		A[pright] = temp;
+        		pright--;
+        		p--;
+        	}
+        }
+        showArray(A);
     }
 
+	public static void showArray (int[] n) {
+		for (int i = 0; i < n.length; ++i) {
+			System.out.print(n[i]);
+		}
+		System.out.println("end");
+	}
+	
 	public static void test () {
-		ListNode n0 = new ListNode(3);
-		ListNode n1 = new ListNode(32);
-		ListNode n2 = new ListNode(1);
-		ListNode n3 = new ListNode(4);
-		ListNode n4 = new ListNode(6);
-		ListNode n5 = new ListNode(3);
-		ListNode n6 = new ListNode(2);
-		n0.next = n1;
-		n1.next = n2;
-		n2.next = n3;
-		n3.next = n4;
-		n4.next = n5;
-		n5.next = n6;
-		n6.next = null;
-		ListNode m0 = new ListNode(4);
-		ListNode m1 = new ListNode(5);
-		m0.next = m1;//bug exist
-		showList(swapPairs(m0));
+		int n[] = {2, 1, 0};
+		sortColors(n);
 	}
 
 }
