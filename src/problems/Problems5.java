@@ -281,6 +281,28 @@ public class Problems5 {
 		return dummy.next;
     }
 
+	public int minPathSum(int[][] grid) {//AC
+		int m = grid.length;
+		int n = grid[0].length;
+		
+        int[][] map = new int[m][n];
+        
+        map[0][0] = grid[0][0];
+		for (int j = 1; j < n; ++j) {
+			map[0][j] = map[0][j-1] + grid[0][j];
+		}
+		for (int j = 1; j < m; ++j) {
+			map[j][0] = map[j-1][0] + grid[j][0];
+		}
+		
+		for (int i = 1; i < m; ++i) {
+			for (int j = 1; j < n; ++j) {
+				map[i][j] = Math.min(map[i-1][j], map[i][j-1]) + grid[i][j];
+			}
+		}
+		return map[m-1][n-1];
+    }
+	
 	public static void showArray (int[] n) {
 		for (int i = 0; i < n.length; ++i) {
 			System.out.print(n[i]);
@@ -288,8 +310,10 @@ public class Problems5 {
 		System.out.println("end");
 	}
 	
+	
 	public static void test () {
-		getRow(2);
+		
+		
 	}
 
 }
