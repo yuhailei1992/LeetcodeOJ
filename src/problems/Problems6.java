@@ -1,5 +1,5 @@
 package problems;
-
+import java.util.*;
 public class Problems6 {
 	/**
 	 * The capacity of water that an element can hold is determined by the max height
@@ -141,6 +141,41 @@ public class Problems6 {
 		return;
         
     }
+	
+	/**
+	 * canonical problem using stack
+	 * @param s
+	 * @return
+	 */
+	public static boolean isValid(String s) {//AC
+        if (s == null) {
+        	return true;
+        }
+        int len = s.length();
+        if (len % 2 == 1) return false;
+        char[] temp = s.toCharArray();
+        Stack<Character> stk = new Stack<Character>();
+        for (int i = 0; i < len; ++i) {
+        	if (temp[i] == '(' || temp[i] == '[' || temp[i] == '{') {
+        		stk.push(temp[i]);
+        	}
+        	else if (temp[i] == ')') {
+        		if (stk.size() == 0) return false;//in case the string starts with ")"
+        		if (stk.pop() != '(') return false;
+        	}
+        	else if (temp[i] == ']') {
+        		if (stk.size() == 0) return false;
+        		if (stk.pop() != '[') return false;
+        	}
+        	else if (temp[i] == '}') {
+        		if (stk.size() == 0) return false;
+        		if (stk.pop() != '{') return false;
+        	}
+        }
+        if (stk.size() != 0) return false;
+        return true;
+    }
+	
 	public static void showArray (int[] n) {
 		for (int i = 0; i < n.length; ++i) {
 			System.out.print(n[i]);
