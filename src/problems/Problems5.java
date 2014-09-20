@@ -215,10 +215,50 @@ public class Problems5 {
 		subRoutine(root.right, base);
 	}
 
-	public static List<Integer> getRow(int rowIndex) {
-        return null;
+	public static List<Integer> getRow(int rowIndex) {//AC at first attempt!
+		int[][] t = new int[2][rowIndex+1];
+		for (int i = 0; i <= rowIndex; ++i) {
+			if (i % 2 == 0) {
+				if (i == 0) {
+					t[0][0] = 1;
+				}
+				else {
+					t[0][0] = 1;
+					t[0][i] = 1;
+					for (int j = 1; j < i; ++j) {
+						t[0][j] = t[1][j] + t[1][j-1];
+					}
+				}
+			}
+			else {
+				t[1][0] = 1;
+				t[1][i] = 1;
+				for (int j = 1; j < i; ++j) {
+					t[1][j] = t[0][j] + t[0][j-1];
+				}
+			}
+		}
+		int index_of_t = (rowIndex) % 2;
+		ArrayList<Integer> ret = new ArrayList<Integer>();
+		for (int k = 0; k <= rowIndex; ++k) {
+			ret.add(t[index_of_t][k]);
+		}
+        return ret;
     }
 	
+	/* test case
+	    ListNode n0 = new ListNode(1);
+		ListNode n1 = new ListNode(2);
+		ListNode n2 = new ListNode(3);
+		ListNode n3 = new ListNode(4);
+		ListNode n4 = new ListNode(5);
+		n0.next = n1;
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = null;
+		showList(reverseBetween(n0, 2, 4));
+	 */
 	public static ListNode reverseBetween(ListNode head, int m, int n) {//AC
 		if (head == null || head.next == null) return head;
         ListNode dummy = new ListNode(0);
@@ -248,19 +288,8 @@ public class Problems5 {
 		System.out.println("end");
 	}
 	
-	
 	public static void test () {
-		ListNode n0 = new ListNode(1);
-		ListNode n1 = new ListNode(2);
-		ListNode n2 = new ListNode(3);
-		ListNode n3 = new ListNode(4);
-		ListNode n4 = new ListNode(5);
-		n0.next = n1;
-		n1.next = n2;
-		n2.next = n3;
-		n3.next = n4;
-		n4.next = null;
-		showList(reverseBetween(n0, 2, 4));
+		getRow(2);
 	}
 
 }
