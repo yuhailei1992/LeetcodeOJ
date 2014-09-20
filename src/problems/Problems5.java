@@ -218,6 +218,28 @@ public class Problems5 {
 	public static List<Integer> getRow(int rowIndex) {
         return null;
     }
+	
+	public static ListNode reverseBetween(ListNode head, int m, int n) {//AC
+		if (head == null || head.next == null) return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode p_prev = dummy;
+        ListNode p_post;
+        int len = n - m;
+		while (m > 1) {
+        	p_prev = p_prev.next;
+        	--m;
+        }
+		ListNode p = p_prev.next;
+		while (len > 0) {
+			p_post = p.next;
+			p.next = p_post.next;
+			p_post.next = p_prev.next;
+			p_prev.next = p_post;
+			--len;
+		}
+		return dummy.next;
+    }
 
 	public static void showArray (int[] n) {
 		for (int i = 0; i < n.length; ++i) {
@@ -228,13 +250,17 @@ public class Problems5 {
 	
 	
 	public static void test () {
-		TreeNode n0 = new TreeNode(1);
-		TreeNode n1 = new TreeNode(2);
-		TreeNode n2 = new TreeNode(3);
-		n0.left = n1;
-		n0.right = n2;
-		Problems5 testobj = new Problems5();
-		testobj.sumNumbers2(n0);
+		ListNode n0 = new ListNode(1);
+		ListNode n1 = new ListNode(2);
+		ListNode n2 = new ListNode(3);
+		ListNode n3 = new ListNode(4);
+		ListNode n4 = new ListNode(5);
+		n0.next = n1;
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = null;
+		showList(reverseBetween(n0, 2, 4));
 	}
 
 }
