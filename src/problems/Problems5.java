@@ -303,6 +303,15 @@ public class Problems5 {
 		return map[m-1][n-1];
     }
 	
+	public static boolean hasPathSum(TreeNode root, int sum) {//AC!
+        if (root == null) return false;
+        if (root.left == null && root.right == null) {//leaf
+            if (root.val == sum) return true;
+            else return false;
+        }
+        return hasPathSum(root.left, sum-root.val) || hasPathSum(root.right, sum-root.val);
+    }
+	
 	public static void showArray (int[] n) {
 		for (int i = 0; i < n.length; ++i) {
 			System.out.print(n[i]);
@@ -312,7 +321,12 @@ public class Problems5 {
 	
 	
 	public static void test () {
-		
+		TreeNode n0 = new TreeNode(1);
+		TreeNode n1 = new TreeNode(2);
+		n0.left = n1;
+		if (hasPathSum(n0, 3) == true) {
+			System.out.println("h");
+		}
 		
 	}
 
