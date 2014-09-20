@@ -173,6 +173,52 @@ public class Problems5 {
 		return map[m-1][n-1];
     }
 	
+	/*public static List<String> generateParenthesis(int n) {
+		ArrayList<String> ret = new ArrayList<String>();
+        if (n == 0) return ret;
+        if (n == 1) {
+        	ret.add("()");
+        	return ret;
+        }
+        else {
+        	//individual ones
+        	String temp1 = "";
+        	for (int i = 0; i < n; ++i) {
+        		temp1 += "()";
+        	}
+        	ret.add(temp1);
+        	//aside ones;
+        	Iterator<String> iter = ret.iterator();
+        	String temp2 = "";
+        	temp2 += "()";
+        	//temp2 += 
+        }
+        
+    }*/
+	
+	int sum = 0;
+    public int sumNumbers(TreeNode root) {//AC
+		int base = 0;
+		subRoutine(root, base);
+		return sum;
+	}
+	
+	public void subRoutine(TreeNode root, int base) {
+		if (root == null) {
+			return;
+		}
+		base = base*10 + root.val;
+		if (root.left == null && root.right == null) {
+			sum += base;
+		}
+		subRoutine(root.left, base);
+		subRoutine(root.right, base);
+	}
+
+	public static List<Integer> getRow(int rowIndex) {
+        return null;
+    }
+
 	public static void showArray (int[] n) {
 		for (int i = 0; i < n.length; ++i) {
 			System.out.print(n[i]);
@@ -180,8 +226,15 @@ public class Problems5 {
 		System.out.println("end");
 	}
 	
+	
 	public static void test () {
-		System.out.println(uniquePaths(1, 2));
+		TreeNode n0 = new TreeNode(1);
+		TreeNode n1 = new TreeNode(2);
+		TreeNode n2 = new TreeNode(3);
+		n0.left = n1;
+		n0.right = n2;
+		Problems5 testobj = new Problems5();
+		testobj.sumNumbers2(n0);
 	}
 
 }
