@@ -265,6 +265,62 @@ public class Problems6 {
 		node.right = buildTree(num, mid+1, end);
 		return node;
 	}
+	
+	/**
+	 * The order of connect(right) and connect(left) is very important!
+	 * connect right first to ensure the connectivity. 
+	 * @param root
+	 */
+    public static void connect(TreeLinkNode root) {//AC. 
+        if (root == null) return;
+        System.out.println(root.val);
+        TreeLinkNode t = root.next;
+        if (t == null) {
+        	System.out.println("null");
+        }
+        else {
+        	System.out.println("next is " + t.val);
+        }
+        if (root.left == null && root.right == null) return;
+        if (root.left != null) {
+        	if (root.right != null) {
+                root.left.next = root.right;
+        	}
+        	else {
+        		TreeLinkNode p = root.next;
+	            while (p != null) {
+	                if (p.left != null) {
+	                    root.left.next = p.left;
+	                    break;
+	                }
+	                else if (p.right != null) {
+	                    root.left.next = p.right;
+	                    break;
+	                }
+	                else p = p.next;
+	            }
+	            if (p == null) root.left.next = null;
+        	}
+        }
+        
+        if (root.right != null) {
+            TreeLinkNode p = root.next;
+            while (p != null) {
+                if (p.left != null) {
+                    root.right.next = p.left;
+                    break;
+                }
+                else if (p.right != null) {
+                    root.right.next = p.right;
+                    break;
+                }
+                else p = p.next;
+            }
+            if (p == null) root.right.next = null;
+        }
+        connect(root.right);
+        connect(root.left);
+    }
 
 	public static int minimumTotal(List<List<Integer>> triangle) {
 		//if (triangle == null) return 0;
@@ -285,9 +341,33 @@ public class Problems6 {
 	}
 	
 	public static void test () {
+		TreeLinkNode n0 = new TreeLinkNode(2);
+		TreeLinkNode n1 = new TreeLinkNode(1);
+		TreeLinkNode n2 = new TreeLinkNode(3);
+		TreeLinkNode n3 = new TreeLinkNode(0);
+		TreeLinkNode n4 = new TreeLinkNode(7);
+		TreeLinkNode n5 = new TreeLinkNode(9);
+		TreeLinkNode n6 = new TreeLinkNode(1);
+		TreeLinkNode n7 = new TreeLinkNode(2);
+		TreeLinkNode n8 = new TreeLinkNode(1);
+		TreeLinkNode n9 = new TreeLinkNode(0);
+		TreeLinkNode n10 = new TreeLinkNode(8);
+		TreeLinkNode n11 = new TreeLinkNode(8);
+		n0.left = n1;
+		n0.right = n2;
+		n1.left = n3;
+		n1.right = n4;
+		n2.left = n5;
+		n2.right = n6;
+		n3.left = n7;
+		n4.left = n8;
+		n4.right = n9;
+		n6.left = n10;
+		n6.right = n11;
+		connect(n0);
 		//int a[][] = new int[][]{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
-		int a[][] = new int[][]{{0, 0}, {1, 0}};
-		uniquePathsWithObstacles(a);
+		//int a[][] = new int[][]{{0, 0}, {1, 0}};
+		//uniquePathsWithObstacles(a);
 		/*List<List<Integer>> t = new ArrayList<List<Integer>>();
 		List<Integer> t1 = new ArrayList<Integer>();
 		t1.add(2);
