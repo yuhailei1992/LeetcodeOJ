@@ -1,5 +1,7 @@
 package problems;
 
+import java.util.List;
+
 public class Helpers {
 	public static void showArray (int[] n) {
 		for (int i = 0; i < n.length; ++i) {
@@ -16,5 +18,14 @@ public class Helpers {
 			System.out.println();
 		}
 		System.out.println("end");
+	}
+	
+	public static void showList (List<Integer> l) {
+		int len = l.size();
+		System.out.println("size is " + len);
+		for (int i = 0; i < len; ++i) {
+			System.out.print(l.get(i));
+		}
+		System.out.println();
 	}
 }

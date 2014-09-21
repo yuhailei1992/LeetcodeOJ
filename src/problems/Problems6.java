@@ -425,7 +425,6 @@ public class Problems6 {
         		stk.push(root);
         		root = root.left;
         	}
-        	//arrlst.add(root.val);
         	if (stk.isEmpty()) break;
         	root = stk.pop();
         	root = root.right;
