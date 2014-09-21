@@ -1,5 +1,7 @@
 package problems;
 import java.util.*;
+import problems.Helpers;
+
 public class Problems6 {
 	/**
 	 * The capacity of water that an element can hold is determined by the max height
@@ -31,7 +33,7 @@ public class Problems6 {
 				tempmax = A[i];
 			}
 		}
-		showArray(leftHeight);
+		Helpers.showArray(leftHeight);
 		tempmax = 0;
 		for (int i = len-1; i >= 0; --i) {
 			rightHeight[i] = tempmax;
@@ -175,22 +177,90 @@ public class Problems6 {
         if (stk.size() != 0) return false;
         return true;
     }
-	
-	public static void showArray (int[] n) {
-		for (int i = 0; i < n.length; ++i) {
-			System.out.print(n[i]);
+
+	public static int uniquePathsWithObstacles(int[][] obstacleGrid) {//AC
+		if (obstacleGrid == null) return 0;
+		if (obstacleGrid[0][0] == 1) return 0;
+		int m = obstacleGrid.length;
+		int n = obstacleGrid[0].length;
+		if (m == 1) {//only one row
+			for (int i = 0; i < n; ++i) {
+				if (obstacleGrid[0][i] == 1) {
+					return 0;
+				}
+			}
+			return 1;
 		}
-		System.out.println("end");
+		if (n == 1) {//only one row
+			for (int i = 0; i < m; ++i) {
+				if (obstacleGrid[i][0] == 1) {
+					return 0;
+				}
+			}
+			return 1;
+		}
+		//regular content begin!
+		for (int i = m-1; i > 0; --i) {
+			if (obstacleGrid[i-1][n-1] == 0)
+				obstacleGrid[i-1][n-1] = obstacleGrid[i][n-1] > 0 ? 1 : -1;
+		}
+		for (int i = n-1; i > 0; --i) {
+			if (obstacleGrid[m-1][i-1] == 0)
+				obstacleGrid[m-1][i-1] = obstacleGrid[m-1][i] > 0 ? 1 : -1;
+		}
+		for (int i = m-2; i >= 0; --i) {
+			for (int j = n-2; j >= 0; --j) {
+				int a1 = obstacleGrid[i+1][j] > 0 ? 0 : obstacleGrid[i+1][j];
+				int a2 = obstacleGrid[i][j+1] > 0 ? 0 : obstacleGrid[i][j+1];
+				obstacleGrid[i][j] = obstacleGrid[i][j] > 0 ? 1 : a1 + a2;
+			}
+		}
+		return (-1) * obstacleGrid[0][0];
+        
+    }
+	public static int minimumTotal(List<List<Integer>> triangle) {
+		//if (triangle == null) return 0;
+		int level = triangle.size();
+        List<Integer> t = triangle.get(level-1);
+        showList(t);
+        return 0;
+    }
+
+	
+	public static void showList (List<Integer> l) {
+		int len = l.size();
+		System.out.println("size is " + len);
+		for (int i = 0; i < len; ++i) {
+			System.out.print(l.get(i));
+		}
+		System.out.println();
 	}
 	
 	public static void test () {
-		//int A[] = {2, 2, 1, 0, 1, 0, 1, 2, 1};
-		//trap(A);
-		//int B[][] = {{0,0,0,5},{4,3,1,4},{0,1,1,4},{1,2,1,3},{0,0,1,1}};
-		int B[][] = {{1, 1, 1}, {0, 1, 2}};
-		setZeroes(B);
-		for (int i = 0; i < B.length; ++i) {
-			showArray(B[i]);
-		}
+		//int a[][] = new int[][]{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
+		int a[][] = new int[][]{{0, 0}, {1, 0}};
+		uniquePathsWithObstacles(a);
+		/*List<List<Integer>> t = new ArrayList<List<Integer>>();
+		List<Integer> t1 = new ArrayList<Integer>();
+		t1.add(2);
+		t.add(t1);
+		t1.clear();
+		t1.add(3);
+		t1.add(4);
+		t.add(t1);
+		t1.clear();
+		t1.add(6);
+		t1.add(5);
+		t1.add(7);
+		t.add(t1);
+		t1.clear();
+		t1.add(4);
+		t1.add(1);
+		t1.add(8);
+		t1.add(7);
+		t.add(t1);
+		t1.clear();
+		minimumTotal(t);
+		showList(t.get(2));*/
 	}
 }
