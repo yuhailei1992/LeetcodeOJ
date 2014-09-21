@@ -1,8 +1,8 @@
 package problems;
 import java.util.*;
-
 import problems.Helpers;
 import problems.Datastructures.*;
+
 public class Problems6 {
 	/**
 	 * The capacity of water that an element can hold is determined by the max height
@@ -266,6 +266,33 @@ public class Problems6 {
 		return node;
 	}
 	
+	/**Test case
+	    TreeLinkNode n0 = new TreeLinkNode(2);
+		TreeLinkNode n1 = new TreeLinkNode(1);
+		TreeLinkNode n2 = new TreeLinkNode(3);
+		TreeLinkNode n3 = new TreeLinkNode(0);
+		TreeLinkNode n4 = new TreeLinkNode(7);
+		TreeLinkNode n5 = new TreeLinkNode(9);
+		TreeLinkNode n6 = new TreeLinkNode(1);
+		TreeLinkNode n7 = new TreeLinkNode(2);
+		TreeLinkNode n8 = new TreeLinkNode(1);
+		TreeLinkNode n9 = new TreeLinkNode(0);
+		TreeLinkNode n10 = new TreeLinkNode(8);
+		TreeLinkNode n11 = new TreeLinkNode(8);
+		n0.left = n1;
+		n0.right = n2;
+		n1.left = n3;
+		n1.right = n4;
+		n2.left = n5;
+		n2.right = n6;
+		n3.left = n7;
+		n4.left = n8;
+		n4.right = n9;
+		n6.left = n10;
+		n6.right = n11;
+		connect(n0);
+	 */
+	
 	/**
 	 * The order of connect(right) and connect(left) is very important!
 	 * connect right first to ensure the connectivity. 
@@ -322,12 +349,24 @@ public class Problems6 {
         connect(root.left);
     }
 
-	public static int minimumTotal(List<List<Integer>> triangle) {
-		//if (triangle == null) return 0;
-		int level = triangle.size();
-        List<Integer> t = triangle.get(level-1);
-        showList(t);
-        return 0;
+    /**
+     * use a helper array to store the temporal minimumTotal. A little tricky. 
+     * @param triangle
+     * @return
+     */
+	public static int minimumTotal(List<List<Integer>> triangle) {//AC
+		int layer = triangle.size();
+		int temp[] = new int[layer];
+		for (int i = 0; i < layer; ++i) {
+			temp[i] = triangle.get(layer-1).get(i);
+		}
+        for (int i = layer-1; i > 0; --i) {
+        	List<Integer> l1 = triangle.get(i-1);
+            for (int j = 0; j < l1.size(); ++j) {
+            	temp[j] = Math.min(temp[j], temp[j+1]) + l1.get(j);
+            }
+        }
+        return temp[0];
     }
 
 	
@@ -341,54 +380,34 @@ public class Problems6 {
 	}
 	
 	public static void test () {
-		TreeLinkNode n0 = new TreeLinkNode(2);
-		TreeLinkNode n1 = new TreeLinkNode(1);
-		TreeLinkNode n2 = new TreeLinkNode(3);
-		TreeLinkNode n3 = new TreeLinkNode(0);
-		TreeLinkNode n4 = new TreeLinkNode(7);
-		TreeLinkNode n5 = new TreeLinkNode(9);
-		TreeLinkNode n6 = new TreeLinkNode(1);
-		TreeLinkNode n7 = new TreeLinkNode(2);
-		TreeLinkNode n8 = new TreeLinkNode(1);
-		TreeLinkNode n9 = new TreeLinkNode(0);
-		TreeLinkNode n10 = new TreeLinkNode(8);
-		TreeLinkNode n11 = new TreeLinkNode(8);
-		n0.left = n1;
-		n0.right = n2;
-		n1.left = n3;
-		n1.right = n4;
-		n2.left = n5;
-		n2.right = n6;
-		n3.left = n7;
-		n4.left = n8;
-		n4.right = n9;
-		n6.left = n10;
-		n6.right = n11;
-		connect(n0);
-		//int a[][] = new int[][]{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
-		//int a[][] = new int[][]{{0, 0}, {1, 0}};
-		//uniquePathsWithObstacles(a);
-		/*List<List<Integer>> t = new ArrayList<List<Integer>>();
+		List<List<Integer>> t = new ArrayList<List<Integer>>();
 		List<Integer> t1 = new ArrayList<Integer>();
+		List<Integer> t2 = new ArrayList<Integer>();
+		List<Integer> t3 = new ArrayList<Integer>();
+		List<Integer> t4 = new ArrayList<Integer>();
 		t1.add(2);
+		//showList(t1);
 		t.add(t1);
-		t1.clear();
-		t1.add(3);
-		t1.add(4);
-		t.add(t1);
-		t1.clear();
-		t1.add(6);
-		t1.add(5);
-		t1.add(7);
-		t.add(t1);
-		t1.clear();
-		t1.add(4);
-		t1.add(1);
-		t1.add(8);
-		t1.add(7);
-		t.add(t1);
-		t1.clear();
+		t2.add(3);
+		t2.add(4);
+		//showList(t1);
+		t.add(t2);
+		t3.add(6);
+		t3.add(5);
+		t3.add(7);
+		//showList(t1);
+		t.add(t3);
+		t4.add(4);
+		t4.add(1);
+		t4.add(8);
+		t4.add(7);
+		//showList(t1);
+		t.add(t4);
+		//minimumTotal(t);
+		ListIterator<List<Integer>> iter = t.listIterator();
+		while (iter.hasNext()) {
+			showList(iter.next());
+		}
 		minimumTotal(t);
-		showList(t.get(2));*/
 	}
 }
