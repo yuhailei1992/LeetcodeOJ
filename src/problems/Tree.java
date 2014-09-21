@@ -105,16 +105,16 @@ public class Tree {
 		ArrayList<Integer> arrlst = new ArrayList<Integer>();
         if (root == null) return arrlst;
         Stack<TreeNode> stk = new Stack<TreeNode>();
-        while (stk.isEmpty() == false || root != null) {
-        	if (root != null) {
-        		stk.push(root);
-        		root = root.left;
-        	}
-        	else {
-        		root = stk.pop();
-        		arrlst.add(root.val);
-        		root = root.right;
-        	}
+        Stack<TreeNode> stk2 = new Stack<TreeNode>();
+        stk.push(root);
+        while (stk.isEmpty() == false) {
+        	TreeNode temp = stk.pop();
+        	stk2.push(temp);
+        	if (temp.left != null) stk.push(temp.left);
+        	if (temp.right != null) stk.push(temp.right);
+        }
+        while (stk2.isEmpty() == false) {
+        	arrlst.add(stk2.pop().val);
         }
         return arrlst;
 	}
@@ -132,7 +132,7 @@ public class Tree {
 		TreeNode n2 = new TreeNode(3);
 		n0.right = n1;
 		n1.left = n2;
-		Helpers.showList(inorderTraversal(n0));
-		Helpers.showList(inorderTraversalnonrecursive(n0));
+		Helpers.showList(postorderTraversal(n0));
+		Helpers.showList(postorderTraversalnonrecursive(n0));
 	}
 }
