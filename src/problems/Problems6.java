@@ -349,6 +349,32 @@ public class Problems6 {
         connect(root.left);
     }
 
+    /**test case
+        List<List<Integer>> t = new ArrayList<List<Integer>>();
+		List<Integer> t1 = new ArrayList<Integer>();
+		List<Integer> t2 = new ArrayList<Integer>();
+		List<Integer> t3 = new ArrayList<Integer>();
+		List<Integer> t4 = new ArrayList<Integer>();
+		t1.add(2);
+		t.add(t1);
+		t2.add(3);
+		t2.add(4);
+		t.add(t2);
+		t3.add(6);
+		t3.add(5);
+		t3.add(7);
+		t.add(t3);
+		t4.add(4);
+		t4.add(1);
+		t4.add(8);
+		t4.add(7);
+		t.add(t4);
+		ListIterator<List<Integer>> iter = t.listIterator();
+		while (iter.hasNext()) {
+			showList(iter.next());
+		}
+		minimumTotal(t);
+     */
     /**
      * use a helper array to store the temporal minimumTotal. A little tricky. 
      * @param triangle
@@ -369,7 +395,44 @@ public class Problems6 {
         return temp[0];
     }
 
+	/**
+	 * post order traversal
+	 * @param root
+	 * @return
+	 */
+	public static List<Integer> postorderTraversal(TreeNode root) {
+		ArrayList<Integer> arrlst = new ArrayList<Integer>();
+        if (root == null) {
+        	return arrlst;
+        }
+        if (root.left != null)
+        	arrlst.addAll(postorderTraversal(root.left));
+        if (root.right != null)
+        	arrlst.addAll(postorderTraversal(root.right));
+        arrlst.add(root.val);
+        return arrlst;
+    }
 	
+	public static List<Integer> postorderTraversalnonrecursive(TreeNode root) {
+		ArrayList<Integer> arrlst = new ArrayList<Integer>();
+        if (root == null) {
+        	return arrlst;
+        }
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        while (true) {
+        	while (root != null) {
+        		arrlst.add(root.val);
+        		stk.push(root);
+        		root = root.left;
+        	}
+        	//arrlst.add(root.val);
+        	if (stk.isEmpty()) break;
+        	root = stk.pop();
+        	root = root.right;
+        }
+        return arrlst;
+    }
+
 	public static void showList (List<Integer> l) {
 		int len = l.size();
 		System.out.println("size is " + len);
@@ -380,34 +443,11 @@ public class Problems6 {
 	}
 	
 	public static void test () {
-		List<List<Integer>> t = new ArrayList<List<Integer>>();
-		List<Integer> t1 = new ArrayList<Integer>();
-		List<Integer> t2 = new ArrayList<Integer>();
-		List<Integer> t3 = new ArrayList<Integer>();
-		List<Integer> t4 = new ArrayList<Integer>();
-		t1.add(2);
-		//showList(t1);
-		t.add(t1);
-		t2.add(3);
-		t2.add(4);
-		//showList(t1);
-		t.add(t2);
-		t3.add(6);
-		t3.add(5);
-		t3.add(7);
-		//showList(t1);
-		t.add(t3);
-		t4.add(4);
-		t4.add(1);
-		t4.add(8);
-		t4.add(7);
-		//showList(t1);
-		t.add(t4);
-		//minimumTotal(t);
-		ListIterator<List<Integer>> iter = t.listIterator();
-		while (iter.hasNext()) {
-			showList(iter.next());
-		}
-		minimumTotal(t);
+		TreeNode n0 = new TreeNode(1);
+		TreeNode n1 = new TreeNode(2);
+		TreeNode n2 = new TreeNode(3);
+		n0.right = n1;
+		n1.left = n2;
+		showList(postorderTraversalnonrecursive(n0));
 	}
 }
