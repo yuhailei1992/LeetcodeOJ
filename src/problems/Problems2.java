@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
-import com.sun.tools.javac.code.Attribute.Array;
-
 import problems.Datastructures.*;
 
 public class Problems2 {
@@ -242,8 +240,8 @@ public class Problems2 {
 		}	
     }
 	public static void testArray () {
-		int num[] = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6};
-		int num1[] = {0, 1, 2, 1};
+		//int num[] = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6};
+		//int num1[] = {0, 1, 2, 1};
 		minNumCoin ();
 		//System.out.println(removeElement(num1, 1));
 	}

@@ -1,7 +1,8 @@
 package problems;
 import java.util.*;
-import problems.Helpers;
 
+import problems.Helpers;
+import problems.Datastructures.*;
 public class Problems6 {
 	/**
 	 * The capacity of water that an element can hold is determined by the max height
@@ -178,6 +179,13 @@ public class Problems6 {
         return true;
     }
 
+	/**
+	 * similar to unique path
+	 * two-dimensional DP
+	 * uses no extra space
+	 * @param obstacleGrid
+	 * @return
+	 */
 	public static int uniquePathsWithObstacles(int[][] obstacleGrid) {//AC
 		if (obstacleGrid == null) return 0;
 		if (obstacleGrid[0][0] == 1) return 0;
@@ -216,8 +224,48 @@ public class Problems6 {
 			}
 		}
 		return (-1) * obstacleGrid[0][0];
-        
     }
+	
+	/**
+	 * shuizhongdeyu provided a better solution with only one traversal of the list
+	 * 
+	 * @param head
+	 * @return
+	 */
+	public static TreeNode sortedListToBST(ListNode head) {//AC
+        if (head == null) {
+        	return null;
+        }
+        ListNode p = head;
+        int len = 0;
+        while (p != null) {
+        	len++;
+        	p = p.next;
+        }
+        int num[] = new int[len];
+        p = head;
+        len = 0;
+        while (p != null) {
+        	num[len] = p.val;
+        	len++;
+        	p = p.next;
+        }
+        return buildTree(num, 0, len-1);
+    }
+	
+	public static TreeNode buildTree (int[] num, int start, int end) {
+		if (start > end) return null;
+		if (start == end) {
+			TreeNode node = new TreeNode(num[start]);
+			return node;
+		}
+		int mid = (start + end)/2;
+		TreeNode node = new TreeNode(num[mid]);
+		node.left = buildTree(num, start, mid-1);
+		node.right = buildTree(num, mid+1, end);
+		return node;
+	}
+
 	public static int minimumTotal(List<List<Integer>> triangle) {
 		//if (triangle == null) return 0;
 		int level = triangle.size();
