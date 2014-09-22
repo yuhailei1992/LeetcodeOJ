@@ -4,7 +4,7 @@ import java.util.Arrays;
 import problems.Datastructures.*;
 import problems.Helpers.*;
 public class Problems7 {
-	/**
+	/**Test case
 	    ListNode n0 = new ListNode(1);
 		ListNode n1 = new ListNode(2);
 		ListNode n2 = new ListNode(3);
@@ -92,7 +92,26 @@ public class Problems7 {
         return ret;
     }
 	
+	/**
+	 * The overall run time complexity should be O(log(n))
+	 * So we use binary search. 
+	 * @param A
+	 * @param B
+	 * @return
+	 */
+	public static double findMedianSortedArrays(int A[], int B[]) {
+        return 0.0;
+    }
+
+	public static int lengthOfLastWord(String s) {//AC
+        if (s == null) return 0;
+        String[] splited = s.split("\\s+");
+        if (splited.length == 0) return 0;
+        return splited[splited.length-1].length();
+    }
 	public static void test () {
+		String s = "     ";
+		lengthOfLastWord(s);
 		String a = "9";
 		String b = "9";
 		multiply(a, b);
