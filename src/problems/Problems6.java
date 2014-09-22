@@ -432,6 +432,24 @@ public class Problems6 {
         return arrlst;
     }
 
+	public static String addBinary(String a, String b) {//AC after consulting
+        if (a == null) return b;
+        if (b == null) return a;
+        String ret = "";
+        int carry = 0;
+        for (int i = a.length()-1, j = b.length()-1; i >=0 || j >= 0; --i, --j) {
+        	int tempa = i>=0 ? a.charAt(i)-'0': 0;
+        	int tempb = j>=0 ? b.charAt(j)-'0': 0;
+        	int temp = tempa + tempb + carry;
+        	carry = temp/2;
+        	ret += temp%2;
+        }
+        if (carry == 1) ret += '1';
+        String reverse = new StringBuffer(ret).reverse().toString();
+        //System.out.println(ret);
+        return reverse;
+    }
+
 	public static void showList (List<Integer> l) {
 		int len = l.size();
 		System.out.println("size is " + len);
@@ -442,11 +460,8 @@ public class Problems6 {
 	}
 	
 	public static void test () {
-		TreeNode n0 = new TreeNode(1);
-		TreeNode n1 = new TreeNode(2);
-		TreeNode n2 = new TreeNode(3);
-		n0.right = n1;
-		n1.left = n2;
-		showList(postorderTraversalnonrecursive(n0));
+		String a = "10111";
+		String b = "110111";
+		addBinary(a, b);
 	}
 }
