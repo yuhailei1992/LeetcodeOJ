@@ -103,17 +103,77 @@ public class Problems7 {
         return 0.0;
     }
 
+	/**
+	 * Use regex to parse the string into an array of string
+	 * then return the length of the last element. 
+	 * @param s
+	 * @return
+	 */
 	public static int lengthOfLastWord(String s) {//AC
         if (s == null) return 0;
         String[] splited = s.split("\\s+");
         if (splited.length == 0) return 0;
         return splited[splited.length-1].length();
     }
+	
+	public static boolean isPalindrome(String s) {//TLE
+        if (s == null || s.length() == 0) return true;
+        String s1 = "";
+        for (int i = 0; i < s.length(); ++i) {
+        	char temp = s.charAt(i);
+        	if ((temp >= '0' && temp <= '9') || (temp >= 'a' && temp <= 'z')) {
+        		s1 += temp;
+        	}
+        	else if (temp >= 'A' && temp <= 'Z') {
+        		temp += 32;
+        		s1 += temp;
+        	}
+        }
+        String reverse = new StringBuffer(s1).reverse().toString();
+        if (s1.equalsIgnoreCase(reverse)) return true;
+        else return false;
+    }
+	
+	/**
+	 * Jump over the non alphanumeric characters;
+	 * Conform upper case and lower case characters;
+	 * then compare
+	 * @param s
+	 * @return
+	 */
+	public static boolean isPalindrome2(String s) {//AC
+		if (s == null || s.length() < 2) return true;
+		int i = 0, j = s.length()-1;
+		while (i <= j) {
+			char tempi = s.charAt(i);
+			char tempj = s.charAt(j);
+			if (((tempi >= 'a' && tempi <= 'z') 
+					|| (tempi >= 'A' && tempi <= 'Z')
+					|| (tempi >= '0' && tempi <= '9')) == false) {
+				i++;
+				continue;
+			}
+			if (((tempj >= 'a' && tempj <= 'z') 
+					|| (tempj >= 'A' && tempj <= 'Z')
+					|| (tempj >= '0' && tempj <= '9')) == false) {
+				j--;
+				continue;
+			}
+			if (i <= j) {
+				if (tempi >= 'A' && tempi <= 'Z') tempi += 32;
+				if (tempj >= 'A' && tempj <= 'Z') tempj += 32;
+				if (tempi != tempj) return false;
+			}
+			++i;
+			--j;
+		}
+		return true;
+	}
+	
 	public static void test () {
-		String s = "     ";
-		lengthOfLastWord(s);
-		String a = "9";
-		String b = "9";
-		multiply(a, b);
+		String s = "aA";
+		if (isPalindrome2(s) == true) {
+			System.out.println("yeah");
+		}
 	}
 }
