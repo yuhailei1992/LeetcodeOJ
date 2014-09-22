@@ -432,6 +432,14 @@ public class Problems6 {
         return arrlst;
     }
 
+	/**
+	 * consulted the solution of lei zhang. 
+	 * His original solution was written in C++, and was incredibly elegant. 
+	 * By using ?:, the need to break into several cases is omitted. 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	public static String addBinary(String a, String b) {//AC after consulting
         if (a == null) return b;
         if (b == null) return a;
@@ -448,6 +456,42 @@ public class Problems6 {
         String reverse = new StringBuffer(ret).reverse().toString();
         //System.out.println(ret);
         return reverse;
+    }
+
+	public static boolean isValidSudoku(char[][] board) {//AC
+        if (board == null) return false;
+        //check the horizontal ones
+        java.util.Hashtable<Character, Integer> table = new java.util.Hashtable<Character, Integer>();
+        
+        //check the vertical ones
+        for (int i = 0; i < 9; ++i) {
+        	for (int j = 0; j < 9; ++j) {
+        		if (table.containsKey(board[i][j]) && board[i][j] != '.') return false;
+        		table.put(board[i][j], 1);
+        	}
+        	table.clear();
+        }
+        for (int j = 0; j < 9; ++j) {
+        	for (int i = 0; i < 9; ++i) {
+        		if (table.containsKey(board[i][j]) && board[i][j] != '.') return false;
+        		table.put(board[i][j], 1);
+        	}
+        	table.clear();
+        }
+        for (int i = 0; i < 3; ++i) {
+        	for (int j = 0; j < 3; ++j) {
+        		for (int m = i*3; m < i*3+3; ++m) {
+        			for (int n = j*3; n < j*3+3; ++n) {
+        				if (table.containsKey(board[m][n]) && board[m][n] != '.') return false;
+        				table.put(board[m][n], 1);
+        			}
+        		}
+        		table.clear();
+        	}
+        }
+        //check the subSudoku
+        
+        return true;
     }
 
 	public static void showList (List<Integer> l) {
