@@ -1,5 +1,9 @@
 package problems;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import problems.Datastructures.*;
 import problems.Helpers.*;
@@ -170,10 +174,128 @@ public class Problems7 {
 		return true;
 	}
 	
+	public static int[][] generateMatrix(int n) {
+        //int num[][] = new int[n][n];
+        return null;
+    }
+	
+	public static int sqrt(int x) {
+		if (x < 0) return -1;
+        else if (x < 2) return x;
+		
+		long xt = (long)x;
+        int low = 1;
+        int high = x/2+1;
+        int mid = 0;
+        while (high >= low) {
+        	mid = low + (high - low)/2;
+        	long midt = (long)mid * (long)mid;
+        	if (midt < xt) low = mid+1;
+        	else high = mid-1;
+        	System.out.println(mid);
+        }
+        //if ((long)mid * (long) mid > x) mid--;
+        return mid;
+    }
+	
+	public static ListNode mergeKLists(List<ListNode> lists) {//TLE
+		if (lists == null) return null;
+        if (lists.size() == 0) return null;
+        if (lists.size() == 1) return lists.get(0);
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+        int min_idx = 0;
+        int min_val;
+        int depleted_cnt;
+        ListNode to_insert;
+        ListNode t;
+        while (true) {
+        	min_val = Integer.MAX_VALUE;
+        	depleted_cnt = 0;
+        	for (int i = 0; i < lists.size(); ++i) {
+        		if (lists.get(i) == null) {
+	        		depleted_cnt++;
+        		}
+        		else {
+        			if (lists.get(i).val < min_val) {
+	        			min_idx = i;
+	        		}
+        		}
+        	}
+        	if (depleted_cnt == lists.size()) {
+        		break;
+        	}
+        	//insert
+        	to_insert = lists.get(min_idx);
+        	lists.set(min_idx, to_insert == null? null:to_insert.next);
+        	t = new ListNode(to_insert.val);
+        	tail.next = t;
+        	t.next = null;
+        	tail = t;
+        }
+        return dummy.next;
+    }
+
+	public static ListNode mergeKLists2(List<ListNode> lists) {
+		return null;
+	}
+	
+	/*public static List<Interval> merge(List<Interval> intervals) {
+        return null;
+    }*/
+	public static int firstMissingPositive(int[] A) {
+        return 0;
+    }
+	
+	/**
+	 * Don't know if the list is sorted. 
+	 * So, sort it first, then do the rest. 
+	 * @param intervals
+	 * @return
+	 */
+	public static List<Interval> merge(List<Interval> intervals) {//AC
+        if (intervals == null) return null;
+        int len = intervals.size();
+        if (len < 2) return intervals;
+        
+        Comparator<Interval> BY_HEAD = new Comparator<Interval> () {
+    		public int compare(Interval s1, Interval s2) {
+    			return (int)(s1.start - s2.start);
+    		}
+	    };
+	    Collections.sort(intervals, BY_HEAD);
+	    
+	    ArrayList<Interval> ret = new ArrayList<Interval>();
+        int j = 0;
+        int i = 0;
+        while (i < len) {
+            int start = intervals.get(i).start;
+            int end = intervals.get(i).end;
+            j = i;
+            while (j < len-1 && intervals.get(j+1).start <= end){
+                if (intervals.get(j+1).end > end) {
+                    end = intervals.get(j+1).end;
+                }
+                ++j;
+            }
+            ret.add(new Interval(start, end));
+            i = j+1;
+        }
+        return ret;
+    }
+	
+	public static List<Integer> spiralOrder(int[][] matrix) {
+		
+        return null;
+    }
+
 	public static void test () {
-		String s = "aA";
-		if (isPalindrome2(s) == true) {
-			System.out.println("yeah");
-		}
+		ArrayList<ListNode> t = new ArrayList<ListNode>();
+		t.add(null);
+		t.add(null);
+		Interval iv = new Interval(1, 4);
+		Interval iv2 = new Interval(1, 4);
+		ArrayList<Interval> ai = new ArrayList<Interval>();
+		merge(ai);
 	}
 }

@@ -8,6 +8,7 @@ public class Maintest {
 		//System.out.println("Begin test...");
 		//LinkedList.testLinkedList();
 		Problems7.test();
+		//System.out.println(System.getProperty("java.runtime.version"));
 		//Tree.test();
 	}
 }
