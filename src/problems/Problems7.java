@@ -243,8 +243,23 @@ public class Problems7 {
 	/*public static List<Interval> merge(List<Interval> intervals) {
         return null;
     }*/
-	public static int firstMissingPositive(int[] A) {
-        return 0;
+	public static int firstMissingPositive(int[] A) {//AC after consulting
+		int len = A.length;
+        int i = 0;
+        while (i < len) {
+            if (A[i] != i+1 && A[i] >= 1 && A[i] <= len && A[A[i]-1] != A[i]) {
+                int temp = A[A[i]-1];
+                A[A[i]-1] = A[i];
+                A[i] = temp;
+            }
+            else {
+                ++i;
+            }
+        }
+        for (i = 0; i < len; ++i) {
+            if (A[i] != i+1) return i+1;
+        }
+        return len+1;
     }
 	
 	/**
@@ -290,12 +305,7 @@ public class Problems7 {
     }
 
 	public static void test () {
-		ArrayList<ListNode> t = new ArrayList<ListNode>();
-		t.add(null);
-		t.add(null);
-		Interval iv = new Interval(1, 4);
-		Interval iv2 = new Interval(1, 4);
-		ArrayList<Interval> ai = new ArrayList<Interval>();
-		merge(ai);
+		int A[] = {2, 1};
+		System.out.println(firstMissingPositive(A));
 	}
 }
