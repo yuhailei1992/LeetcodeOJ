@@ -299,13 +299,53 @@ public class Problems7 {
         return ret;
     }
 	
-	public static List<Integer> spiralOrder(int[][] matrix) {
-		
-        return null;
+	public static List<Integer> spiralOrder(int[][] matrix) {//AC
+        if (matrix == null) return null;
+        
+        //corner case 2
+        List<Integer> result = new ArrayList<Integer>();
+        int row = matrix.length;
+        if (row == 0) return result;
+        
+        int col = matrix[0].length;
+        if (col == 0) return result;
+        
+        //regular
+        int start_row = 0, end_row = row-1, start_col = 0, end_col = col-1;
+        
+        while (start_row <= end_row && start_col <= end_col) {
+            subSpiral(result, matrix, start_row, end_row, start_col, end_col);
+            start_row++;
+            end_row--;
+            start_col++;
+            end_col--;
+        }
+        return result;
+    }
+    
+    public static void subSpiral (List<Integer> result, int[][] matrix, int start_row, int end_row, int start_col, int end_col) {
+        
+    	for (int j = start_col; j <= end_col; ++j) {
+            result.add(matrix[start_row][j]);
+        }
+    	
+        for (int i = start_row+1; i <= end_row; ++i) {
+            result.add(matrix[i][end_col]);
+        }
+        if (start_row != end_row) {
+	    	for (int j = end_col-1; j >= start_col; --j) {
+	            result.add(matrix[end_row][j]);
+	        }
+        }
+        if (start_col != end_col) {
+	    	for (int i = end_row-1; i > start_row; --i) {
+	            result.add(matrix[i][start_col]);
+	        }
+        }
     }
 
 	public static void test () {
-		int A[] = {2, 1};
-		System.out.println(firstMissingPositive(A));
+		int A[][] = {{7}, {9}, {6}};
+		System.out.println(spiralOrder(A));
 	}
 }
