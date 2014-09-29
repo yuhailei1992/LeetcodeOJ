@@ -322,7 +322,7 @@ public class Problems7 {
         }
         return result;
     }
-    
+	
     public static void subSpiral (List<Integer> result, int[][] matrix, int start_row, int end_row, int start_col, int end_col) {
         
     	for (int j = start_col; j <= end_col; ++j) {
@@ -344,8 +344,49 @@ public class Problems7 {
         }
     }
 
+    
+    public static int[][] generateMatrix2(int n) {//problem 79
+        if (n <= 0) return new int[0][0];
+        int ret[][] = new int[n][n];
+        int start = 0;
+        int end = n-1;
+        int pivot = 0;
+        while (start <= end) {
+            pivot = subMatrix (ret, pivot, start, end);
+            start++;
+            end--;
+        }
+        return ret;
+        
+    }
+    
+    public static int subMatrix (int[][] matrix, int pivot, int start, int end) {
+        if (start == end) {
+            matrix[start][start] = ++pivot;
+            return pivot;
+        }
+        int cnt = pivot;
+        for (int i = start; i < end; ++i) {
+            cnt++;
+            matrix[start][i] = cnt;
+        }
+        for (int i = start; i < end; ++i) {
+            cnt++;
+            matrix[i][end] = cnt;
+        }
+        for (int i = end; i > start; --i) {
+            cnt++;
+            matrix[end][i] = cnt;
+        }
+        for (int i = end; i > start; --i) {
+            cnt++;
+            matrix[i][start] = cnt;
+        }
+        return cnt;
+    }
+    
 	public static void test () {
-		int A[][] = {{7}, {9}, {6}};
-		System.out.println(spiralOrder(A));
+		int n = 4;
+		Helpers.showArray2(generateMatrix2(1));
 	}
 }
