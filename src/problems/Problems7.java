@@ -3,8 +3,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
+import ScoreList.ScoreListEntry;
 import problems.Datastructures.*;
 import problems.Helpers.*;
 public class Problems7 {
@@ -385,8 +387,34 @@ public class Problems7 {
         return cnt;
     }
     
+    public static int[] twoSum(int[] numbers, int target) {//AC
+    	if (numbers == null || numbers.length < 2) return null;
+    	HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+    	int ret[] = {0, 0};
+    	for (int i = 0; i < numbers.length; ++i) {
+    		if (!hm.containsKey(target - numbers[i])) {
+    			hm.put(numbers[i], i);
+    		}
+    		else {
+    			int tmp1 = hm.get(target - numbers[i]) + 1;
+    			int tmp2 = i + 1;
+    			
+    			if (tmp1 < tmp2) {
+    				ret[0] = tmp1;
+    				ret[1] = tmp2;
+    			}
+    			else {
+    				ret[0] = tmp2;
+    				ret[1] = tmp1;
+    			}
+    			return ret;
+    		}
+    	}
+    	return ret;
+    }
+
 	public static void test () {
-		int n = 4;
-		Helpers.showArray2(generateMatrix2(1));
+		int arr[] = {2, 7, 9, 11};
+		twoSum(arr, 9);
 	}
 }
