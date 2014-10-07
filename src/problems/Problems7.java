@@ -96,17 +96,6 @@ public class Problems7 {
     }
 
     /**
-     * The overall run time complexity should be O(log(n))
-     * So we use binary search.
-     * @param A
-     * @param B
-     * @return
-     */
-    public static double findMedianSortedArrays(int A[], int B[]) {
-        return 0.0;
-    }
-
-    /**
      * Use regex to parse the string into an array of string
      * then return the length of the last element.
      * @param s
@@ -173,75 +162,6 @@ public class Problems7 {
         return true;
     }
 
-    public static int[][] generateMatrix(int n) {
-        //int num[][] = new int[n][n];
-        return null;
-    }
-
-    public static int sqrt(int x) {
-        if (x < 0) return -1;
-        else if (x < 2) return x;
-
-        long xt = (long)x;
-        int low = 1;
-        int high = x/2+1;
-        int mid = 0;
-        while (high >= low) {
-            mid = low + (high - low)/2;
-            long midt = (long)mid * (long)mid;
-            if (midt < xt) low = mid+1;
-            else high = mid-1;
-            System.out.println(mid);
-        }
-        //if ((long)mid * (long) mid > x) mid--;
-        return mid;
-    }
-
-    public static ListNode mergeKLists(List<ListNode> lists) {//TLE
-        if (lists == null) return null;
-        if (lists.size() == 0) return null;
-        if (lists.size() == 1) return lists.get(0);
-        ListNode dummy = new ListNode(0);
-        ListNode tail = dummy;
-        int min_idx = 0;
-        int min_val;
-        int depleted_cnt;
-        ListNode to_insert;
-        ListNode t;
-        while (true) {
-            min_val = Integer.MAX_VALUE;
-            depleted_cnt = 0;
-            for (int i = 0; i < lists.size(); ++i) {
-                if (lists.get(i) == null) {
-                    depleted_cnt++;
-                }
-                else {
-                    if (lists.get(i).val < min_val) {
-                        min_idx = i;
-                    }
-                }
-            }
-            if (depleted_cnt == lists.size()) {
-                break;
-            }
-            //insert
-            to_insert = lists.get(min_idx);
-            lists.set(min_idx, to_insert == null? null:to_insert.next);
-            t = new ListNode(to_insert.val);
-            tail.next = t;
-            t.next = null;
-            tail = t;
-        }
-        return dummy.next;
-    }
-
-    public static ListNode mergeKLists2(List<ListNode> lists) {
-        return null;
-    }
-
-    /*public static List<Interval> merge(List<Interval> intervals) {
-        return null;
-    }*/
     public static int firstMissingPositive(int[] A) {//AC after consulting
         int len = A.length;
         int i = 0;
@@ -322,7 +242,8 @@ public class Problems7 {
         return result;
     }
 
-    public static void subSpiral (List<Integer> result, int[][] matrix, int start_row, int end_row, int start_col, int end_col) {
+    public static void subSpiral (List<Integer> result, int[][] matrix, 
+    		int start_row, int end_row, int start_col, int end_col) {//AC
 
         for (int j = start_col; j <= end_col; ++j) {
             result.add(matrix[start_row][j]);
@@ -359,7 +280,7 @@ public class Problems7 {
 
     }
 
-    public static int subMatrix (int[][] matrix, int pivot, int start, int end) {
+    public static int subMatrix (int[][] matrix, int pivot, int start, int end) {//AC
         if (start == end) {
             matrix[start][start] = ++pivot;
             return pivot;
