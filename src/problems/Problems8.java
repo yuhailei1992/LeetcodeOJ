@@ -1,6 +1,7 @@
 package problems;
 import java.util.*;
 
+import ScoreList.ScoreListEntry;
 import problems.Datastructures.*;
 public class Problems8 {
     public static int minDistance(String word1, String word2) {
@@ -95,7 +96,55 @@ public class Problems8 {
         else return -ret;
     }
 
-    public static ListNode mergeKLists(List<ListNode> lists) {//AC
+    /**
+     * Merge K sorted lists
+     * Below are three solutions to this problem
+     * 1, naive method, which TLE
+     * 2, recursive method, AC
+     * 3, priority queue method
+     * @param lists
+     * @return
+     */
+    //naive method:
+    public static ListNode mergeKListsNaive(List<ListNode> lists) {//naive solution, TLE
+        if (lists == null) return null;
+        if (lists.size() == 0) return null;
+        if (lists.size() == 1) return lists.get(0);
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+        int min_idx = 0;
+        int min_val;
+        int depleted_cnt;
+        ListNode to_insert;
+        ListNode t;
+        while (true) {
+            min_val = Integer.MAX_VALUE;
+            depleted_cnt = 0;
+            for (int i = 0; i < lists.size(); ++i) {
+                if (lists.get(i) == null) {
+                    depleted_cnt++;
+                }
+                else {
+                    if (lists.get(i).val < min_val) {
+                        min_idx = i;
+                    }
+                }
+            }
+            if (depleted_cnt == lists.size()) {
+                break;
+            }
+            //insert
+            to_insert = lists.get(min_idx);
+            lists.set(min_idx, to_insert == null? null:to_insert.next);
+            t = new ListNode(to_insert.val);
+            tail.next = t;
+            t.next = null;
+            tail = t;
+        }
+        return dummy.next;
+    }
+    //recursive method:
+    public static ListNode mergeKListsRecursive(List<ListNode> lists) {//AC
         if (lists == null) return null;
         else if (lists.size() == 0) return null;
         else if (lists.size() == 1) return lists.get(0);
@@ -144,7 +193,32 @@ public class Problems8 {
     		}
     	}
     }
-
+    //priority queue method:
+    public static ListNode mergeKListsPriorityQueue(List<ListNode> lists) {//AC
+        if (lists.size() == 0) return null;
+    	// define a comparator
+    	Comparator<ListNode> BY_VAL = new Comparator<ListNode> () {
+    		public int compare(ListNode s1, ListNode s2) {
+    			return s1.val - s2.val;
+    		}
+    	};
+    	// create a queue and add all the nodes
+    	PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>(lists.size(), BY_VAL);
+    	for (int i = 0; i < lists.size(); ++i) {
+    		if (lists.get(i) != null) pq.add(lists.get(i));
+    	}
+    	//merge
+    	ListNode dummy = new ListNode(0);
+    	ListNode tail = dummy;
+    	while (pq.isEmpty() == false) {
+    		ListNode temp = pq.poll();
+    		tail.next = temp;
+    		tail = tail.next;
+    		if (temp.next != null) pq.add(temp.next);
+    	}
+    	//return head
+    	return dummy.next;
+    }
     /**
      * The overall run time complexity should be O(log(n))
      * So we use binary search.
@@ -174,43 +248,7 @@ public class Problems8 {
         return mid;
     }
 
-    public static ListNode mergeKLists2(List<ListNode> lists) {//TLE
-        if (lists == null) return null;
-        if (lists.size() == 0) return null;
-        if (lists.size() == 1) return lists.get(0);
-        ListNode dummy = new ListNode(0);
-        ListNode tail = dummy;
-        int min_idx = 0;
-        int min_val;
-        int depleted_cnt;
-        ListNode to_insert;
-        ListNode t;
-        while (true) {
-            min_val = Integer.MAX_VALUE;
-            depleted_cnt = 0;
-            for (int i = 0; i < lists.size(); ++i) {
-                if (lists.get(i) == null) {
-                    depleted_cnt++;
-                }
-                else {
-                    if (lists.get(i).val < min_val) {
-                        min_idx = i;
-                    }
-                }
-            }
-            if (depleted_cnt == lists.size()) {
-                break;
-            }
-            //insert
-            to_insert = lists.get(min_idx);
-            lists.set(min_idx, to_insert == null? null:to_insert.next);
-            t = new ListNode(to_insert.val);
-            tail.next = t;
-            t.next = null;
-            tail = t;
-        }
-        return dummy.next;
-    }
+    
 
     public static void test () {
         /*
@@ -240,7 +278,5 @@ public class Problems8 {
     		temp = temp.next;
     	}
     	List<ListNode> ln = new ArrayList<ListNode>();
-    	//ln.add(null);
-    	mergeKLists(ln);
     }
 }
