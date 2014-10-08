@@ -332,6 +332,33 @@ public class Problems8 {
         return lli;
     }
     
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {//AC
+    	List<List<Integer>> lli = new ArrayList<List<Integer>>();
+    	if (root == null) return lli;
+        Queue<TreeNode> qtn = new java.util.LinkedList<TreeNode>();
+        qtn.add(root);
+        while (qtn.isEmpty() == false) {
+        	ArrayList<TreeNode> ltn = new ArrayList<TreeNode>();
+        	ArrayList<Integer> li = new ArrayList<Integer>();
+        	while (qtn.isEmpty() == false) {
+        		TreeNode temp = qtn.remove();
+        		li.add(temp.val);
+        		ltn.add(temp);
+        	}
+        	lli.add(li);
+        	for (TreeNode iter : ltn) {
+        		if (iter.left != null) qtn.add(iter.left);
+        		if (iter.right != null) qtn.add(iter.right);
+        	}
+        	
+        }
+        //then, reverse the arraylist
+        List<List<Integer>> llirev = new ArrayList<List<Integer>>();//return val
+        for (int i = lli.size()-1; i >= 0; --i) {
+        	llirev.add(lli.get(i));
+        }
+        return llirev;
+    }
     
     public static void test () {
         TreeNode n0 = new TreeNode(3);
