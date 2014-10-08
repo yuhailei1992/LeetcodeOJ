@@ -447,6 +447,60 @@ public class Problems8 {
     	}
     }
     
+    public static void reorderList(ListNode head) {//AC, bug-free
+    	
+    	if (head == null || head.next == null) return;
+    	ListNode fast = head;
+    	ListNode slow = head;
+    	while (fast.next != null && fast.next.next != null) {
+    		slow = slow.next;
+    		fast = fast.next.next;
+    	}
+    	ListNode tail = slow;
+    	slow = slow.next;
+    	tail.next = null;
+    	//then, reverse the second half
+    	ListNode temp = reverseList(slow);
+    	//then, merge
+    	head = interleaveLists(head, temp);
+    	
+    }
+    
+    private static ListNode reverseList (ListNode head) {
+    	ListNode curr = head;
+    	ListNode dummy = new ListNode(0);
+    	dummy.next = curr;
+    	
+    	while (curr.next != null) {
+    		ListNode to_insert = curr.next;
+    		curr.next = curr.next.next;
+    		to_insert.next = dummy.next;
+    		dummy.next = to_insert;
+    	}
+    	
+    	return dummy.next;
+    }
+    
+    private static ListNode interleaveLists (ListNode x, ListNode y) {
+    	ListNode dummy = new ListNode(0);
+    	ListNode tail = dummy;
+    	while (x != null && y != null) {
+    		tail.next = x;
+    		tail = x;
+    		x = x.next;
+    		tail.next = y;
+    		tail = y;
+    		y = y.next;
+    	}
+    	if (x == null) {
+    		tail.next = y;
+    	}
+    	else {
+    		tail.next = x;
+    	}
+    	return dummy.next;
+    }
+    
     public static void test () {
         TreeNode n0 = new TreeNode(3);
     	TreeNode n1 = new TreeNode(1);
@@ -459,6 +513,24 @@ public class Problems8 {
     	n1.left = n3;
     	n1.right = n4;
     	n2.left = n5;
-    	zigzagLevelOrder(n0);
+    	//zigzagLevelOrder(n0);
+    	ListNode l0 = new ListNode(0);
+    	ListNode l1 = new ListNode(1);
+    	ListNode l2 = new ListNode(2);
+    	ListNode l3 = new ListNode(3);
+    	ListNode m0 = new ListNode(9);
+    	ListNode m1 = new ListNode(8);
+    	ListNode m2 = new ListNode(7);
+    	m0.next = m1;
+    	m1.next = m2;
+    	//ListNode l4 = new ListNode(4);
+    	l0.next = l1;
+    	l1.next = l2;
+    	l2.next = l3;
+    	//l3.next = l4;
+    	//reorderList(l0);
+    	for (ListNode temp = interleaveLists(l0, m0); temp != null; temp = temp.next) {
+    		System.out.println(temp.val);
+    	}
     }
 }
