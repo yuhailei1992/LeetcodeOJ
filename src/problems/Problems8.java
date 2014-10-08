@@ -359,7 +359,40 @@ public class Problems8 {
         }
         return llirev;
     }
-    
+
+    public static List<List<Integer>> zigzagLevelOrder(TreeNode root) {//AC
+    	List<List<Integer>> lli = new ArrayList<List<Integer>>();//return val
+    	if (root == null) return lli;
+        Queue<TreeNode> qtn = new java.util.LinkedList<TreeNode>();
+        int depth = 0;
+        qtn.add(root);
+        while (qtn.isEmpty() == false) {
+        	ArrayList<TreeNode> ltn = new ArrayList<TreeNode>();
+        	ArrayList<Integer> li = new ArrayList<Integer>();
+        	while (qtn.isEmpty() == false) {
+        		TreeNode temp = qtn.remove();
+        		li.add(temp.val);
+        		ltn.add(temp);
+        	}
+        	//insert this level to return list
+        	if (depth % 2 == 1) {//odd level
+        		ArrayList<Integer> lirev = new ArrayList<Integer>();
+        		for (int i = li.size()-1; i >= 0; --i) {
+        			lirev.add(li.get(i));
+        		}
+        		lli.add(lirev);
+        	}
+        	else {
+        		lli.add(li);
+        	}
+        	for (TreeNode iter : ltn) {
+        		if (iter.left != null) qtn.add(iter.left);
+        		if (iter.right != null) qtn.add(iter.right);
+        	}
+        	depth++;
+        }
+        return lli;
+    }
     public static void test () {
         TreeNode n0 = new TreeNode(3);
     	TreeNode n1 = new TreeNode(1);
@@ -372,6 +405,6 @@ public class Problems8 {
     	n1.left = n3;
     	n1.right = n4;
     	n2.left = n5;
-    	levelOrder2(n0);
+    	zigzagLevelOrder(n0);
     }
 }
