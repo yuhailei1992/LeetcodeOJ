@@ -259,7 +259,7 @@ public class Problems8 {
     	System.out.println("low" + low + '\n' + "high" + high);
     	return ret;
     }
-    public static int binSearchLess(int[] A, int target, int start, int end) {
+    public static int binSearchLess(int[] A, int target, int start, int end) {//AC
     	if (start == end) return start;
     	else {
     		int mid;
@@ -277,11 +277,74 @@ public class Problems8 {
     	}
     }
 
+    public static List<List<Integer>> levelOrder(TreeNode root) {//TLE
+        if (root == null) return null;
+        List<List<Integer>> lli = new ArrayList<List<Integer>>();
+        List<Integer> temp = new ArrayList<Integer>();
+        List<TreeNode> ltn0 = new ArrayList<TreeNode>();
+        List<TreeNode> ltn1 = new ArrayList<TreeNode>();
+        List<TreeNode> ltn_curr = ltn0;
+        List<TreeNode> ltn_child = ltn1;
+        ltn_curr.add(root);
+        while (ltn_curr.isEmpty() == false) {
+        	ltn_child.clear();
+        	for (TreeNode tn : ltn_curr) {
+            	temp.add(tn.val);
+            	if (tn.left != null) ltn_child.add(tn.left);
+            	if (tn.right != null) ltn_child.add(tn.right);
+            }
+        	lli.add(temp);
+        	if (ltn_curr == ltn0) {
+        		ltn_curr = ltn1;
+        		ltn_child = ltn0;
+        		ltn_child.clear();
+        	}
+        	else if (ltn_curr == ltn1) {
+        		ltn_curr = ltn0;
+        		ltn_child = ltn1;
+        		ltn_child.clear();
+        	}
+        }
+        return lli;
+    }
+    
+    public static List<List<Integer>> levelOrder2(TreeNode root) {//AC
+    	List<List<Integer>> lli = new ArrayList<List<Integer>>();//return val
+    	if (root == null) return lli;
+        Queue<TreeNode> qtn = new java.util.LinkedList<TreeNode>();
+        qtn.add(root);
+        while (qtn.isEmpty() == false) {
+        	ArrayList<TreeNode> ltn = new ArrayList<TreeNode>();
+        	ArrayList<Integer> li = new ArrayList<Integer>();
+        	while (qtn.isEmpty() == false) {
+        		TreeNode temp = qtn.remove();
+        		li.add(temp.val);
+        		ltn.add(temp);
+        		System.out.println(temp.val);
+        	}
+        	lli.add(li);
+        	for (TreeNode iter : ltn) {
+        		if (iter.left != null) qtn.add(iter.left);
+        		if (iter.right != null) qtn.add(iter.right);
+        	}
+        	
+        }
+        return lli;
+    }
+    
+    
     public static void test () {
-        //int A[] = {2, 3, 4, 5, 5, 6, 7};
-        int A[] = {1, 3};
-        int ret[] = searchRange(A, 1);
-        System.out.println("ret" + ret[0] + '\t' + ret[1]);
-        //System.out.println(searchRange(A, 5));
+        TreeNode n0 = new TreeNode(3);
+    	TreeNode n1 = new TreeNode(1);
+    	TreeNode n2 = new TreeNode(2);
+    	TreeNode n3 = new TreeNode(4);
+    	TreeNode n4 = new TreeNode(5);
+    	TreeNode n5 = new TreeNode(6);
+    	n0.left = n1;
+    	n0.right = n2;
+    	n1.left = n3;
+    	n1.right = n4;
+    	n2.left = n5;
+    	levelOrder2(n0);
     }
 }
