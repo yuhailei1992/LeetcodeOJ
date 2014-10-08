@@ -394,6 +394,15 @@ public class Problems8 {
         return lli;
     }
     
+    /**
+     * Why did I use an array to store the maximum value?
+     * Java passes parameters by value, not by pointer.
+     * So, if you use an integer to remember the maximum value, you'll not be 
+     * able to update the original maximum value, cause the update is made on
+     * maximum value's duplicate
+     * @param root
+     * @return
+     */
     public static int maxPathSum(TreeNode root) {//AC after consulting
         if (root == null) return 0;
         int max[] = new int[]{Integer.MIN_VALUE};
@@ -401,7 +410,7 @@ public class Problems8 {
         return max[0];
     }
     
-    private static int maxPath(TreeNode root, int[] max) {
+    private static int maxPath(TreeNode root, int[] max) {//AC
     	if (root == null) return 0;
     	int left = maxPath(root.left, max);
     	int right = maxPath(root.right, max);
@@ -411,6 +420,33 @@ public class Problems8 {
     	return ret;
     }
 
+    public static List<TreeNode> generateTrees(int n) {//AC after consulting
+        return dfs(0, n-1);
+    }  
+    private static ArrayList<TreeNode> dfs (int start, int end) {
+    	ArrayList<TreeNode> ret = new ArrayList<TreeNode>();
+    	if (start > end) {
+    		ret.add(null);//don't understand
+    		return ret;
+    	}
+    	else {
+    		for (int i = start; i <= end; ++i) {
+    			ArrayList<TreeNode> left = dfs(start, i-1);
+    			ArrayList<TreeNode> right = dfs(i+1, end);
+    			
+    			for (int m = 0; m < left.size(); ++m) {
+    				for (int n = 0; n < right.size(); ++n) {
+    					TreeNode root = new TreeNode(i+1);//use the ith elem as root
+    					root.left = left.get(m);
+    					root.right = right.get(n);
+    					ret.add(root);
+    				}
+    			}
+    		}
+    		return ret;
+    	}
+    }
+    
     public static void test () {
         TreeNode n0 = new TreeNode(3);
     	TreeNode n1 = new TreeNode(1);
