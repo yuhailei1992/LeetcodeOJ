@@ -1,7 +1,6 @@
 package problems;
 import java.util.*;
 
-import ScoreList.ScoreListEntry;
 import problems.Datastructures.*;
 public class Problems8 {
     public static int minDistance(String word1, String word2) {
@@ -248,35 +247,41 @@ public class Problems8 {
         return mid;
     }
 
-    
+    public static int[] searchRange(int[] A, int target) {//AC
+    	int low = binSearchLess(A, target, 0, A.length-1);
+    	int high = binSearchLess(A, target+1, 0, A.length-1)-1;
+    	int ret[] = {-1, -1};
+    	if (low > A.length-1 || A[low] != target) return ret;
+    	if (low > high) high = low;
+    	if (A[high] != target) high--;
+    	ret[0] = low;
+    	ret[1] = high;
+    	System.out.println("low" + low + '\n' + "high" + high);
+    	return ret;
+    }
+    public static int binSearchLess(int[] A, int target, int start, int end) {
+    	if (start == end) return start;
+    	else {
+    		int mid;
+    		while (start < end) {
+    			mid = (start + end) / 2;
+        		if (A[mid] < target) {
+        			start = mid+1;
+        		}
+        		else {
+        			end = mid-1;
+        		}
+    		}
+    		if (A[start] == target) return start;
+    		else return start+1;
+    	}
+    }
 
     public static void test () {
-        /*
-        TreeNode n0 = new TreeNode(1);
-        TreeNode n1 = new TreeNode(2);
-        TreeNode n2 = new TreeNode(3);
-        n0.right = n1;
-        n1.left = n2;
-        flatten(n0);
-        TreeNode t = n0;
-        while (t != null) {
-        	System.out.println(t.val);
-        	t = t.right;
-        }
-        */
-    	ListNode n0 = new ListNode(0);
-    	ListNode n1 = new ListNode(2);
-    	ListNode n2 = new ListNode(4);
-    	ListNode n3 = new ListNode(1);
-    	ListNode n4 = new ListNode(3);
-    	n0.next = n1;
-    	n1.next = n2;
-    	n3.next = n4;
-    	ListNode temp = merge2Lists(n0, n3);
-    	while (temp != null) {
-    		System.out.println(temp.val);
-    		temp = temp.next;
-    	}
-    	List<ListNode> ln = new ArrayList<ListNode>();
+        //int A[] = {2, 3, 4, 5, 5, 6, 7};
+        int A[] = {1, 3};
+        int ret[] = searchRange(A, 1);
+        System.out.println("ret" + ret[0] + '\t' + ret[1]);
+        //System.out.println(searchRange(A, 5));
     }
 }
