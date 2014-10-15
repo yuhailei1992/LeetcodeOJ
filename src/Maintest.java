@@ -1,7 +1,7 @@
-import problems.Problems8;
+import problems.Problems9;
 public class Maintest {
 	
 	public static void main(String[] args) {
-		Problems8.test();
+		Problems9.test();
 	}
 }

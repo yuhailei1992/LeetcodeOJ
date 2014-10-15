@@ -3,9 +3,6 @@ import java.util.*;
 
 import problems.Datastructures.*;
 public class Problems8 {
-    public static int minDistance(String word1, String word2) {
-        return 0;
-    }
 
     public static void flatten(TreeNode root) {//non-recursive
         if (root == null) return;
@@ -60,7 +57,7 @@ public class Problems8 {
         sub_flat(root);
     }
 
-    public static TreeNode sub_flat (TreeNode root) {
+    public static TreeNode sub_flat (TreeNode root) {//AC
         if (root == null) return null;
         else if (root.left == null && root.right == null) return root;
         else {
@@ -217,34 +214,6 @@ public class Problems8 {
     	}
     	//return head
     	return dummy.next;
-    }
-    /**
-     * The overall run time complexity should be O(log(n))
-     * So we use binary search.
-     * @param A
-     * @param B
-     * @return
-     */
-    public static double findMedianSortedArrays(int A[], int B[]) {
-        return 0.0;
-    }
-    
-    public static int sqrt(int x) {
-        if (x < 0) return -1;
-        else if (x < 2) return x;
-
-        long xt = (long)x;
-        int low = 1;
-        int high = x/2+1;
-        int mid = 0;
-        while (high >= low) {
-            mid = low + (high - low)/2;
-            long midt = (long)mid * (long)mid;
-            if (midt < xt) low = mid+1;
-            else high = mid-1;
-            System.out.println(mid);
-        }
-        return mid;
     }
 
     public static int[] searchRange(int[] A, int target) {//AC
@@ -466,7 +435,7 @@ public class Problems8 {
     	
     }
     
-    private static ListNode reverseList (ListNode head) {
+    private static ListNode reverseList (ListNode head) {//AC
     	ListNode curr = head;
     	ListNode dummy = new ListNode(0);
     	dummy.next = curr;
@@ -481,7 +450,7 @@ public class Problems8 {
     	return dummy.next;
     }
     
-    private static ListNode interleaveLists (ListNode x, ListNode y) {
+    private static ListNode interleaveLists (ListNode x, ListNode y) {//AC
     	ListNode dummy = new ListNode(0);
     	ListNode tail = dummy;
     	while (x != null && y != null) {
