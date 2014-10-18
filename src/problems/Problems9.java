@@ -1,4 +1,7 @@
 package problems;
+import java.util.Arrays;
+import java.util.Stack;
+
 import problems.Datastructures.RandomListNode;
 public class Problems9 {
 	/**
@@ -94,7 +97,44 @@ public class Problems9 {
         return newhead;
     }
     
+    public static int largestRectangleArea(int[] height) {//naive solution. O(n^2)
+    	int len = height.length;
+    	int max = 0;
+    	int temp = 0;
+    	for (int i = 0; i < len-1; ++i) {
+    		for (int j = i+1; j < len; ++j) {
+    			int min_height_ij = height[i];
+    			for (int k = i; k <= j; ++k) {
+    				if (height[k] < min_height_ij) min_height_ij = height[k];
+    			}
+    			temp = (j-i+1) * min_height_ij;
+    			if (temp > max) max = temp;
+    		}
+    	}
+        return max;
+    }
+    
+    public static int largestRectangleArea2(int[] height) {//better solution. O(n) AC after consulting
+    	Stack<Integer> stk = new Stack<Integer>();
+    	int h[] = new int[height.length + 1];
+    	h = Arrays.copyOf(height, height.length+1);
+    	int maxArea = 0;
+    	int i = 0;
+    	while (i < h.length) {
+    		if (stk.isEmpty() || h[stk.peek()] <= h[i]) {
+    			stk.push(i);
+    			i++;
+    		}
+    		else {
+    			int t = stk.pop();
+    			maxArea = Math.max(maxArea, h[t] * (stk.isEmpty() ? i : i - stk.peek() - 1));
+    		}
+    	}
+        return maxArea;
+        
+    }
     public static void test () {
-    	
+    	int A[] = {2, 1, 5, 6, 2, 3};
+    	System.out.println(largestRectangleArea(A));
     }
 }
