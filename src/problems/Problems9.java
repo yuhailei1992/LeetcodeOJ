@@ -1,5 +1,5 @@
 package problems;
-
+import problems.Datastructures.RandomListNode;
 public class Problems9 {
 	/**
      * The overall run time complexity should be O(log(n))
@@ -66,9 +66,35 @@ public class Problems9 {
         return ret.toString();
     }
     
+    public static RandomListNode copyRandomList(RandomListNode head) {//AC
+    	if (head == null) return null;
+        RandomListNode p = head;
+        while (p != null) {
+        	RandomListNode p_dup = new RandomListNode(p.label);
+        	p_dup.next = p.next;
+        	p.next = p_dup;
+        	p = p_dup.next;
+        }
+        p = head;
+        RandomListNode p_next;
+        while (p != null) {
+        	p_next = p.next;
+        	if (p.random != null) p_next.random = p.random.next;
+        	p = p_next.next;
+        }
+        p = head;
+        RandomListNode newhead = head == null ? null : p.next;
+        RandomListNode newtail = newhead;
+        while (p != null) {
+        	p.next = newtail.next;
+        	if (newtail.next != null) newtail.next = newtail.next.next;
+        	p = p.next;
+        	newtail = newtail.next;
+        }
+        return newhead;
+    }
+    
     public static void test () {
-    	String s = "A";
-    	int nRows = 1;
-    	System.out.println(convert(s, nRows));
+    	
     }
 }
