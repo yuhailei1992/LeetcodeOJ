@@ -158,9 +158,46 @@ public class Problems9 {
         return sum;
     }
     
+    public static boolean canJump(int[] A) {//naive solution, TLE
+        int len = A.length;
+        int temp[] = new int[len+1];
+        temp[0] = 1;
+        for (int i = 0; i < len; ++i) {
+        	if (A[i] == 0) continue;
+        	else {
+        		for (int j = i+1; j < len+1 && j <= i+A[i]; ++j) {
+        			temp[j] = 1;
+        		}
+        	}
+        }
+        for (int i = 0; i < len+1; ++i) {
+        	System.out.println(temp[i]);
+        }
+        if (temp[len] == 1) return true;
+        else return false;
+    }
     
+    public static boolean canJump2(int[] A) {//AC after consulting
+    	if (A.length <= 1) return true;
+    	if (A[0] > A.length-1) return true;
+    	int maxlength = A[0];
+    	if (maxlength == 0) return false;
+    	for (int i = 1; i < A.length; ++i) {
+    		if (maxlength >= i && i + A[i] >= A.length-1){
+    			return true;
+    		}
+    		else if (maxlength <= i && A[i] == 0) {
+    			return false;
+    		}
+    		else {
+    			if (i + A[i] > maxlength) maxlength = i + A[i];
+    		}
+    	}
+    	return false;
+    }
+
     public static void test () {
-    	int A[] = {1, 3, 4, 3, 2, 1};
-    	candy(A);
+    	int A[] = {2, 3, 1, 1, 4};
+    	canJump(A);
     }
 }
