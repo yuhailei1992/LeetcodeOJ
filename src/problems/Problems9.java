@@ -133,8 +133,34 @@ public class Problems9 {
         return maxArea;
         
     }
+    
+    public static int candy(int[] ratings) {//AC
+    	
+    	int len = ratings.length;
+    	if (len == 1) return 1;
+    	int candy[] = new int[len];
+    	for (int i = 0; i < len; ++i) {
+    		candy[i] = 1;
+    	}
+    	for (int i = 1; i < len; ++i) {
+    		if (ratings[i] > ratings[i-1]) {
+    			candy[i] = candy[i-1] + 1;
+    		}
+    	}
+    	for (int i = len-2; i >= 0; --i) {
+    		if (ratings[i] > ratings[i+1] && candy[i] <= candy[i+1]) 
+    		    candy[i] = candy[i+1] + 1;
+    	}
+    	int sum = 0;
+    	for (int i = 0; i < len; ++i) {
+    		sum += candy[i];
+    	}
+        return sum;
+    }
+    
+    
     public static void test () {
-    	int A[] = {2, 1, 5, 6, 2, 3};
-    	System.out.println(largestRectangleArea(A));
+    	int A[] = {1, 3, 4, 3, 2, 1};
+    	candy(A);
     }
 }
