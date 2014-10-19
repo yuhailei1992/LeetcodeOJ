@@ -196,8 +196,45 @@ public class Problems9 {
     	return false;
     }
 
+    public static int maxProfit(int[] prices) {//AC
+    	if (prices == null || prices.length < 2) return 0;
+        int len = prices.length;
+        int l[] = new int[len];
+        int r[] = new int[len];
+        int lmin = Integer.MAX_VALUE;
+        int lmaxp = Integer.MIN_VALUE;
+        int rmaxp = Integer.MIN_VALUE;
+        int rmax = Integer.MIN_VALUE;
+        
+        for (int i = 0; i < len; ++i) {
+        	if (prices[i] < lmin) lmin = prices[i];
+        	int diff = prices[i] - lmin;
+        	if (diff > lmaxp) lmaxp = diff;
+        	l[i] = lmaxp;
+        }
+        
+        for (int i = len-1; i >= 0; --i) {
+        	if (prices[i] > rmax) rmax = prices[i];
+        	int diff = rmax - prices[i];
+        	if (diff > rmaxp) rmaxp = diff;
+        	r[i] = rmaxp;
+        }
+        
+        for (int i = 0; i < len; ++i) {
+        	System.out.println(l[i]);
+        }
+        for (int i = 0; i < len; ++i) {
+        	System.out.println(r[i]);
+        }
+        int maxp = Integer.MIN_VALUE;
+        for (int i = 0; i < len; ++i) {
+        	if (l[i] + r[i] > maxp) maxp = l[i] + r[i];
+        }
+        return maxp;
+    }
+    
     public static void test () {
     	int A[] = {2, 3, 1, 1, 4};
-    	canJump(A);
+    	maxProfit(A);
     }
 }
