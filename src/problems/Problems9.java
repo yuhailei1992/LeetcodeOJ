@@ -1,5 +1,6 @@
 package problems;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Stack;
 
 import problems.Datastructures.RandomListNode;
@@ -233,8 +234,82 @@ public class Problems9 {
         return maxp;
     }
     
+    public static String minWindow(String S, String T) {//AC after three hours...
+    	String minWindow = "";
+    	if (S.length() < T.length()) return minWindow;
+    	HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
+    	for (int i = 0; i < T.length(); ++i) {
+    		if (hm.containsKey(T.charAt(i))) {
+    			hm.put(T.charAt(i), hm.get(T.charAt(i))+1);
+    		}
+    		else {
+    			hm.put(T.charAt(i), 1);
+    		}
+    	}
+    	
+    	int start = 0;
+    	int end = 0;
+    	int cnt = 0;
+    	int min = Integer.MAX_VALUE;
+    	HashMap<Character, Integer> hm2 = new HashMap<Character, Integer>();
+    	
+    	int exist = 0;
+    	while (end < S.length()) {
+    		while (cnt < T.length() && end < S.length()) {
+    			char curr = S.charAt(end);
+	    		if (hm.containsKey(curr)) {//relevant
+	    			if (hm2.containsKey(curr)) {
+	    				hm2.put(curr, hm2.get(curr)+1);
+	    			}
+	    			else {
+	    				hm2.put(curr, 1);
+	    			}
+	    			//then update the relevant number
+	    			if (hm2.get(curr) <= hm.get(curr)) {
+	    				cnt++;//valid counter
+	    			}
+	    		}
+	    		end++;
+    		}
+    		//now we have a window which contains all the wanted characters
+    		int isrel = 0;
+    		while (cnt == T.length()) {
+    			exist = 1;
+    			isrel = 1;
+    			char curr = S.charAt(start);
+    			if (hm.containsKey(curr)) {
+    				if (hm2.get(curr) == 1) {
+    					hm2.remove(curr);
+    					cnt--;
+    					isrel = 1;
+    				}
+    				else {
+    					if (hm2.get(curr) <= hm.get(curr)) {
+    	    				cnt--;//valid counter
+    	    				isrel = 1;
+    	    			}
+    					hm2.put(curr, hm2.get(curr)-1);
+    				}
+    			}
+    			start++;
+    		}
+    		if (end - start < min) {
+	    		if (isrel == 1) {
+	    			minWindow = S.substring(start-1, end);
+	    		}
+	    		else {
+	    			minWindow = S.substring(start, end);
+	    		}
+	    		min = end-start;
+    		}
+    	}
+    	if (exist == 0) return "";
+    	else return minWindow;
+    }
+    
     public static void test () {
-    	int A[] = {2, 3, 1, 1, 4};
-    	maxProfit(A);
+    	String A = "a";
+    	String B = "b";
+    	minWindow(A, B);
     }
 }
