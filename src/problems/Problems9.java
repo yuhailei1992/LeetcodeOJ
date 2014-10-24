@@ -1,6 +1,8 @@
 package problems;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 import problems.Datastructures.RandomListNode;
@@ -307,9 +309,61 @@ public class Problems9 {
     	else return minWindow;
     }
     
+    public static List<Integer> findSubstring(String S, String[] L) {//AC
+    	List<Integer> ret = new ArrayList<Integer>();
+    	HashMap<String, Integer> hm = new HashMap<String, Integer>();
+    	for (int i = 0; i < L.length; ++i) {
+    		if (!hm.containsKey(L[i])) {
+    			hm.put(L[i], 1);
+    		}
+    		else {
+    			hm.put(L[i], hm.get(L[i])+1);
+    		}
+    	}
+    	int wordlen = L[0].length();
+    	int i = 0;
+    	label:
+    	while (i <= S.length()-wordlen*L.length) {
+    		HashMap<String, Integer> hm2 = new HashMap<String, Integer>(hm);
+    		int j = i;
+    		int cnt = 0;
+    		++i;
+    		while (j <= S.length()-wordlen) {
+    			
+	    		String temp = S.substring(j, j+wordlen);
+	    		if (hm2.containsKey(temp)) {
+	    			//update the hashmap
+	    			if (hm2.get(temp) == 1) {
+	    				hm2.remove(temp);
+	    			}
+	    			else {
+	    				hm2.put(temp, hm2.get(temp)-1);
+	    			}
+	    			
+	    			j += wordlen;
+	    			cnt++;
+	    			
+	    			if (cnt == L.length) {
+	    				ret.add(i-1);
+	    				continue label;
+	    			}
+	    		}
+	    		else {
+	    			break;
+	    		}
+    		}
+    	}
+        return ret;
+    }
+    
+    public static List<Integer> findSubstring2(String S, String[] L) {
+    	
+    	return null;
+    }
+    
     public static void test () {
-    	String A = "a";
-    	String B = "b";
-    	minWindow(A, B);
+    	String A = "barfoothefoobarman";
+    	String B[] = {"foo", "bar"};
+    	findSubstring(A, B);
     }
 }
