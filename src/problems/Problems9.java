@@ -356,14 +356,73 @@ public class Problems9 {
         return ret;
     }
     
-    public static List<Integer> findSubstring2(String S, String[] L) {
-    	
-    	return null;
+    public static int lengthOfLongestSubstring(String s) {
+    	if (s == null) return 0;
+    	HashMap<Character, Integer> hm = new HashMap<Character, Integer> ();
+    	int max = 0;
+    	int start = 0;
+    	int end = 0;
+    	for (int i = 0; i < s.length(); ++i) {
+    		char curr = s.charAt(i);
+    		if (!hm.containsKey(curr)) {
+    			hm.put(curr, 1);
+    		}
+    		else {
+    			if (end - start + 1 > max) {
+    				max = end - start + 1;
+    			}
+    			//move the start
+    		}
+    		//move the start
+    	}
+        return 0;
+    }
+    
+    public static List<List<Integer>> threeSum(int[] num) {//AC
+    	if (num == null) return null;
+        
+        List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        if (num.length < 3) return ret;
+        Arrays.sort(num);
+        loop:
+        for (int i = 0; i < num.length-2; ++i) {
+        	int start = i+1;
+        	int end = num.length-1;
+        	while (end > start) {
+        	    if(i==0 || num[i]>num[i-1]){
+            		if (num[start] + num[end] == -num[i]) {
+            			ArrayList<Integer> temp = new ArrayList<Integer>();
+            			temp.add(num[i]);
+            			temp.add(num[start]);
+            			temp.add(num[end]);
+            			
+            			ret.add(temp);
+            			
+            			while (start < end && num[end] == num[end-1]) end--;
+            			while (start < end && num[start] == num[start+1]) start++;
+            			start++;
+            			end--;
+            			continue;
+            		}
+            		else if (num[start] + num[end] > -num[i]) {
+            			end--;
+            		}
+            		else {
+            			start++;
+            		}
+        	    }
+        	    else {
+        	        continue loop;
+        	    }
+        	}
+        }
+        
+        return ret;
     }
     
     public static void test () {
-    	String A = "barfoothefoobarman";
-    	String B[] = {"foo", "bar"};
-    	findSubstring(A, B);
+    	//int num[] = {-1, 0, 1, 2, -1, -4};
+    	int num[] = {-1, 0, 1, 0};
+    	threeSum(num);
     }
 }
