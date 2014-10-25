@@ -356,26 +356,25 @@ public class Problems9 {
         return ret;
     }
     
-    public static int lengthOfLongestSubstring(String s) {
+    public static int lengthOfLongestSubstring(String s) {//AC
     	if (s == null) return 0;
-    	HashMap<Character, Integer> hm = new HashMap<Character, Integer> ();
-    	int max = 0;
+    	int table[] = new int[256];
     	int start = 0;
-    	int end = 0;
+    	int max = 0;
+    	Arrays.fill(table, -1);
     	for (int i = 0; i < s.length(); ++i) {
     		char curr = s.charAt(i);
-    		if (!hm.containsKey(curr)) {
-    			hm.put(curr, 1);
+    		if (table[curr] == -1) {
+    			table[curr] = i;
     		}
-    		else {
-    			if (end - start + 1 > max) {
-    				max = end - start + 1;
-    			}
-    			//move the start
+    		else {//already in the table
+    			start = Math.max(start, table[curr]+1);
+    			table[curr] = i;
     		}
-    		//move the start
+    		max = Math.max(max, i-start+1);
     	}
-        return 0;
+    	System.out.println(max);
+    	return max;
     }
     
     public static List<List<Integer>> threeSum(int[] num) {//AC
@@ -421,8 +420,7 @@ public class Problems9 {
     }
     
     public static void test () {
-    	//int num[] = {-1, 0, 1, 2, -1, -4};
-    	int num[] = {-1, 0, 1, 0};
-    	threeSum(num);
+    	String s = "abcdbcdsdlaldsfajlsd";
+    	lengthOfLongestSubstring(s);
     }
 }
