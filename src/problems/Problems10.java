@@ -3,6 +3,7 @@ package problems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class Problems10 {
     public static double findMedianSortedArrays(int A[], int B[]) {
@@ -186,10 +187,46 @@ public class Problems10 {
         
         return ret;
     }
+    
+    public static String simplifyPath(String path) {//AC
+        String[] tokens = path.split("/");
+        System.out.println("TOKENS START");
+        for (int i = 0; i < tokens.length; ++i) {
+        	System.out.println(tokens[i]);
+        }
+        System.out.println("TOKENS end");
+
+        java.util.LinkedList<String> stk = new java.util.LinkedList<String>();
+        for (int i = 0; i < tokens.length; ++i) {
+        	String curr_token = tokens[i];
+        	if (tokens[i].length() == 0 || tokens[i].equals(".")) {
+        		continue;
+        	}
+        	else if (tokens[i].equals("..")) {
+        		if (!stk.isEmpty()) {
+        			stk.removeLast();
+        		}
+        		else {
+        			//return "/";
+        		}
+        	}
+        	else {
+        		stk.add(tokens[i]);
+        	}
+        }
+        if (stk.isEmpty()) {
+        	return "/";
+        }
+        StringBuilder s = new StringBuilder();
+        while (!stk.isEmpty()) {
+        	s.append("/");
+        	s.append(stk.remove());
+        }
+        return s.toString();
+    }
     	
     public static void test () {
-    	int num2[] = {-3, -2, -1, 0, 0, 1, 2, 3};
-    	int num[] = {-1, 0, -5, -2, -2, -4, 0, 1, -2};
-    	System.out.println(fourSum2(num, -9));
+    	String str = "/a/./b///../c/../././../d/..//../e/./f/./g/././//.//h///././/..///";
+    	System.out.println(simplifyPath(str));
     }
 }
