@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class Problems10 {
+	
     public static double findMedianSortedArrays(int A[], int B[]) {
         return 0.0;
     }
@@ -97,7 +98,6 @@ public class Problems10 {
         }
         return ret;
     }
-    
 
     private static List<List<Integer>> threeSum(int[] num, int target, int left, int right) {//AC
         List<List<Integer>> ret = new ArrayList<List<Integer>>();
@@ -198,7 +198,6 @@ public class Problems10 {
 
         java.util.LinkedList<String> stk = new java.util.LinkedList<String>();
         for (int i = 0; i < tokens.length; ++i) {
-        	String curr_token = tokens[i];
         	if (tokens[i].length() == 0 || tokens[i].equals(".")) {
         		continue;
         	}
@@ -224,9 +223,45 @@ public class Problems10 {
         }
         return s.toString();
     }
-    	
+    
+    public static List<List<Integer>> subsets(int[] S) {//AC
+        List<List<Integer>> ret = new ArrayList<List<Integer>> ();
+        if (S.length == 1) {
+        	List<Integer> temp0 = new ArrayList<Integer>();
+        	List<Integer> temp1 = new ArrayList<Integer>();
+        	temp1.add(S[0]);
+        	ret.add(temp0);
+        	ret.add(temp1);
+        	return ret;
+        }
+        else {
+        	Arrays.sort(S);
+            int len = S.length;
+            int temp[] = Arrays.copyOf(S, len-1);
+            List<List<Integer>> subret = subsets(temp);
+            System.out.println(subret);
+            for (List<Integer> i : subret) {
+            	System.out.println("1" + i);
+            	ret.add(i);
+            }
+            for (List<Integer> j : subret) {
+            	List<Integer> i2 = new ArrayList<Integer>(j);
+            	i2.add(S[len-1]);
+            	System.out.println("2" + j);
+            	ret.add(i2);
+            }
+            return ret;
+        }
+        
+    }
+    
+    
+    public static int maximalRectangle(char[][] matrix) {
+        return 0;
+    }
+    
     public static void test () {
-    	String str = "/a/./b///../c/../././../d/..//../e/./f/./g/././//.//h///././/..///";
-    	System.out.println(simplifyPath(str));
+    	int a[] = {1, 2};
+    	System.out.println("final" + subsets(a));
     }
 }
