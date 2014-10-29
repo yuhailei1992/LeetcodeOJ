@@ -418,6 +418,19 @@ public class Problems10 {
         }
     }
     
+    public static void enumerate_cnt(int[] cnt, int[] q, int n) {
+    	int N = q.length;
+        if (n == N) {
+        	cnt[0]++;
+        }
+        else {
+            for (int i = 0; i < N; i++) {
+                q[n] = i;
+                if (isValidQ(q, n)) enumerate_cnt(cnt, q, n+1);
+            }
+        }
+    }
+    
     public static void printQueens(int[] q) {
         int N = q.length;
         for (int i = 0; i < N; i++) {
@@ -437,7 +450,15 @@ public class Problems10 {
         return ret;
     }
     
+    public static int totalNQueens(int n) {//AC
+        int[] a = new int[n];
+        int[] cnt = new int[2];
+        enumerate_cnt(cnt, a, 0);
+        return cnt[0];
+    }
+    
     public static void test () {
     	solveNQueens(4);
+    	System.out.println(totalNQueens(8));
     }
 }
