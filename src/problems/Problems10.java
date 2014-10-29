@@ -38,6 +38,10 @@ public class Problems10 {
         return false;
     }
     
+    private static boolean bfs(char[][] board, String word, int row, int col) {
+    	return false;
+    }
+    
     public static int threeSumClosest(int[] num, int target) {//AC
         
         Arrays.sort(num);
@@ -255,13 +259,132 @@ public class Problems10 {
         
     }
     
+    /**
+     * Some examples:
+	 * "0" => true
+	 * "0.1" => true
+	 * "abc" => false
+	 * "1 a" => false
+	 * "2e10" => true
+     * @param s
+     * @return
+     */
+    public static boolean isNumber(String s) {
+    	if (s == null) return false;
+    	String str = s.trim();
+    	int len = str.length();
+    	if (len == 0) return false;
+    	int exp = 0;
+    	//can only begin with numbers
+    	if (len == 1 && !(str.charAt(0) >= '0' && str.charAt(0) <= '9')) return false;
+    	if (!(str.charAt(0) >= '0' && str.charAt(0) <= '9') && str.charAt(0) != '.') {
+    		return false;
+    	}
+    	for (int i = 1; i < str.length(); ++i) {
+    		char curr = str.charAt(i);
+    		if (curr == ' ') {
+    			return false;
+    		}
+    		else if (curr == 'e') {
+    			exp = 1;
+    			if (i == len-1) return false;
+    			else {
+    				if (!(str.charAt(i+1) >= '0' && str.charAt(i+1) <= '9')) {
+    					return false;
+    				}
+    			}
+    		}
+    		else if (curr == '.') {
+    			if (exp == 1) return false;
+    			// you cannot have two consecutive '.'
+    		    if (i != 0 && str.charAt(i-1) == '.') return false;
+    		    // 
+    			if ( i != len-1 && (!(str.charAt(i+1) >= '0' && str.charAt(i+1) <= '9'))) {
+    				return false;
+    			}
+    		}
+    	}
+        return true;
+    }
     
     public static int maximalRectangle(char[][] matrix) {
         return 0;
     }
     
+    public static String getPermutation(int n, int k) {
+        return null;
+    }
+    
+    public static void solveSudoku(char[][] board) {//AC
+        dfs(board, 0, 0);
+    }
+    
+    private static boolean isValid (char[][] board, int x, int y, char k) {
+    	//check row
+    	for (int i = 0; i < 9; ++i) {
+    		if (board[i][y] == k && i != x) return false;
+    	}
+    	//check column
+    	for (int j = 0; j < 9; ++j) {
+    		if (board[x][j] == k && j != y) return false;
+    	}
+    	//check 3*3 rectangles
+    	for (int i = (x/3)*3; i < (x/3+1)*3; ++i) {
+    		for (int j = (y/3)*3; j < (y/3+1)*3; ++j) {
+    			if (board[i][j] == k && i != x && j != y) return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    private static boolean dfs(char[][] board, int x, int y) {
+    	if (x == 9 || y == 9) return true;
+    	
+    	if (board[x][y] == '.') {
+    		for (int k = 1; k <= 9; ++k) {
+    			if (isValid(board, x, y, (char)('0'+k))) {
+    				board[x][y] = (char)('0'+k);
+    				int nextx = x;
+    				int nexty = y+1;
+    				if (nexty == 9) {
+    					nexty = 0; 
+    					nextx++;
+    				}
+    				if (dfs(board, x, y)) return true;
+    			}
+    			board[x][y] = '.';
+    		}
+    		return false;
+    	}
+    	else {
+    		int nextx = x;
+			int nexty = y+1;
+			if (nexty == 9) {
+				nexty = 0; 
+				nextx++;
+			}
+			return dfs(board, nextx, nexty);
+    	}
+    }
+    
     public static void test () {
-    	int a[] = {1, 2};
-    	System.out.println("final" + subsets(a));
+    	char[][] board = {  
+                {'.','.','9','7','4','8','.','.','.'},  
+                {'7','.','.','.','.','.','.','.','.'},  
+                {'.','2','.','1','.','9','.','.','.'},  
+                {'.','.','7','.','.','.','2','4','.'},  
+                {'.','6','4','.','1','.','5','9','.'},  
+                {'.','9','8','.','.','.','3','.','.'},  
+                {'.','.','.','8','.','3','.','2','.'},  
+                {'.','.','.','.','.','.','.','.','6'},  
+                {'.','.','.','2','7','5','9','.','.'},  
+        };
+    	solveSudoku(board);
+    	for(int i=0; i<9; i++){  
+            for(int j=0; j<9; j++){  
+                System.out.print(board[i][j]);  
+            }  
+            System.out.println();  
+        }
     }
 }
