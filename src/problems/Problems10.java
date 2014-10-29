@@ -314,7 +314,27 @@ public class Problems10 {
     public static String getPermutation(int n, int k) {
         return null;
     }
-    
+    /**
+     * char[][] board = {  
+                {'.','.','9','7','4','8','.','.','.'},  
+                {'7','.','.','.','.','.','.','.','.'},  
+                {'.','2','.','1','.','9','.','.','.'},  
+                {'.','.','7','.','.','.','2','4','.'},  
+                {'.','6','4','.','1','.','5','9','.'},  
+                {'.','9','8','.','.','.','3','.','.'},  
+                {'.','.','.','8','.','3','.','2','.'},  
+                {'.','.','.','.','.','.','.','.','6'},  
+                {'.','.','.','2','7','5','9','.','.'},  
+        };
+    	solveSudoku(board);
+    	for(int i=0; i<9; i++){  
+            for(int j=0; j<9; j++){  
+                System.out.print(board[i][j]);  
+            }  
+            System.out.println();  
+        }
+     * @param board
+     */
     public static void solveSudoku(char[][] board) {//AC
         dfs(board, 0, 0);
     }
@@ -367,24 +387,57 @@ public class Problems10 {
     	}
     }
     
-    public static void test () {
-    	char[][] board = {  
-                {'.','.','9','7','4','8','.','.','.'},  
-                {'7','.','.','.','.','.','.','.','.'},  
-                {'.','2','.','1','.','9','.','.','.'},  
-                {'.','.','7','.','.','.','2','4','.'},  
-                {'.','6','4','.','1','.','5','9','.'},  
-                {'.','9','8','.','.','.','3','.','.'},  
-                {'.','.','.','8','.','3','.','2','.'},  
-                {'.','.','.','.','.','.','.','.','6'},  
-                {'.','.','.','2','7','5','9','.','.'},  
-        };
-    	solveSudoku(board);
-    	for(int i=0; i<9; i++){  
-            for(int j=0; j<9; j++){  
-                System.out.print(board[i][j]);  
-            }  
-            System.out.println();  
+    private static boolean isValidQ (int num[], int n) {
+    	if (n >num.length) return false;
+    	for (int i = 0; i < n; ++i) {
+    		if (Math.abs(num[n] - num[i]) == n-i || num[n] == num[i]) return false;
+    	}
+    	return true;
+    }
+    
+    public static void enumerate(List<String[]> ret, int[] q, int n) {
+    	int N = q.length;
+        if (n == N) {
+        	String[] temp = new String[N];
+        	
+        	for (int j = 0; j < N; ++j) {
+        		temp[j] = "";
+        		for (int i = 0; i < N; ++i) {
+        			if (q[i] == j) temp[j] += "Q";
+        			else temp[j] += ".";
+        		}
+            	System.out.println(temp[j]);
+        	}
+        	ret.add(temp);
         }
+        else {
+            for (int i = 0; i < N; i++) {
+                q[n] = i;
+                if (isValidQ(q, n)) enumerate(ret, q, n+1);
+            }
+        }
+    }
+    
+    public static void printQueens(int[] q) {
+        int N = q.length;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (q[i] == j) System.out.print("Q ");
+                else           System.out.print("* ");
+            }
+            System.out.println();
+        }  
+        System.out.println();
+    }
+    
+    public static List<String[]> solveNQueens(int n) {//AC
+        List<String[]> ret = new ArrayList<String[]>();
+        int[] a = new int[n];
+        enumerate(ret, a, 0);
+        return ret;
+    }
+    
+    public static void test () {
+    	solveNQueens(4);
     }
 }
