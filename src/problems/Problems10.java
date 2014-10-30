@@ -311,9 +311,6 @@ public class Problems10 {
         return 0;
     }
     
-    public static String getPermutation(int n, int k) {
-        return null;
-    }
     /**
      * char[][] board = {  
                 {'.','.','9','7','4','8','.','.','.'},  
@@ -470,9 +467,149 @@ public class Problems10 {
     	}
     }
     
+    public static String getPermutation(int n, int k) {
+    	int num[] = new int[n];
+    	for (int i = 0; i < n; ++i) {
+    		num[i] = i+1;
+    	}
+    	
+        int cnt[] = new int[2];
+        cnt[1] = k;
+        ArrayList<Integer> tmp = new ArrayList<Integer>();
+        while (true) {
+	        if (permute_tool2(tmp, num, cnt) != null) {
+	        	for (int i = 0; i < tmp.size(); ++i) {
+	        		System.out.println(tmp.get(i));
+	        	}
+	        	break;
+	        }
+        }
+        return null;
+    }
+    
+    private static List<Integer> permute_tool2 (ArrayList<Integer> tmp, int num[], int cnt[]) {
+    	if (tmp.size() == num.length) {
+    		cnt[0]++;
+    		if (cnt[0] == cnt[1]) {
+    			System.out.println(tmp);
+    			return tmp;
+    		}
+    		else return null;
+    	}
+    	else {
+    		for (int i = 0; i < num.length; ++i) {
+    			if (tmp.contains(num[i])) continue;
+    			else {
+    				tmp.add(num[i]);
+    				permute_tool2(tmp, num, cnt);
+    				tmp.remove(tmp.size()-1);
+    			}
+    		}
+    		return null;
+    	}
+    }
+    
+    public static String getPerm (int n, int k) {
+    	int t1 = factorial(n-1);
+    	int div = n / t1;
+    	int rem = n % t1;
+    	return null;
+    	
+    }
+    
+    public static int factorial(int n) {
+        int fact = 1; // this  will be the result
+        for (int i = 1; i <= n; i++) {
+            fact *= i;
+        }
+        return fact;
+    }
+    
+    public static boolean isInterleave(String s1, String s2, String s3) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+    
+        // Start typing your Java solution below
+        // DO NOT write main() function=
+       if(s3.length()!=s1.length()+s2.length()) return false;    
+        
+       boolean [][] match = new boolean [s1.length()+1][s2.length()+1];
+       match[0][0]=true;
+       
+       int i=1;
+       while(i<=s1.length() && s1.charAt(i-1)==s3.charAt(i-1)){
+           match[i][0]=true;
+           i++;
+       }
+       
+       i=1;
+       while(i<=s2.length() && s2.charAt(i-1)==s3.charAt(i-1)){
+           match[0][i]=true;
+           i++;
+       }
+       
+       for(i=1;i<=s1.length();i++){
+           for(int j=1;j<=s2.length();j++){
+               char c = s3.charAt(i+j-1);
+               if(c==s1.charAt(i-1))
+                match[i][j]=match[i-1][j] || match[i][j];
+               if(c==s2.charAt(j-1))
+                match[i][j]=match[i][j-1] || match[i][j];
+           }
+       }
+       for (i = 0; i <= s1.length(); ++i) {
+    	   for (int j = 0; j <= s2.length(); ++j) {
+    		   if (match[i][j]) System.out.print("*");
+    		   else System.out.print(".");
+    	   }
+    	   System.out.println();
+       }
+      return match[s1.length()][s2.length()];
+    }
+    
+    public static boolean isInterleave2(String s1, String s2, String s3) {//AC
+    	if (s1.length() + s2.length() != s3.length()) return false;
+    	boolean map[][] = new boolean[s1.length()+1][s2.length()+1];
+    	map[0][0] = true;
+    	for (int i = 0; i < s1.length(); ++i) {
+    		if (s1.charAt(i) == s3.charAt(i)) {
+    			map[i+1][0] = true;
+    		}
+    	}
+    	
+    	for (int i = 0; i < s2.length(); ++i) {
+    		if (s2.charAt(i) == s3.charAt(i)) {
+    			map[0][i+1] = true;
+    		}
+    	}
+    	
+    	for (int i = 0; i < s1.length(); ++i) {
+    		for (int j = 0; j < s2.length(); ++j) {
+    			char curr = s3.charAt(i+j+1);
+    			if (curr == s1.charAt(i) && map[i][j+1] == true) {
+    				map[i+1][j+1] = true;
+    			}
+    			
+    			if (curr == s2.charAt(j) && map[i+1][j] == true) {
+    				map[i+1][j+1] = true;
+    			}
+    		}
+    	}
+    	for (int i = 0; i <= s1.length(); ++i) {
+     	   for (int j = 0; j <= s2.length(); ++j) {
+     		   if (map[i][j]) System.out.print("*");
+     		   else System.out.print(".");
+     	   }
+     	   System.out.println();
+        }
+    	return map[s1.length()][s2.length()];
+    }
+    
     public static void test () {
     	int num[] = {1, 2, 3};
-    	
-    	System.out.println(permute(num));
+    	String a = "a";
+    	String b = "";
+    	String c = "a";
+    	isInterleave2(a, b, c);
     }
 }
