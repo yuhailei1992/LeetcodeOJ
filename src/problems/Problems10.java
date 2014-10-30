@@ -387,6 +387,7 @@ public class Problems10 {
     	}
     }
     
+    
     private static boolean isValidQ (int num[], int n) {
     	if (n >num.length) return false;
     	for (int i = 0; i < n; ++i) {
@@ -431,18 +432,6 @@ public class Problems10 {
         }
     }
     
-    public static void printQueens(int[] q) {
-        int N = q.length;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (q[i] == j) System.out.print("Q ");
-                else           System.out.print("* ");
-            }
-            System.out.println();
-        }  
-        System.out.println();
-    }
-    
     public static List<String[]> solveNQueens(int n) {//AC
         List<String[]> ret = new ArrayList<String[]>();
         int[] a = new int[n];
@@ -457,8 +446,33 @@ public class Problems10 {
         return cnt[0];
     }
     
+    public static List<List<Integer>> permute(int[] num) {//AC
+        List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        ArrayList<Integer> tmp = new ArrayList<Integer>();
+        permute_tool(ret, tmp, num);
+        return ret;
+    }
+    
+    private static void permute_tool (List<List<Integer>> ret, ArrayList<Integer> tmp, int num[]) {
+    	if (tmp.size() == num.length) {
+    		ret.add(new ArrayList<Integer>(tmp));
+    		return;
+    	}
+    	else {
+    		for (int i = 0; i < num.length; ++i) {
+    			if (tmp.contains(num[i])) continue;
+    			else {
+    				tmp.add(num[i]);
+    				permute_tool(ret, tmp, num);
+    				tmp.remove(tmp.size()-1);
+    			}
+    		}
+    	}
+    }
+    
     public static void test () {
-    	solveNQueens(4);
-    	System.out.println(totalNQueens(8));
+    	int num[] = {1, 2, 3};
+    	
+    	System.out.println(permute(num));
     }
 }
