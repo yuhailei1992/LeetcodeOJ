@@ -49,11 +49,65 @@ public class Problems11 {
     }
     
     public static List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+    	
         return null;
     }
     
+    public int maximalRectangle(char[][] matrix) {//AC
+        if(matrix==null || matrix.length==0 || matrix[0].length==0) return 0;
+        int m = matrix.length;
+        int n = matrix[0].length;
+    	int[][] num = new int[m][n];
+    	for (int i = 0; i < m; ++i) {
+    		for (int j = 0; j < n; ++j) {
+    			if (matrix[i][j] == '1') {
+    				num[i][j] = 1;
+    			}
+    			else {
+    				num[i][j] = 0;
+    			}
+    		}
+    	}
+    	for (int i = 1; i < m; ++i) {
+    		for (int j = 0; j < n; ++j) {
+    			if (num[i][j] != 0) {
+    				num[i][j] += num[i-1][j];
+    			}
+    		}
+    	}
+    	//now we have constructed the matrix
+    	int max = -1;
+    	for (int i = 0; i < m; ++i) {
+    		int temp_max = largestRectangleArea(num[i]);
+    		if (temp_max > max) {
+    			max = temp_max;
+    		}
+    	}
+        return max;
+    }
+    
+    public static int largestRectangleArea(int[] height) {
+        Stack<Integer> stk = new Stack<Integer>();
+    	int h[] = new int[height.length + 1];
+    	h = Arrays.copyOf(height, height.length+1);
+    	int maxArea = 0;
+    	int i = 0;
+    	while (i < h.length) {
+    		if (stk.isEmpty() || h[stk.peek()] <= h[i]) {
+    			stk.push(i);
+    			i++;
+    		}
+    		else {
+    			int t = stk.pop();
+    			maxArea = Math.max(maxArea, h[t] * (stk.isEmpty() ? i : i - stk.peek() - 1));
+    		}
+    	}
+        return maxArea;
+    }
+    
     public static void test () {
-    	String s = "2552552550";
-    	System.out.println(restoreIpAddresses(s));
+    	char[][] x = new char[1][];
+    	maximalRectangle(x);
+    	
     }
 }
