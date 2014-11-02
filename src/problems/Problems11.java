@@ -180,10 +180,43 @@ public class Problems11 {
     	}
     }
     
+    public static String longestPalindrome(String s) {
+        return null;
+    }
+    
+    public static int longestValidParentheses (String s) {//AC
+    	if (s == null || s.length() < 2) return 0;
+    	int maxlen = 0;
+    	int last = -1;
+    	int i = 0;
+    	Stack<Integer> stk = new Stack<Integer>();
+    	while (i < s.length()) {
+    		char curr = s.charAt(i);
+    		if (curr == '(') {
+    			stk.push(i);
+    		}
+    		else {
+    			
+    			if (stk.isEmpty()) {
+    				last = i;
+    			}
+    			else {
+    				stk.pop();
+    				if (stk.isEmpty()) {
+    					maxlen = Math.max(maxlen, i - last);
+    				}
+    				else {
+        				maxlen = Math.max(maxlen, i - stk.peek());
+    				}
+    			}
+    		}
+    		++i;
+    	}
+    	return maxlen;
+    }
     
     public static void test () {
-    	char[][] board = {{'X', 'X', 'X', 'X'}, {'X', 'O', 'O', 'X'}, {'X', 'X', 'O', 'X'}, {'X', 'O', 'X', 'X'}};
-    	char[][] board1 = {{'O', 'O'}, {'O', 'O'}};
-    	solve(board1);
+    	String s = ")(";
+    	System.out.println(longestValidParentheses(s));
     }
 }
