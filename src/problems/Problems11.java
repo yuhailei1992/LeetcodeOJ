@@ -86,7 +86,7 @@ public class Problems11 {
         return max;
     }
     
-    public static int largestRectangleArea(int[] height) {
+    public static int largestRectangleArea(int[] height) {//AC
         Stack<Integer> stk = new Stack<Integer>();
     	int h[] = new int[height.length + 1];
     	h = Arrays.copyOf(height, height.length+1);
@@ -105,9 +105,85 @@ public class Problems11 {
         return maxArea;
     }
     
+    public static void solve(char[][] board) {//AC
+    	if (board == null || board.length == 0 || board[0].length == 0) return;
+        int m = board.length;
+        int n = board[0].length;
+        int[][] visited = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+        	if (board[i][0] == 'O') {
+        		visited[i][0] = 1;
+        	}
+        	if (board[i][n-1] == 'O') {
+        		visited[i][n-1] = 1;
+        	}
+        }
+        
+        for (int j = 0; j < n; ++j) {
+        	if (board[0][j] == 'O') {
+        		visited[0][j] = 1;
+        	}
+        	if (board[m-1][j] == 'O') {
+        		visited[m-1][j] = 1;
+        	}
+        }
+        
+        //then, dfs
+        for (int i = 0; i < m; ++i) {
+        	if (visited[i][0] == 1) {
+        		dfs(board, visited, i, 0);
+        	}
+        	if (visited[i][n-1] == 1) {
+        		dfs(board, visited, i, n-1);
+        	}
+        }
+        
+        for (int j = 0; j < n; ++j) {
+        	if (visited[0][j] == 1) {
+        		dfs(board, visited, 0, j);
+        	}
+        	if (visited[m-1][j] == 1) {
+        		dfs(board, visited, m-1, j);
+        	}
+        }
+        
+        for (int i = 0; i < m; ++i) {
+        	for (int j = 0; j < n; ++j) {
+        		if (visited[i][j] == 0 && board[i][j] == 'O') {
+        			board[i][j] = 'X';
+        		}
+        	}
+        }
+        for (int i = 0; i < m; ++i) {
+        	for (int j = 0; j < n; ++j) {
+        		System.out.print(board[i][j]);
+        	}
+        	System.out.println();
+        }
+        return;
+        
+    }
+    
+    private static void dfs(char[][] board, int[][]visited, int row, int col) {
+    	if (visited[row][col] == 0) visited[row][col] = 1;
+    	if (row > 0 && board[row-1][col] == 'O' && visited[row-1][col] == 0) {
+    		dfs (board, visited, row-1, col);
+    	}
+    	if (row < board.length-1 && board[row+1][col] == 'O' && visited[row+1][col] == 0) {
+    		dfs (board, visited, row+1, col);
+    	}
+    	if (col > 0 && board[row][col-1] == 'O' && visited[row][col-1] == 0) {
+    		dfs (board, visited, row, col-1);
+    	}
+    	if (col < board[0].length-1 && board[row][col+1] == 'O' && visited[row][col+1] == 0) {
+    		dfs (board, visited, row, col+1);
+    	}
+    }
+    
+    
     public static void test () {
-    	char[][] x = new char[1][];
-    	maximalRectangle(x);
-    	
+    	char[][] board = {{'X', 'X', 'X', 'X'}, {'X', 'O', 'O', 'X'}, {'X', 'X', 'O', 'X'}, {'X', 'O', 'X', 'X'}};
+    	char[][] board1 = {{'O', 'O'}, {'O', 'O'}};
+    	solve(board1);
     }
 }
