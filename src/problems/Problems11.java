@@ -237,8 +237,24 @@ public class Problems11 {
     	return -1;
     }
     
-    public static int canCompleteCircuit2(int[] gas, int[] cost) {
-    	
+    public static int canCompleteCircuit2(int[] gas, int[] cost) {//AC
+        int len = gas.length;
+    	for (int i = 0; i < len; ++i) {
+    		int total_gas = 0;
+    		
+    		for (int j = i; j <= len + i; ++j) {
+    			if (j == len+i) return i;
+    			total_gas += gas[j%len];
+    			if (total_gas < (cost[j%len])) {
+    			    i = j;
+    				break;
+    			}
+    			else {
+    				total_gas -= (cost[j%len]);
+    			}
+    		}
+    	}
+    	return -1;
     }
     
     public static int findMin(int[] num) {//AC
