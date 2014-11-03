@@ -215,8 +215,56 @@ public class Problems11 {
     	return maxlen;
     }
     
+    public static int canCompleteCircuit(int[] gas, int[] cost) {//naive, TLE
+        //the result is guaranteed to be unique
+    	//for those problem with "circular", we can gracefully solve it by doubling the length
+    	int len = gas.length;
+    	for (int i = 0; i < len; ++i) {
+    		int total_gas = 0;
+    		
+    		for (int j = i; j <= len + i; ++j) {
+    			if (j == len+i) return i;
+    			total_gas += gas[j%len];
+    			if (total_gas < (cost[j%len])) {
+    				break;
+    			}
+    			else {
+    				total_gas -= (cost[j%len]);
+    			}
+    			
+    		}
+    	}
+    	return -1;
+    }
+    
+    public static int canCompleteCircuit2(int[] gas, int[] cost) {
+    	
+    }
+    
+    public static int findMin(int[] num) {//AC
+        int len = num.length;
+        int min = num[0];
+        int left = 0;
+        int right = len-1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            min = Math.min(Math.min(num[left], num[right]), Math.min(num[mid], min));
+            if (num[mid] < num[right]) {
+                //search left portion
+                right = mid-1;
+            }
+            else {
+                //search right portion
+                left = mid+1;
+            }
+            
+        }
+        return min;
+    }
+    
     public static void test () {
-    	String s = ")(";
-    	System.out.println(longestValidParentheses(s));
+    	int gas[] = {2, 4};
+    	int cost[] = {3, 4};
+    	System.out.println(canCompleteCircuit(gas, cost));
     }
 }
