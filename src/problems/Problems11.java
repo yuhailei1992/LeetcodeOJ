@@ -308,7 +308,7 @@ public class Problems11 {
     	System.out.println(sum2);
     }
     
-    public static List<String> generateParenthesis(int n) {
+    public static List<String> generateParenthesis(int n) {//AC
         ArrayList<String> list = new ArrayList<String>();
         String str = "";
         recur(list, 0, 0, n, str);
@@ -332,7 +332,76 @@ public class Problems11 {
     	}
     }
     
+    public static List<String> letterCombinations(String digits) {//AC 
+    	List<String> ret = new ArrayList<String>();
+        if (digits == null) return ret;
+        else if (digits.length() == 0)
+        {
+            ret.add("");
+            return ret;
+        }
+        else
+        {
+        	rec(ret, "", digits, 0);
+        	return ret;
+        }
+    }
+    
+    private static void rec (List<String> ret, String s, String digits, int i)
+    {
+    	if (i > digits.length())
+    	{
+    		return;
+    	}
+    	else if (i == digits.length())
+    	{
+    		ret.add(s);
+    	}
+    	else 
+    	{
+    		char temp = digits.charAt(i);
+        	if (temp > 49 && temp < 58) {
+        		if (temp < 55) 
+        		{//for 2-8
+        			int base = 97 + (temp-50) * 3;
+        			for (int j = 0; j < 3; ++j)
+        			{
+        				char t = (char)(base+j);
+        				rec(ret, s+t, digits, i+1);
+        			}
+        		}
+        		else if (temp == 55)//7
+        		{
+        			int base = 97 + (temp-50) * 3;
+        			for (int j = 0; j < 4; ++j)
+        			{
+        				char t = (char)(base+j);
+        				rec(ret, s+t, digits, i+1);
+        			}
+        		}
+        		else if (temp == 56)//7
+        		{
+        			int base = 98 + (temp-50) * 3;
+        			for (int j = 0; j < 3; ++j)
+        			{
+        				char t = (char)(base+j);
+        				rec(ret, s+t, digits, i+1);
+        			}
+        		}
+        		else 
+        		{//for 9
+        			int base = 98 + (temp-50) * 3;
+        			for (int j = 0; j < 4; ++j)
+        			{
+        				char t = (char)(base+j);
+        				rec(ret, s+t, digits, i+1);
+        			}
+        		}
+        	}
+    	}
+    }
+    
     public static void test () {
-    	System.out.println(generateParenthesis(3));
+    	System.out.println(letterCombinations("9"));
     }
 }
