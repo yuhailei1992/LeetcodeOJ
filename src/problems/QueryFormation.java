@@ -14,9 +14,9 @@ public class QueryFormation {
         double body = 0.6;
         double inlink = 0.1;
         
-        double and = 0.50;
-        double near = 0.25;
-        double window = 0.25;
+        double and = 0.7;
+        double near = 0.2;
+        double window = 0.1;
         
         double w1 = 0;
         double w2 = 1;

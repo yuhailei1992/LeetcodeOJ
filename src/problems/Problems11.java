@@ -278,9 +278,61 @@ public class Problems11 {
         return min;
     }
     
+    public static void cal () {
+    	double invest = 500.0;
+    	double receive = 50.0;
+    	double sum = 0.0;
+    	for (int i = 1; ; ++i) {
+    		sum += receive / (Math.pow(1.08, i));
+    		if (sum > invest) {
+    			System.out.println("At year" + i + "sum is " + sum);
+    			break;
+    		}
+    	}
+    }
+    
+    public static void cal2 () {
+    	double sum1 = 0.0;
+    	double sum2 = 0.0;
+    	double a = 500.0;
+    	double b = 1000.0;
+    	for (int i = 1; i <= 5; ++i) {
+    		sum1 += a / Math.pow(1.06, i);
+    		
+    	}
+    	for (int i = 6; i <= 10; ++i) {
+    		sum1 += a / Math.pow(1.04, (i-5)) / Math.pow(1.06, 5);
+    		sum2 += b / Math.pow(1.04, (i-5)) / Math.pow(1.06, 5);
+    	}
+    	System.out.println(sum1);
+    	System.out.println(sum2);
+    }
+    
+    public static List<String> generateParenthesis(int n) {
+        ArrayList<String> list = new ArrayList<String>();
+        String str = "";
+        recur(list, 0, 0, n, str);
+        return list;
+    }
+    
+    private static void recur(ArrayList<String> list, int left, int right, int n, String str) {
+    	if (left < right) return;
+    	if (left > n || right > n) return;
+    	else {
+    		if (left == right && left == n) {
+    			list.add(str);
+    		}
+    		else {
+    			//left
+    			System.out.println("left is " + left + "right is " + right + "str is " + str);
+    			recur(list, left+1, right, n, str+"(");
+    			recur(list, left, right+1, n, str+")");
+    			//right
+    		}
+    	}
+    }
+    
     public static void test () {
-    	int gas[] = {2, 4};
-    	int cost[] = {3, 4};
-    	System.out.println(canCompleteCircuit(gas, cost));
+    	System.out.println(generateParenthesis(3));
     }
 }
