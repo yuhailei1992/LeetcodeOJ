@@ -415,20 +415,58 @@ public class Problems11 {
     }
     
     private static void combine_helper (int n, int k, int start, int num, List<Integer> subres, List<List<Integer>> list) {
-    	if (num == k) {
+    	if (num == k) 
+    	{
     		ArrayList<Integer> temp = new ArrayList<Integer>(subres);
     		list.add(temp);
     		return;
     	}
-    	for (int i = start; i <= n; ++i) {
+    	for (int i = start; i <= n; ++i) 
+    	{
     		subres.add(i);
     		combine_helper (n, k, i+1, num+1, subres, list);
     		subres.remove(subres.size()-1);
     	}
     }
+    /**
+     * DP
+     * @param s
+     * @return
+     */
+    public static int numDecodings(String s) {//AC
+        if (s == null || s.length() == 0 || (s.length() != 0 && s.charAt(0) == '0')) return 0;
+    	else if (s.length() == 1) 
+    	{
+    		return 1;
+    	}
+    	else
+    	{
+    		int temp;
+    		int num[] = new int[s.length()+1];
+    		num[0] = 1;
+    		num[1] = 1;
+    		for (int i = 2; i <= s.length(); ++i) 
+    		{
+    			temp = Integer.parseInt(s.substring(i-1, i));
+    			if (temp != 0)
+    			{
+    				num[i] = num[i-1];
+    			}
+    			if (s.charAt(i-2) != '0')
+    			{
+    				temp = Integer.parseInt(s.substring(i-2, i));
+    				if (temp > 0 && temp <27)
+    				{
+    					num[i] += num[i-2];
+    				}
+    			}
+    		}
+    		return num[s.length()];
+    	}
+    }
     
     public static void test () {
-    	System.out.println(combine(4, 2));
+    	System.out.println(numDecodings("12"));
     }
 }
 
