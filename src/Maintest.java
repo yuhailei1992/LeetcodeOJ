@@ -1,8 +1,9 @@
-import problems.Problems11;
-import problems.QueryFormation;
+import problems.Problems12;
+
 public class Maintest {
 	
 	public static void main(String[] args) {
-		Problems11.test();
+		Problems12 t = new Problems12();
+		t.test();
 	}
 }

@@ -48,11 +48,6 @@ public class Problems11 {
     	}
     }
     
-    public static List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-    	
-        return null;
-    }
-    
     public int maximalRectangle(char[][] matrix) {//AC
         if(matrix==null || matrix.length==0 || matrix[0].length==0) return 0;
         int m = matrix.length;
