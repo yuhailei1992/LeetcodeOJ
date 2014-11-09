@@ -401,7 +401,37 @@ public class Problems11 {
     	}
     }
     
+    public static List<List<Integer>> combine (int n, int k) {//AC
+    	List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        if (n <= 0 || k <= 0) return ret;
+        else 
+        {
+        	int num = 0;
+        	int st = 1;
+        	ArrayList<Integer> subres = new ArrayList<Integer>();
+        	combine_helper(n, k, st, num, subres, ret);
+        	return ret;
+        }
+    }
+    
+    private static void combine_helper (int n, int k, int start, int num, List<Integer> subres, List<List<Integer>> list) {
+    	if (num == k) {
+    		ArrayList<Integer> temp = new ArrayList<Integer>(subres);
+    		list.add(temp);
+    		return;
+    	}
+    	for (int i = start; i <= n; ++i) {
+    		subres.add(i);
+    		combine_helper (n, k, i+1, num+1, subres, list);
+    		subres.remove(subres.size()-1);
+    	}
+    }
+    
     public static void test () {
-    	System.out.println(letterCombinations("9"));
+    	System.out.println(combine(4, 2));
     }
 }
+
+
+
+
