@@ -22,7 +22,7 @@ public class Problems12 {
         return false;
     }
     
-    private boolean dfs (char[][] board, String word, int row, int col, int n, boolean[][] visited)
+    private boolean dfs (char[][] board, String word, int row, int col, int n, boolean[][] visited)//AC
     {
     	if (n == word.length()) return true;
     	else if (row < 0 || row >= board.length || col < 0 || col >= board[0].length)
@@ -39,16 +39,95 @@ public class Problems12 {
     	visited[row][col] = false;
     	return ret;
     }
+
     
-    public void test () {
-    	
-    	char[][] t = {{'A', 'B', 'C', 'E'},
-    				{'S', 'F', 'C', 'S'},
-    				{'A', 'D', 'E', 'E'}};
-    	char[][] t2 = {{'a'}};
-    	if (exist(t, "BBB"))
+    public String countAndSay (int n)//AC
+    {
+    	String init = "1";
+    	for (int i = 1; i < n; ++i)
     	{
-    		System.out.println("hello");
+    		init = count(init);
     	}
+    	return init;
+    	
+    }
+    
+    
+    public String count(String str) {
+    	char tmp[] = str.toCharArray();
+    	StringBuilder ret = new StringBuilder();
+    	if (str.length() == 0) return null;
+    	else if (str.length() == 1) return "1" + str;
+    	else
+    	{
+    		for (int i = 1; i < str.length(); )
+    		{
+    			int j = i;
+    			int num = 1;
+    			while (j < str.length() && tmp[j] == tmp[j-1])
+    			{
+    				num++;
+    				j++;
+    			}
+    			ret.append(Integer.toString(num)).append(tmp[j-1]);
+    			i = j+1;
+    		}
+    		if (tmp[str.length()-1] != tmp[str.length()-2])
+    		{
+    			ret.append("1").append(tmp[str.length()-1]);
+    		}
+    	}
+        return ret.toString();
+    }
+    
+    public String longestPalindrome(String s) {
+        return null;
+    }
+    
+    public String countAndSay2(int n) {
+        if (n<1){
+            return null;
+        }
+        int i=2;
+        String current="1";
+        while (i<=n){
+            current=say(current);
+            i++;
+        }
+        
+        return current;
+    }
+    
+    // count each char in given input string
+    private String say(String input){
+        char last=input.charAt(0);
+        
+        String result="";
+        
+        int i=1;// index
+        
+        int count=1;// count for each char
+        while (i<input.length()){
+            if (input.charAt(i)==last){
+                count++;
+            }
+            else{
+                result+=count;
+                result+=last;
+                
+                last=input.charAt(i);
+                count=1;
+            }
+            i++;
+        }
+        result+=count;
+        result+=last;
+        
+        return result;
+        
+    }
+    public void test () {
+    	System.out.println(countAndSay(9));
+    	System.out.println(countAndSay2(4));
     }
 }
