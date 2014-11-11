@@ -39,7 +39,6 @@ public class Problems12 {
     	visited[row][col] = false;
     	return ret;
     }
-
     
     public String countAndSay (int n)//AC
     {
@@ -52,8 +51,7 @@ public class Problems12 {
     	
     }
     
-    
-    public String count(String str) {
+    private String count(String str) {
     	char tmp[] = str.toCharArray();
     	StringBuilder ret = new StringBuilder();
     	if (str.length() == 0) return null;
@@ -84,50 +82,60 @@ public class Problems12 {
         return null;
     }
     
-    public String countAndSay2(int n) {
-        if (n<1){
-            return null;
-        }
-        int i=2;
-        String current="1";
-        while (i<=n){
-            current=say(current);
-            i++;
-        }
-        
-        return current;
+    public int jump(int[] A) {
+    	int len = A.length;
+    	int temp[] = new int[len];
+    	for (int i = 1; i < len; ++i)
+    	{
+    		temp[i] = -1;
+    	}
+    	int j;
+    	for (int i = 0; i < A.length; ++i)
+    	{
+    		j = i+1;
+    		while (j < A.length && j <= i + A[i])
+    		{
+    			if (temp[j] == -1)
+    			{
+    				temp[j] = temp[i] + 1;
+    			}
+    			else
+    			{
+    				temp[j] = Math.min(temp[j], temp[i]+1);
+    			}
+    			j++;
+    		}
+    	}
+        return temp[len-1];
     }
     
-    // count each char in given input string
-    private String say(String input){
-        char last=input.charAt(0);
-        
-        String result="";
-        
-        int i=1;// index
-        
-        int count=1;// count for each char
-        while (i<input.length()){
-            if (input.charAt(i)==last){
-                count++;
-            }
-            else{
-                result+=count;
-                result+=last;
-                
-                last=input.charAt(i);
-                count=1;
-            }
-            i++;
-        }
-        result+=count;
-        result+=last;
-        
-        return result;
-        
+    public int jump2(int[] A) {//AC
+    	if (A == null || A.length == 0)
+    	{
+    		return 0;
+    	}
+    	else
+    	{
+    		int temp = 0, maxx = 0, num = 0;
+    		int len = A.length;
+    		for (int i = 0; i < len; )
+    		{
+    			if (temp >= len-1) break;
+    			while (i <= temp)
+    			{
+    				maxx = Math.max(maxx, i+A[i]);
+    				i++;
+    			}
+    			num++;
+    			temp = maxx;
+    		}
+    		return num;
+    	}
     }
+    
     public void test () {
-    	System.out.println(countAndSay(9));
-    	System.out.println(countAndSay2(4));
+    	int A[] = {2, 3, 1, 1, 4};
+    	int B[] = {1, 2};
+    	System.out.println(jump(B));
     }
 }
