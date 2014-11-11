@@ -211,7 +211,7 @@ public class Problems12 {
     	if (obj1.start > obj2.end) return false;
     	else return true;
     }
-    
+    //125
     public int maxProduct(int[] A) {//AC
         int min_local = A[0];
         int max_local = A[0];
@@ -225,9 +225,60 @@ public class Problems12 {
         }
         return max_global;
     }
+    
+    //126
+    public void nextPermutation(int[] num) {//AC
+    	 if (num == null || num.length < 2)
+         {
+         	return;
+         }
+         else
+         {
+         	int len = num.length;
+         	int i = len-1;
+         	while (i >= 1 && num[i-1] >= num[i])
+         	{
+         		--i;
+        		}
+         	--i;
+         	if (i == -1 && num[0] >= num[1])
+         	{
+         		Arrays.sort(num);
+         		return;
+         	}
+         	int j = i + 1;
+         	int min_above_index = i + 1;
+         	while (j < len)
+         	{
+         		if (num[j] < num[min_above_index] && num[j] > num[i])
+         		{
+         			min_above_index = j;
+         		}
+         		++j;
+         	}
+         	int temp = num[i];
+         	num[i] = num[min_above_index];
+         	num[min_above_index] = temp;
+         	int temp_array[] = new int[len - i - 1];
+         	//sort the second part
+         	for (int k = 0; k < len-1-i; ++k)
+         	{
+         		temp_array[k] = num[i + k + 1];
+         	}
+         	Arrays.sort(temp_array);
+         	for (int k = 0; k < temp_array.length; ++k)
+         	{
+         		num[i+k+1] = temp_array[k];
+         	}
+         }
+    }
 
     public void test () {
-    	int A[] = {2, 3};
-    	System.out.println(maxProduct(A));
+    	int num[] = {5, 1, 1};
+    	nextPermutation(num);
+    	for (int x = 0; x < num.length; ++x)
+    	{
+    		System.out.println(num[x]);
+    	}
     }
 }
