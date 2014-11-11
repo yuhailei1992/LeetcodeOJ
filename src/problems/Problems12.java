@@ -80,10 +80,6 @@ public class Problems12 {
         return ret.toString();
     }
     
-    public String longestPalindrome(String s) {
-        return null;
-    }
-    
     public int jump(int[] A) {//TLE
     	int len = A.length;
     	int temp[] = new int[len];
@@ -272,13 +268,62 @@ public class Problems12 {
          	}
          }
     }
-
+    //127
+    public String longestPalindrome(String s) {//AC
+    	if (s == null || s.length() < 2) 
+    		return s;
+    	char temp[] = s.toCharArray();
+        int max_l = 1;
+        int max_pos = 0;
+        int len = s.length();
+        int left, right, i;
+        for (i = 1; i < len; ++i)
+        {
+        	left = i;
+        	right = i;
+        	
+        	while (left > 0 && temp[left] == temp[i])
+        		--left;
+        	if (temp[left] != temp[i])
+        		++left;
+        	while (right < len-1 && temp[right] == temp[i])
+        		++right;
+        	if (temp[right] != temp[i])
+        		--right;
+        	
+        	System.out.println("l" + left + " " + "r" + right);
+        	while (left >= 0 && right < len && temp[left] == temp[right])
+        	{
+        		--left;
+        		++right;
+        	}
+        	if (left < 0 || right >= len || temp[left] != temp[right])
+        	{
+        		++left;
+        		--right;
+        	}
+        	
+        	if (right - left + 1 > max_l)
+        	{
+        		max_l = right - left + 1;
+        		max_pos = left;
+        	}
+        }
+        System.out.println(max_pos + " " + max_l);
+        return s.substring(max_pos, max_pos+max_l);
+    }
+    //128
+    public List<String> fullJustify(String[] words, int L) {
+        return null;
+    }
+    //129
+    public int minDistance(String word1, String word2) {
+        return 0;
+    }
+    
+    
+    
     public void test () {
-    	int num[] = {5, 1, 1};
-    	nextPermutation(num);
-    	for (int x = 0; x < num.length; ++x)
-    	{
-    		System.out.println(num[x]);
-    	}
+    	System.out.println(longestPalindrome("abb"));
     }
 }
