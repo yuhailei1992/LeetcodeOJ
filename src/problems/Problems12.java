@@ -221,7 +221,6 @@ public class Problems12 {
         }
         return max_global;
     }
-    
     //126
     public void nextPermutation(int[] num) {//AC
     	 if (num == null || num.length < 2)
@@ -320,10 +319,57 @@ public class Problems12 {
     public int minDistance(String word1, String word2) {
         return 0;
     }
-    
-    
+    //130
+    public boolean isMatch(String s, String p) {//AC
+        if (s == null && (p == null || p == "*"))
+        {
+            return true;
+        }
+        else
+        {
+            char s_arr[] = s.toCharArray();
+            char p_arr[] = p.toCharArray();
+            int s_len = s.length();
+            int p_len = p.length();
+            int i = 0, j = 0;
+            int star = -1;
+            int ss = 0;
+            while (i < s_len)
+            {
+                if (j < p_len && (s_arr[i] == p_arr[j] || p_arr[j] == '?'))
+                {
+                    ++i;
+                    ++j;
+                    continue;
+                }
+                else if (j < p_len && p_arr[j] == '*')
+                {
+                    star = j;
+                    j++;
+                    ss = i;
+                    continue;
+                }
+                else if (star != -1 && i < s_len)
+                {
+                    j = star+1;
+                    i = ++ss;
+                    continue;
+                }
+                else return false;
+            }
+            while (j < p_len){
+            	if (p_arr[j] != '*')
+            		return false;
+            	++j;
+            }
+            return true;
+        }
+    }
     
     public void test () {
-    	System.out.println(longestPalindrome("abb"));
+    	if (isMatch("aa", "*")){
+    		System.out.println("h");
+    	}
+    	
     }
 }
