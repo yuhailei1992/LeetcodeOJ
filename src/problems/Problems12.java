@@ -1,4 +1,6 @@
 package problems;
+import java.util.*;
+import problems.Datastructures.Interval;
 
 public class Problems12 {
     public boolean exist(char[][] board, String word) {//AC
@@ -82,7 +84,7 @@ public class Problems12 {
         return null;
     }
     
-    public int jump(int[] A) {
+    public int jump(int[] A) {//TLE
     	int len = A.length;
     	int temp[] = new int[len];
     	for (int i = 1; i < len; ++i)
@@ -133,9 +135,79 @@ public class Problems12 {
     	}
     }
     
+    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {//AC
+        
+    	List<Interval> ret = new ArrayList<Interval>();
+        
+        if (intervals == null || intervals.size() == 0)
+        {
+            ret.add(newInterval);
+            return ret;
+        }
+        
+        for (int i = 0; i < intervals.size(); ++i)
+        {
+        	if (newInterval.end < intervals.get(i).start) 
+        	{
+        		ret.add(newInterval);
+        		for ( ; i < intervals.size(); ++i)
+        		{
+        			ret.add(intervals.get(i));
+        		}
+        		break;
+        	}
+        	else if (newInterval.start > intervals.get(i).end)
+        	{
+        	    ret.add(intervals.get(i));
+        		continue;
+        	}
+        	else if (hasOverlap(intervals.get(i), newInterval))
+        	{
+        	    Interval curr = new Interval(Math.min(intervals.get(i).start, newInterval.start), 
+        				Math.max(intervals.get(i).end, newInterval.end));
+        		//merge afterwards
+        		int j = i+1;
+        		while (j < intervals.size() && hasOverlap(curr, intervals.get(j)))
+        		{
+        		    //update curr
+        			curr.end = Math.max(curr.end, intervals.get(j).end);
+        			j++;
+        		}
+        		ret.add(curr);
+        		while (j < intervals.size())
+        		{
+        		    ret.add(intervals.get(j));
+        		    ++j;
+        		    break;
+        		}
+        	}
+        }
+        if (newInterval.start > intervals.get(intervals.size()-1).end)
+        {
+        	ret.add(newInterval);
+        }
+        return ret;
+    
+    }
+    
+    private boolean hasOverlap(Interval obj1, Interval obj2)
+    {
+    	if (obj1.end < obj2.start) return false;
+    	if (obj1.start > obj2.end) return false;
+    	else return true;
+    }
+
     public void test () {
-    	int A[] = {2, 3, 1, 1, 4};
-    	int B[] = {1, 2};
-    	System.out.println(jump(B));
+    	Interval x = new Interval(1, 5);
+    	Interval y = new Interval(6, 8);
+    	List<Interval> t = new ArrayList<Interval>();
+    	t.add(x);
+    	t.add(y);
+    	Interval z = new Interval(5, 6);
+    	List<Interval> tmp = insert(t, z);
+    	for (int j = 0; j < tmp.size(); ++j)
+    	{
+    		System.out.println(tmp.get(j).start + " " + tmp.get(j).end);
+    	}
     }
 }
