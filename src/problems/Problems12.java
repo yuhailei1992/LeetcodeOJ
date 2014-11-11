@@ -134,7 +134,22 @@ public class Problems12 {
     		return num;
     	}
     }
-    
+    /**
+     *  Interval x = new Interval(1, 5);
+    	Interval y = new Interval(6, 8);
+    	List<Interval> t = new ArrayList<Interval>();
+    	t.add(x);
+    	t.add(y);
+    	Interval z = new Interval(5, 6);
+    	List<Interval> tmp = insert(t, z);
+    	for (int j = 0; j < tmp.size(); ++j)
+    	{
+    		System.out.println(tmp.get(j).start + " " + tmp.get(j).end);
+    	}
+     * @param intervals
+     * @param newInterval
+     * @return
+     */
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {//AC
         
     	List<Interval> ret = new ArrayList<Interval>();
@@ -196,18 +211,23 @@ public class Problems12 {
     	if (obj1.start > obj2.end) return false;
     	else return true;
     }
+    
+    public int maxProduct(int[] A) {//AC
+        int min_local = A[0];
+        int max_local = A[0];
+        int max_global = A[0];
+        for (int i = 1; i < A.length; ++i)
+        {
+        	int min_local_copy = min_local;
+        	min_local = Math.min(Math.min(A[i], A[i] * min_local), A[i] * max_local);
+        	max_local = Math.max(Math.max(A[i], A[i] * min_local_copy), A[i] * max_local);
+        	max_global = Math.max(max_global, max_local);
+        }
+        return max_global;
+    }
 
     public void test () {
-    	Interval x = new Interval(1, 5);
-    	Interval y = new Interval(6, 8);
-    	List<Interval> t = new ArrayList<Interval>();
-    	t.add(x);
-    	t.add(y);
-    	Interval z = new Interval(5, 6);
-    	List<Interval> tmp = insert(t, z);
-    	for (int j = 0; j < tmp.size(); ++j)
-    	{
-    		System.out.println(tmp.get(j).start + " " + tmp.get(j).end);
-    	}
+    	int A[] = {2, 3};
+    	System.out.println(maxProduct(A));
     }
 }
