@@ -393,8 +393,34 @@ public class Problems12 {
         return ret;
     }
     //129
-    public int minDistance(String word1, String word2) {
-        return 0;
+    public int minDistance(String word1, String word2) {//AC
+        int dp[][] = new int[word1.length()+1][word2.length()+1];
+    	//initialization
+    	for (int i = 0; i < dp.length; ++i)
+    	{
+    		dp[i][0] = i;
+    	}
+    	for (int i = 0; i < dp[0].length; ++i)
+    	{
+    		dp[0][i] = i;
+    	}
+    	
+    	for (int i = 1; i < dp.length; ++i)
+    	{
+    		for (int j = 1; j < dp[0].length; ++j)
+    		{
+    			if (word1.charAt(i-1) == word2.charAt(j-1))
+    				dp[i][j] = dp[i-1][j-1];
+    			else
+    			{
+    				int replace = dp[i-1][j-1] + 1;
+    				int insert = dp[i-1][j] + 1;
+    				int delete = dp[i][j-1] + 1;
+    				dp[i][j] = Math.min(Math.min(replace, insert), delete);
+    			}
+    		}
+    	}
+        return dp[word1.length()][word2.length()];
     }
     //130
     public boolean isMatch(String s, String p) {//AC
