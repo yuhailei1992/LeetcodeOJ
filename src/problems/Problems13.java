@@ -34,8 +34,34 @@ public class Problems13 {
     }
     
     //137
-    public boolean wordBreak(String s, Set<String> dict) {
-        return true;
+    public boolean wordBreak(String s, Set<String> dict) {//AC
+    	int len = s.length();
+    	boolean dp[][] = new boolean[len+1][len];
+    	dp[0][0] = true;
+    	for (int i = 0; i < len; ++i)
+    	{
+    		for (int j = i+1; j <= len; ++j)
+    		{
+    			String tmp = s.substring(i, j);
+    			if (dict.contains(tmp) && dp[i][0] == true)
+    			{
+    				//dp[i][j] = true;
+    				dp[j][0] = true;
+    			}
+    		}
+    	}
+    	for (int i = 0; i < dp.length; ++i)
+    	{
+    		for (int j = 0; j < dp[0].length; ++j)
+    		{
+    			if (dp[i][j])
+    				System.out.print('O');
+    			else 
+    				System.out.print('X');
+    		}
+    		System.out.println();
+    	}
+    	return dp[len][0];
     }
     
     //138
@@ -54,6 +80,12 @@ public class Problems13 {
     }
     
     public void test () {
-    	
+    	Set<String> st = new HashSet<String>();
+    	st.add("leet");
+    	st.add("code");
+    	if (wordBreak("leetcode", st))
+    	{
+    		System.out.println("leetcode");
+    	}
     }
 }
