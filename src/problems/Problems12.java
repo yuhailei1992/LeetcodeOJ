@@ -312,8 +312,85 @@ public class Problems12 {
         return s.substring(max_pos, max_pos+max_l);
     }
     //128
-    public List<String> fullJustify(String[] words, int L) {
-        return null;
+    public List<String> fullJustify(String[] words, int L) {//AC
+    	int i = 0;
+    	int temp_len = 0;
+    	
+    	List<String> ret = new ArrayList<String>();
+    	// process line by line
+    	while (i < words.length)
+    	{
+    		temp_len = 0;
+    		List<String> temp_ls = new ArrayList<String>();
+    		while (i < words.length && temp_len + words[i].length() <= L-temp_ls.size())
+    		{
+    			temp_len += (words[i].length());
+    			temp_ls.add(words[i]);
+    			++i;
+    		}
+    		// do some process
+    		int gap = L - temp_len;
+    		int num = temp_ls.size();
+    		// lines that have only one word
+    		if (num == 1)
+    		{
+    		    StringBuilder temp_str = new StringBuilder();
+    		    temp_str.append(temp_ls.get(0));
+    		    int j = 0;
+    		    while (j < L - temp_ls.get(0).length())
+    		    {
+    		        temp_str.append(" ");
+    		        ++j;
+    		    }
+    			ret.add(temp_str.toString());
+    		}
+    		// lines that have multiple words
+    		else
+    		{
+    			int div = gap / (num-1);
+    			int rem = gap % (num-1);
+        		StringBuilder temp_str = new StringBuilder();
+        		for (int j = 0; j < num; ++j)
+        		{
+        			if (j == num-1)
+        			{
+        				temp_str.append(temp_ls.get(j));
+        			}
+        			else if (j < rem)
+        			{
+        				temp_str.append(temp_ls.get(j));
+        				for (int k = 0; k < div + 1; ++k)
+        					temp_str.append(" ");
+        			}
+        			else
+        			{
+        				temp_str.append(temp_ls.get(j));
+        				for (int k = 0; k < div; ++k)
+        					temp_str.append(" ");
+        			}
+        		}
+        		ret.add(temp_str.toString());
+    		}
+    		temp_ls.clear();
+    	}
+    	// handle the last line
+    	String str = ret.get(ret.size()-1);
+    	ret.remove(ret.size()-1);
+    	
+    	String[] str_arr = str.split("\\s+");
+    	StringBuilder strblr = new StringBuilder();
+    	for (int j = 0; j < str_arr.length; ++j)
+    	{
+    	    strblr.append(str_arr[j]);
+    		if (j != str_arr.length-1)
+    			strblr.append(" ");
+    	}
+    	while (strblr.length() < L)
+    	{
+    	    strblr.append(" ");
+    	}
+    	ret.add(strblr.toString());
+        return ret;
     }
     //129
     public int minDistance(String word1, String word2) {
@@ -367,9 +444,8 @@ public class Problems12 {
     }
     
     public void test () {
-    	if (isMatch("aa", "*")){
-    		System.out.println("h");
-    	}
-    	
+    	String[] str2 = {"What","must","be","shall","be."};
+    	int L = 12;
+    	System.out.println(fullJustify(str2, L));
     }
 }
