@@ -105,25 +105,76 @@ public class Problems13 {
     }
     
     //135
-    public boolean isMatch(String s, String p) {
-    	if (s == null && p == null)
-    		return true;
-    	
-    	else if (s.length() == 1 && p.length() == 1)
+    public boolean isMatch(String s, String p) {//AC
+    	if (p.length() == 0)
+    		return s.length() == 0;
+    	if (p.length() == 1)
     	{
-    		if (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.')
+    		if (s.length() == 1 && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.'))
     			return true;
     		else
     			return false;
     	}
-    	
-    	else if (p.charAt(1) != '*')
+    	if (p.charAt(1) != '*')
     	{
-    		return isMatch(s.substring(1), p.substring(1));
+    		if (s.length() < 1)
+    			return false;
+    		else if ((s.charAt(0) == p.charAt(0) || p.charAt(0) == '.') && 
+    				isMatch(s.substring(1), p.substring(1)))
+    			return true;
+    		else return false;
     	}
-    	
-        return true;
+    	while (s.length() > 0 && 
+    			(s.charAt(0) == p.charAt(0) || p.charAt(0) == '.'))
+    	{
+    		if (isMatch(s, p.substring(2))) return true;
+    		s = s.substring(1);
+    	}
+    	return isMatch(s, p.substring(2));
     }
+    
+    public boolean isMatch2(String s, String p)//wrong
+    {
+    	if (s == null && p == null)
+    		return true;
+    	int i = 0, j = 0;
+    	int len_s = s.length();
+    	int len_p = p.length();
+    	while (i < len_s && j < len_p)
+    	{
+    		if (s.charAt(i) == p.charAt(j))
+    		{
+    			++i;
+    			++j;
+    		}
+    		else if (p.charAt(j) == '.')
+    		{
+    			++i;
+    			++j;
+    		}
+    		else if (p.charAt(j) == '*')
+    		{
+    			if ((i > 0 && j > 0) && 
+    			    ((s.charAt(i) == s.charAt(i-1) && p.charAt(j-1) == s.charAt(i-1)) ||
+    			     p.charAt(j-1) == '.'))
+    			{
+    				++i;
+    				++j;
+    			}
+    			else return false;
+    		}
+    		else if (j + 1 < len_p && p.charAt(j+1) == '*')
+    		{
+    			j += 2;
+    		}
+    		else return false;
+    	}
+    	if (i == len_s && j == len_p)
+    		return true;
+    	else 
+    		return false;
+    }
+    
     
     //136
     public boolean isScramble(String s1, String s2) {
@@ -384,9 +435,11 @@ public class Problems13 {
     }
     
     public void test () {
-    	int A[] = {};
-    	int B[] = {4};
-    	System.out.println(findMedianSortedArrays(A, B));
-    	
+    	String s = "aaa";
+    	String p = "ab*bbbcd";
+    	if (isMatch(s, p))
+    	{
+    		System.out.println("hey");
+    	}
     }
 }
