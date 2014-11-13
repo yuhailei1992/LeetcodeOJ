@@ -285,13 +285,55 @@ public class Problems13 {
     }
     
     //140
-    public List<List<Integer>> combinationSum2(int[] num, int target) {
-        return null;
+    public List<List<Integer>> combinationSum2(int[] num, int target) {//AC
+    	Arrays.sort(num);
+    	return combine_helper2(num, target, 0);
+    }
+    
+    private List<List<Integer>> combine_helper2 (int[] candidates, int target, int start)
+    {
+    	List<List<Integer>> ret = new ArrayList<List<Integer>>();
+    	for (int i = start; i < candidates.length; ++i)
+    	{
+        	if (candidates[i] > target)
+        	{
+        		return ret;
+        	}
+        	else if (candidates[i] == target)
+        	{
+        		System.out.println("equal");
+        		ArrayList<Integer> tmp = new ArrayList<Integer>();
+        		tmp.add(candidates[i]);
+        		ret.add(tmp);
+        		return ret;
+        	}
+        	else
+        	{
+	        	System.out.println(target - candidates[i]);
+				List<List<Integer>> sub = 
+						combine_helper2(candidates, target-candidates[i], i+1);
+				System.out.println(sub);
+				if (sub != null && sub.size() != 0)
+				{
+	    			for (List<Integer> ls : sub)
+	    			{
+	    				ArrayList<Integer> tmp = new ArrayList<Integer>();
+	    				tmp.add(candidates[i]);
+	    				System.out.println(candidates[i]);
+	    				tmp.addAll(ls);
+	    				System.out.println(tmp);
+	    				if (!ret.contains(tmp))
+	    					ret.add(tmp);
+	    			}
+				}
+        	}
+    	}
+    	return ret;
     }
     
     public void test () {
-    	int num[] = {1, 2};
-    	int target = 2;
-    	System.out.println(combinationSum(num, target));
+    	int num[] = {2, 2, 2};
+    	int target = 4;
+    	System.out.println(combinationSum2(num, target));
     }
 }
