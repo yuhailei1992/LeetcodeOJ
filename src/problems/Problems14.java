@@ -7,32 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 public class Problems14 {
-	public int atoi(String str)//AC
-	{
-		if (str == null || str.length() == 0)
-		{
-			return 0;
-		}
-		str = str.trim();
-		char[] str_arr = str.toCharArray();
-		double val = 0;
-		int i = 0;
-		if (str_arr[0] == '+') ++i;
-		else if (str_arr[0] == '-') ++i;
-		for ( ; i < str_arr.length; ++i)
-		{
-			if (str_arr[i] < '0' || str_arr[i] > '9') break;
-			val *= 10;
-			val += (str_arr[i] - 48);
-		}
-		if (str_arr[0] == '-')
-		{
-			val = -val;
-		}
-		if (str_arr[0] != '-' && val + Integer.MAX_VALUE + 1 == 0)
-			val = Integer.MAX_VALUE;
-		return (int)val;
-	}
 	
     public List<String> wordBreak(String s, Set<String> dict) {
     	int len = s.length();
@@ -72,15 +46,18 @@ public class Problems14 {
         return ret;
     }
     
-    private static void permute_tool (List<List<Integer>> ret, ArrayList<Integer> tmp, int num[], boolean[] visited) {
-    	if (tmp.size() == num.length) {
+    private static void permute_tool (List<List<Integer>> ret, 
+    		ArrayList<Integer> tmp, int num[], boolean[] visited) 
+    {
+    	if (tmp.size() == num.length) 
+    	{
     		ret.add(new ArrayList<Integer>(tmp));
     		return;
     	}
-    	else {
-    		for (int i = 0; i < num.length; ++i) {
-    			//if (tmp.contains(num[i])) continue;
-    			//else {
+    	else 
+    	{
+    		for (int i = 0; i < num.length; ++i) 
+    		{
     			if (!visited[i])
     			{
     				tmp.add(num[i]);
