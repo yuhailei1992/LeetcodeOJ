@@ -6,9 +6,45 @@ import java.util.LinkedList;
 
 public class Problems13 {
 	//131
-    public double findMedianSortedArrays(int A[], int B[]) {
-    	
-        return 0.0;
+    public double findMedianSortedArrays(int A[], int B[]) {//AC
+    	int total = A.length + B.length;
+    	if (total % 2 == 1)
+    	{
+    		return find(A, A.length, B, B.length, (A.length+B.length)/2+1);
+    	}
+    	else 
+    	{
+    		return (find(A, A.length, B, B.length, (A.length+B.length)/2) +
+    				find(A, A.length, B, B.length, (A.length+B.length)/2+1)) / 2;
+    	}
+    }
+    
+    private double find (int a[], int m, int b[], int n, int k)
+    {
+    	if (m > n)
+    		return find(b, n, a, m, k);
+    	if (m == 0)
+    	{
+    		return b[k-1];
+    	}
+    	if (k == 1)
+    	{
+    		return Math.min(a[0],  b[0]);
+    	}
+    	int pa = Math.min(m, k / 2);
+    	int pb = k - pa;
+    	if (a[pa-1] < b[pb-1])
+    	{
+    		int[] tmp = Arrays.copyOfRange(a, pa, a.length);
+    		return find(tmp, m - pa, b, n, k - pa);
+    	}
+    	else if (a[pa-1] > b[pb-1])
+    	{
+    		int[] tmp = Arrays.copyOfRange(b, pb, b.length);
+    		return find(a, m, tmp, n - pb, k - pb);
+    	}
+    	else //equal
+    		return a[pa-1];
     }
     
     //132
@@ -70,6 +106,22 @@ public class Problems13 {
     
     //135
     public boolean isMatch(String s, String p) {
+    	if (s == null && p == null)
+    		return true;
+    	
+    	else if (s.length() == 1 && p.length() == 1)
+    	{
+    		if (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.')
+    			return true;
+    		else
+    			return false;
+    	}
+    	
+    	else if (p.charAt(1) != '*')
+    	{
+    		return isMatch(s.substring(1), p.substring(1));
+    	}
+    	
         return true;
     }
     
@@ -332,8 +384,9 @@ public class Problems13 {
     }
     
     public void test () {
-    	int num[] = {2, 2, 2};
-    	int target = 4;
-    	System.out.println(combinationSum2(num, target));
+    	int A[] = {};
+    	int B[] = {4};
+    	System.out.println(findMedianSortedArrays(A, B));
+    	
     }
 }
