@@ -170,6 +170,15 @@ public class Problems13 {
     	return false;
     }
     
+    /*
+     *  HashSet<String> dict = new HashSet<String>();
+    	dict.add("a");
+    	dict.add("abc");
+    	dict.add("b");
+    	dict.add("cd");
+    	System.out.println(wordBreak2("abcd", dict));
+     */
+    
     public List<String> wordBreak2(String s, Set<String> dict)//AC
     {
     	if (s == null || s.length() == 0)
@@ -224,12 +233,55 @@ public class Problems13 {
     
     //138
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
+    	
         return null;
     }
     
     //139
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        return null;
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {//AC
+    	Arrays.sort(candidates);
+    	return combine_helper(candidates, target, 0);
+    }
+    
+    private List<List<Integer>> combine_helper (int[] candidates, int target, int start)
+    {
+    	List<List<Integer>> ret = new ArrayList<List<Integer>>();
+    	for (int i = start; i < candidates.length; ++i)
+    	{
+        	if (candidates[i] > target)
+        	{
+        		return ret;
+        	}
+        	else if (candidates[i] == target)
+        	{
+        		System.out.println("equal");
+        		ArrayList<Integer> tmp = new ArrayList<Integer>();
+        		tmp.add(candidates[i]);
+        		ret.add(tmp);
+        		return ret;
+        	}
+        	else
+        	{
+	        	System.out.println(target - candidates[i]);
+				List<List<Integer>> sub = 
+						combine_helper(candidates, target-candidates[i], i);
+				System.out.println(sub);
+				if (sub != null && sub.size() != 0)
+				{
+	    			for (List<Integer> ls : sub)
+	    			{
+	    				ArrayList<Integer> tmp = new ArrayList<Integer>();
+	    				tmp.add(candidates[i]);
+	    				System.out.println(candidates[i]);
+	    				tmp.addAll(ls);
+	    				System.out.println(tmp);
+	    				ret.add(tmp);
+	    			}
+	    			//return ret;
+				}
+        	}
+    	}
+    	return ret;
     }
     
     //140
@@ -238,11 +290,8 @@ public class Problems13 {
     }
     
     public void test () {
-    	HashSet<String> dict = new HashSet<String>();
-    	dict.add("a");
-    	dict.add("abc");
-    	dict.add("b");
-    	dict.add("cd");
-    	System.out.println(wordBreak2("abcd", dict));
+    	int num[] = {1, 2};
+    	int target = 2;
+    	System.out.println(combinationSum(num, target));
     }
 }
