@@ -108,6 +108,47 @@ public class Problems14 {
     	return num[start];
     }
     
+    public List<List<String>> partition(String s) {//AC
+    	List<List<String>> ret = new ArrayList<List<String>>();
+    	List<String> tmp = new ArrayList<String>();
+        sub(s, 0, ret, tmp);
+        return ret;
+    }
+    
+    private void sub (String s, int start, List<List<String>> ret, List<String> tmp)
+    {
+    	if (start == s.length())
+    	{
+    		ret.add(new ArrayList<String>(tmp));
+    		return;
+    	}
+    	
+        for (int end = start + 1; end <= s.length(); ++end)
+        {
+            String curr = s.substring(start, end);
+            if (isValid(curr, 0, curr.length()-1))
+            {
+            	tmp.add(curr);
+            	sub(s, end, ret, tmp);
+            	tmp.remove(tmp.size()-1);
+            }
+        }
+    }
+    
+    private boolean isValid (String s, int start, int end)
+    {
+        while (start < end)
+        {
+            if (s.charAt(start) != s.charAt(end))
+            {
+                return false;
+            }
+            ++start;
+            --end;
+        }
+        return true;
+    }
+    
     public List<List<Integer>> subsets(int[] S) {
         List<List<Integer>> ret = new ArrayList<List<Integer>> ();
         if (S.length == 1) {
@@ -136,7 +177,7 @@ public class Problems14 {
     }
     
 	public void test () {
-		int num[] = {1, 2, 1, 1};
-		System.out.println(findMin(num));
+		String s = "abb";
+		System.out.println(partition(s));
 	}
 }
