@@ -71,9 +71,72 @@ public class Problems14 {
     		}
     	}
     }
-	
+    public List<List<Integer>> subsetsWithDup(int[] num) {
+    	return null;
+    }
+    
+    public int findMin(int[] num) {//AC
+        //
+    	int start = 0;
+    	int end = num.length - 1;
+    	
+    	while (num[start] >= num[end])
+    	{
+    		if (end - start == 1)
+    			return num[end];
+    		int mid = (start + end) / 2;
+    		if (num[start] == num[mid] && num[mid] == num[end])
+    		{
+    			//sequential search
+    			int min = num[start];
+    			for (int i = start + 1; i <= end; ++i)
+    			{
+    				if (num[i] < min)
+    					min = num[i];
+    			}
+    			return min;
+    		}
+    		else if (num[mid] >= num[start])
+    		{
+    			start = mid;
+    		}
+    		else
+    		{
+    			end = mid;
+    		}
+    	}
+    	return num[start];
+    }
+    
+    public List<List<Integer>> subsets(int[] S) {
+        List<List<Integer>> ret = new ArrayList<List<Integer>> ();
+        if (S.length == 1) {
+        	List<Integer> temp0 = new ArrayList<Integer>();
+        	List<Integer> temp1 = new ArrayList<Integer>();
+        	temp1.add(S[0]);
+        	ret.add(temp0);
+        	ret.add(temp1);
+        	return ret;
+        }
+        else {
+        	Arrays.sort(S);
+            int len = S.length;
+            int temp[] = Arrays.copyOf(S, len-1);
+            List<List<Integer>> subret = subsets(temp);
+            for (List<Integer> i : subret) {
+            	ret.add(i);
+            }
+            for (List<Integer> j : subret) {
+            	List<Integer> i2 = new ArrayList<Integer>(j);
+            	i2.add(S[len-1]);
+            	ret.add(i2);
+            }
+            return ret;
+        }
+    }
+    
 	public void test () {
-		int num[] = {1, 1, 3};
-		System.out.println(permuteUnique(num));
+		int num[] = {1, 2, 1, 1};
+		System.out.println(findMin(num));
 	}
 }
