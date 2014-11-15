@@ -277,6 +277,42 @@ public class Problems14 {
             return ret;
         }
     }
+    /**
+     * 	
+		      5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \    / \
+        7    2  5   1
+		TreeNode n0 = new TreeNode(5);
+		TreeNode n1 = new TreeNode(4);
+		TreeNode n2 = new TreeNode(8);
+		TreeNode n3 = new TreeNode(11);
+		TreeNode n4 = new TreeNode(13);
+		TreeNode n5 = new TreeNode(4);
+		TreeNode n6 = new TreeNode(7);
+		TreeNode n7 = new TreeNode(2);
+		TreeNode n8 = new TreeNode(5);
+		TreeNode n9 = new TreeNode(1);
+		n0.left = n1;
+		n0.right = n2;
+		n1.left = n3;
+		n2.left = n4;
+		n2.right = n5;
+		n3.left = n6;
+		n3.right = n7;
+		n5.left = n8;
+		n5.right = n9;
+		TreeNode m0 = new TreeNode(-2);
+		TreeNode m1 = new TreeNode(-3);
+		m0.left = m1;
+		System.out.println(pathSum(m0, -5));
+     * @param root
+     * @param sum
+     * @return
+     */
     
     public List<List<Integer>> pathSum(TreeNode root, int sum) {//AC
     	List<List<Integer>> ret = new ArrayList<List<Integer>>();
@@ -318,38 +354,31 @@ public class Problems14 {
     	}
     }
     
+    public int numDistinct(String S, String T) {//AC
+        int dp[][] = new int[T.length()+1][S.length()+1];
+        dp[0][0] = 1;
+        for (int i = 1; i <= T.length(); ++i)
+        	dp[i][0] = 0;
+        for (int i = 1; i <= S.length(); ++i)
+        	dp[0][i] = 1;
+        for (int i = 1; i <= T.length(); ++i)
+        {
+        	for (int j = 1; j <= S.length(); ++j)
+        	{
+        		int tmp = dp[i][j-1];
+        		if (S.charAt(j-1) == T.charAt(i-1))
+        		{
+        			tmp += dp[i-1][j-1];
+        		}
+        		dp[i][j] = tmp;
+        	}
+        }
+        return dp[dp.length-1][dp[0].length-1];
+    }
+    
 	public void test () {
-		/**
-		 *  5
-             / \
-            4   8
-           /   / \
-          11  13  4
-         /  \    / \
-        7    2  5   1
-		 */
-		TreeNode n0 = new TreeNode(5);
-		TreeNode n1 = new TreeNode(4);
-		TreeNode n2 = new TreeNode(8);
-		TreeNode n3 = new TreeNode(11);
-		TreeNode n4 = new TreeNode(13);
-		TreeNode n5 = new TreeNode(4);
-		TreeNode n6 = new TreeNode(7);
-		TreeNode n7 = new TreeNode(2);
-		TreeNode n8 = new TreeNode(5);
-		TreeNode n9 = new TreeNode(1);
-		n0.left = n1;
-		n0.right = n2;
-		n1.left = n3;
-		n2.left = n4;
-		n2.right = n5;
-		n3.left = n6;
-		n3.right = n7;
-		n5.left = n8;
-		n5.right = n9;
-		TreeNode m0 = new TreeNode(-2);
-		TreeNode m1 = new TreeNode(-3);
-		m0.left = m1;
-		System.out.println(pathSum(m0, -5));
+		String s = "rabbbit";
+		String t = "rabbit";
+		System.out.println(numDistinct(s, t));
 	}
 }
