@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import problems.Datastructures.TreeNode;
+
 public class Problems14 {
 	
     public List<String> wordBreak(String s, Set<String> dict) {
@@ -276,8 +278,78 @@ public class Problems14 {
         }
     }
     
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {//AC
+    	List<List<Integer>> ret = new ArrayList<List<Integer>>();
+    	List<Integer> tmp = new ArrayList<Integer>();
+    	pathSum_sub(root, sum, ret, tmp);
+        return ret;
+    }
+    
+    private void pathSum_sub (TreeNode node, int sum, List<List<Integer>> ret, List<Integer> tmp)
+    {
+    	if (node == null)
+    		return;
+    	if (node.left == null && node.right == null)
+    	{
+    		if (node.val == sum)
+    		{
+    			tmp.add(node.val);
+    			ret.add(new ArrayList<Integer>(tmp));
+    			tmp.remove(tmp.size()-1);
+    		}
+    		return;
+    	}
+    	else
+    	{
+			if (node.left != null)
+			{
+				tmp.add(node.val);
+				pathSum_sub(node.left, sum-node.val, ret, tmp);
+    			tmp.remove(tmp.size()-1);
+			}
+    		
+			if (node.right != null)
+			{
+				tmp.add(node.val);
+				pathSum_sub(node.right, sum-node.val, ret, tmp);
+    			tmp.remove(tmp.size()-1);
+			}
+    		return;
+    	}
+    }
+    
 	public void test () {
-		String s = "dde";
-		minCut2(s);
+		/**
+		 *  5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \    / \
+        7    2  5   1
+		 */
+		TreeNode n0 = new TreeNode(5);
+		TreeNode n1 = new TreeNode(4);
+		TreeNode n2 = new TreeNode(8);
+		TreeNode n3 = new TreeNode(11);
+		TreeNode n4 = new TreeNode(13);
+		TreeNode n5 = new TreeNode(4);
+		TreeNode n6 = new TreeNode(7);
+		TreeNode n7 = new TreeNode(2);
+		TreeNode n8 = new TreeNode(5);
+		TreeNode n9 = new TreeNode(1);
+		n0.left = n1;
+		n0.right = n2;
+		n1.left = n3;
+		n2.left = n4;
+		n2.right = n5;
+		n3.left = n6;
+		n3.right = n7;
+		n5.left = n8;
+		n5.right = n9;
+		TreeNode m0 = new TreeNode(-2);
+		TreeNode m1 = new TreeNode(-3);
+		m0.left = m1;
+		System.out.println(pathSum(m0, -5));
 	}
 }
