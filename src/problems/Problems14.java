@@ -149,6 +149,106 @@ public class Problems14 {
         return true;
     }
     
+    public int minCut(String s) {//TLE
+    	List<String> tmp = new ArrayList<String>();
+    	int[] cut = new int[2];
+        sub2(s, 0, tmp, cut);
+        return cut[0];
+    }
+    
+    private void sub2 (String s, int start, List<String> tmp, int[] cut)
+    {
+    	if (start == s.length()) //found a match!
+    	{
+    		if (cut[0] == 0)
+    		{
+    			cut[0] = tmp.size()-1;
+    		}
+    		else
+    		{
+    			if (tmp.size()-1 < cut[0])
+    			{
+    				cut[0] = tmp.size()-1;
+    			}
+    		}
+    		return;
+    	}
+    	
+        for (int end = start + 1; end <= s.length(); ++end)
+        {
+            String curr = s.substring(start, end);
+            if (isValid(curr, 0, curr.length()-1))
+            {
+            	tmp.add(curr);
+            	sub2(s, end, tmp, cut);
+            	tmp.remove(tmp.size()-1);
+            }
+        }
+    }
+    
+    public int minCut2(String s) {//AC
+    	int len = s.length();
+    	char[] s_arr = s.toCharArray();
+    	int res[] = new int[len];
+    	boolean mp[][] = new boolean[len][len];
+    	
+    	for (int start = len-1; start >= 0; --start)
+    	{
+    		for (int end = start; end < len; ++end)
+    		{
+    			if (s_arr[start] == s_arr[end] && (end - start < 2 || mp[start+1][end-1]))
+    			{
+    				mp[start][end] = true;
+    			}
+    		}
+    	}
+    	// 
+    	for (int i = 0; i < len; ++i)
+    	{
+    		for (int j = 0; j < len; ++j)
+    		{
+    			if (mp[i][j])
+    				System.out.print('O');
+    			else
+    				System.out.print('X');
+    		}
+    		System.out.println();
+    	}
+    	
+    	for (int i = 1; i < len; ++i)
+    	{
+    		if (mp[0][i])
+    		{
+    			res[i] = 0;
+    			continue;
+    		}
+    		int min = res[i-1] + 1;
+    		for (int j = 0; j < i; ++j)
+    		{
+    			if (mp[j+1][i])
+    			{
+    				System.out.println("hey");
+    				if (res[j] + 1 < min)
+    					min = res[j] + 1;
+    			}
+    		}
+    		res[i] = min;
+    		
+    		for (int k = 0; k < len; ++k)
+        	{
+        		System.out.print(res[k]);
+        		
+        	}
+    		System.out.println();
+    	}
+    	for (int i = 0; i < len; ++i)
+    	{
+    		System.out.println(res[i]);
+    		
+    	}
+    	return res[len-1];
+    }
+    
     public List<List<Integer>> subsets(int[] S) {
         List<List<Integer>> ret = new ArrayList<List<Integer>> ();
         if (S.length == 1) {
@@ -177,7 +277,7 @@ public class Problems14 {
     }
     
 	public void test () {
-		String s = "abb";
-		System.out.println(partition(s));
+		String s = "dde";
+		minCut2(s);
 	}
 }
