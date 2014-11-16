@@ -130,18 +130,41 @@ public class Problems13 {
     	recoverTree(n1);
      * @param root
      */
-    public void recoverTree(TreeNode root) {
-    	if (root == null) return;
-    	//TreeNode prev = null;
+    
+    TreeNode pre;
+    TreeNode first;
+    TreeNode second;
+    
+    public void recoverTree(TreeNode root) {//AC
+    	pre = null;
+    	first = null;
+    	second = null;
+    	
     	traverse(root);
-        return;
+    	if (first != null && second != null)
+    	{
+    		int tmp = first.val;
+    		first.val = second.val;
+    		second.val = tmp;
+    	}
     }
     
     private void traverse(TreeNode root)
     {
     	if (root == null) return;
     	traverse(root.left);
-    	System.out.println(root.val);
+    	if (pre == null)
+    		pre = root;
+    	else
+    	{
+    		if (pre.val > root.val)
+    		{
+    			if (first == null)
+    				first = pre;
+    			second = root;
+    		}
+    		pre = root;
+    	}
     	traverse(root.right);
     }
     
