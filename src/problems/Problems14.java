@@ -2,15 +2,17 @@ package problems;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import problems.Datastructures.Point;
 import problems.Datastructures.TreeNode;
 
 public class Problems14 {
-	
-    public List<String> wordBreak(String s, Set<String> dict) {
+	//141
+    public List<String> wordBreak(String s, Set<String> dict) {//AC
     	int len = s.length();
     	boolean dp[][] = new boolean[len+1][len];
     	dp[0][0] = true;
@@ -38,7 +40,7 @@ public class Problems14 {
     	}
         return null;
     }
-    
+    //142
     public static List<List<Integer>> permuteUnique(int[] num) {//AC
         List<List<Integer>> ret = new ArrayList<List<Integer>>();
         ArrayList<Integer> tmp = new ArrayList<Integer>();
@@ -73,7 +75,7 @@ public class Problems14 {
     		}
     	}
     }
-    
+    //143
     public int findMin(int[] num) {//AC
         //
     	int start = 0;
@@ -106,7 +108,7 @@ public class Problems14 {
     	}
     	return num[start];
     }
-    
+    //144
     public List<List<String>> partition(String s) {//AC
     	List<List<String>> ret = new ArrayList<List<String>>();
     	List<String> tmp = new ArrayList<String>();
@@ -184,7 +186,7 @@ public class Problems14 {
             }
         }
     }
-    
+    //145
     public int minCut2(String s) {//AC
     	int len = s.length();
     	char[] s_arr = s.toCharArray();
@@ -248,33 +250,7 @@ public class Problems14 {
     	return res[len-1];
     }
     
-    public List<List<Integer>> subsets(int[] S) {
-        List<List<Integer>> ret = new ArrayList<List<Integer>> ();
-        if (S.length == 1) {
-        	List<Integer> temp0 = new ArrayList<Integer>();
-        	List<Integer> temp1 = new ArrayList<Integer>();
-        	temp1.add(S[0]);
-        	ret.add(temp0);
-        	ret.add(temp1);
-        	return ret;
-        }
-        else {
-        	Arrays.sort(S);
-            int len = S.length;
-            int temp[] = Arrays.copyOf(S, len-1);
-            List<List<Integer>> subret = subsets(temp);
-            for (List<Integer> i : subret) {
-            	ret.add(i);
-            }
-            for (List<Integer> j : subret) {
-            	List<Integer> i2 = new ArrayList<Integer>(j);
-            	i2.add(S[len-1]);
-            	ret.add(i2);
-            }
-            return ret;
-        }
-    }
-    
+    //146
     public List<List<Integer>> subsetsWithDup(int[] num) {//AC
     	List<List<Integer>> ret = new ArrayList<List<Integer>>();
     	List<Integer> tmp = new ArrayList<Integer>();
@@ -337,7 +313,7 @@ public class Problems14 {
      * @param sum
      * @return
      */
-    
+    //147
     public List<List<Integer>> pathSum(TreeNode root, int sum) {//AC
     	List<List<Integer>> ret = new ArrayList<List<Integer>>();
     	List<Integer> tmp = new ArrayList<Integer>();
@@ -377,7 +353,7 @@ public class Problems14 {
     		return;
     	}
     }
-    
+    //148
     public int numDistinct(String S, String T) {//AC
         int dp[][] = new int[T.length()+1][S.length()+1];
         dp[0][0] = 1;
@@ -400,8 +376,62 @@ public class Problems14 {
         return dp[dp.length-1][dp[0].length-1];
     }
     
+    //149
+    public int maxPoints(Point[] points) {
+        if (points == null) return 0;
+        if (points.length <= 2) return points.length;
+        int max = 0;
+        int dup = 1;
+    	Map<Double, Integer> hm = new HashMap<Double, Integer>();
+    	
+        for (int i = 0; i < points.length; ++i)
+        {
+        	hm.clear();
+        	dup = 1;
+        	Point p = points[i];
+        	for (int j = 0; j < points.length; ++j)
+        	{
+        	    
+        		if (i == j) continue;
+        		Point tem = points[j];
+        		double k = 0.0;
+        		if (p.x == tem.x && p.y == tem.y)
+        		{
+        		    dup++;
+        		    continue;
+        		}
+        		else if (p.x == tem.x)
+        		{
+        		    k = Integer.MAX_VALUE;
+        		}
+        		else
+        		{
+        		    if (p.y == tem.y) k = 0;
+        		    // should convert type inside the equation
+        		    else k = ((double)(p.y - tem.y) / (double)(p.x - tem.x));
+        		}
+        		// put in hashmap
+    			if (hm.containsKey(k))
+    			{
+    				hm.put(k, hm.get(k)+1);
+    			}
+    			else
+    			{
+    			    hm.put(k, 1);
+    			}
+        	}
+        	
+        	if (hm.keySet().size() == 0)
+        		max = dup;
+        	for (double key : hm.keySet())
+        	{
+        		max = Math.max(max, dup + hm.get(key));
+        	}
+        }
+        return max;
+    }
+    
 	public void test () {
-		int num[] = {1,2,3,4,5,6,7,8,10,0};
-		System.out.println(subsetsWithDup(num));
+		
 	}
 }
