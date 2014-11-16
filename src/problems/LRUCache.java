@@ -1,7 +1,7 @@
 package problems;
 import java.util.HashMap;
 
-public class LRUCache {
+public class LRUCache {//AC
     // some variables
 	private int curr_size;
     private int capacity;

@@ -39,6 +39,7 @@ public class Problems15 {
     /*
      * lesson learned: do not use absolute indexes
      */
+    //152
     public TreeNode buildTree2(int[] inorder, int[] postorder) {//AC
     	int i_start = 0;
     	int i_end = inorder.length-1;
@@ -72,7 +73,88 @@ public class Problems15 {
     	return root;
     }
     
-    //152
+    //153
+    public boolean isNumber1(String s) {//wrong
+        if (s == null) return false;
+    	String str = s.trim();
+    	int len = str.length();
+    	int exp = 0;
+    	int decimal = 0;
+    	int neg = 0;
+    	if (len == 0) return false;
+    	//can only begin with numbers
+    	if (len == 1 && !(str.charAt(0) >= '0' && str.charAt(0) <= '9')) return false;
+    	if (!(str.charAt(0) >= '0' && str.charAt(0) <= '9') && str.charAt(0) != '.' && str.charAt(0) != '-' && str.charAt(0) != '+') {
+    		return false;
+    	}
+    	for (int i = 0; i < str.length(); ++i) {
+    		char curr = str.charAt(i);
+    		if (curr == ' ') {
+    			return false;
+    		}
+    		else if (curr == '-' || curr == '+') {
+    		    if (i != 0) {
+    		        return false;
+    		    }
+    		}
+    		else if (curr == 'e') {
+    		    if (exp == 1 || decimal == 1) return false;
+    		    exp = 1;
+    			if (i == len-1) return false;
+    			else {
+    				if (!(str.charAt(i+1) >= '0' && str.charAt(i+1) <= '9')) {
+    					return false;
+    				}
+    			}
+    		}
+    		else if (curr == '.') {
+    		    if (exp == 1 || decimal == 1) return false;
+    		    decimal = 1;
+    			if (i != len-1 && (!(str.charAt(i+1) >= '0' && str.charAt(i+1) <= '9'))) {
+    				return false;
+    			}
+    		}
+    		else if (!(curr >= '0' && curr <= '9')) return false;
+    	}
+        return true;
+    }
+    
+    public boolean isNumber (String s) {//graceful solution. Copied from internet
+    	int table[][] = {
+    			{-1,  0,  3,  1,  2, -1} ,
+                {-1,  8, -1,  1,  4,  5} ,
+                {-1, -1, -1,  4, -1, -1} ,
+                {-1, -1, -1,  1,  2, -1} ,
+                {-1,  8, -1,  4, -1,  5} ,
+                {-1, -1,  6,  7, -1, -1} ,
+                {-1, -1, -1,  7, -1, -1} ,
+                {-1,  8, -1,  7, -1, -1} ,
+                {-1,  8, -1, -1, -1, -1}
+    	};
+    	int last = 0;
+    	for (int i = 0; i < s.length(); ++i)
+    	{
+    		char curr = s.charAt(i);
+    		int state = 0;
+    		if (curr == ' ')
+    			state = 1;
+    		else if (Character.isDigit(curr))
+    			state = 3;
+    		else if (curr == '+' || curr == '-')
+    			state = 2;
+    		else if (curr == '.')
+    			state = 4;
+    		else if (curr == 'e' || curr == 'E')
+    			state = 5;
+    		last = table[last][state];
+    		if (last == 0) return false;
+    		
+    	}
+    	if (last == 3 || last == 6 || last == 7 || last == 8)
+    		return true;
+    	else
+    		return false;
+    }
     
     public void test () 
     {
