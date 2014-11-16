@@ -1,5 +1,6 @@
 import problems.Problems13;
 import problems.Problems14;
+import problems.LRUCache;
 
 public class Maintest {
 	
@@ -8,5 +9,6 @@ public class Maintest {
 		//t.test();
 		Problems14 t2 = new Problems14();
 		t2.test();
+		//LRUCache.test();
 	}
 }

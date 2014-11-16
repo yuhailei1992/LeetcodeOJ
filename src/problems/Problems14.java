@@ -73,9 +73,6 @@ public class Problems14 {
     		}
     	}
     }
-    public List<List<Integer>> subsetsWithDup(int[] num) {
-    	return null;
-    }
     
     public int findMin(int[] num) {//AC
         //
@@ -277,6 +274,33 @@ public class Problems14 {
             return ret;
         }
     }
+    
+    public List<List<Integer>> subsetsWithDup(int[] num) {//AC
+    	List<List<Integer>> ret = new ArrayList<List<Integer>>();
+    	List<Integer> tmp = new ArrayList<Integer>();
+    	Arrays.sort(num);
+    	ret.add(tmp);//empty list
+    	subsets_sub(ret, tmp, num, 0);
+    	return ret;
+    }
+    
+    private void subsets_sub(List<List<Integer>> ret, List<Integer> tmp, int[] num, int start)
+    {
+    	for (int i = start; i < num.length; ++i)
+    	{
+    		tmp.add(num[i]);
+    		ret.add(new ArrayList<Integer>(tmp));
+    		subsets_sub(ret, tmp, num, i+1);
+    		tmp.remove(tmp.size()-1);
+    		while (i < num.length-1 && num[i] == num[i+1])//skip duplicates
+    		{
+    			++i;
+    		}
+    	}
+    }
+
+
+    
     /**
      * 	
 		      5
@@ -376,9 +400,10 @@ public class Problems14 {
         return dp[dp.length-1][dp[0].length-1];
     }
     
+    
+    
 	public void test () {
-		String s = "rabbbit";
-		String t = "rabbit";
-		System.out.println(numDistinct(s, t));
+		int num[] = {1,2,3,4,5,6,7,8,10,0};
+		System.out.println(subsetsWithDup2(num));
 	}
 }

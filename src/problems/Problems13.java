@@ -50,7 +50,19 @@ public class Problems13 {
     //132
     public int ladderLength(String start, String end, Set<String> dict) {
     	
+    	if (start == null || end == null || dict == null || dict.size() == 0)
+    		return 0;
+    	
+    	Queue<String> q = new LinkedList<String>();
+    	
         return 0;
+    }
+    
+    private String ladderLength_sub(String s, int i, char to_sub)
+    {
+    	char[] tmp = s.toCharArray();
+    	tmp[i] = to_sub;
+    	return tmp.toString();
     }
     
     //133
