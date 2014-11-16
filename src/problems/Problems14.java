@@ -400,10 +400,8 @@ public class Problems14 {
         return dp[dp.length-1][dp[0].length-1];
     }
     
-    
-    
 	public void test () {
 		int num[] = {1,2,3,4,5,6,7,8,10,0};
-		System.out.println(subsetsWithDup2(num));
+		System.out.println(subsetsWithDup(num));
 	}
 }

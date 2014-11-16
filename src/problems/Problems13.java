@@ -53,12 +53,40 @@ public class Problems13 {
     	if (start == null || end == null || dict == null || dict.size() == 0)
     		return 0;
     	
-    	Queue<String> q = new LinkedList<String>();
+    	Queue<String> queue = new LinkedList<String>();
+    	queue.offer(start);
+    	dict.remove(start);
+    	int len = 1;
     	
+    	while (!queue.isEmpty())
+    	{
+    		int count = queue.size();
+    		for (int i = 0; i < count; ++i)
+    		{
+    			String curr_str = queue.poll();
+    			for (int j = 0; j < curr_str.length(); ++j)
+    			{
+    				for (char c = 'a'; c <= 'z'; ++c)
+    				{
+    					if (c == curr_str.charAt(j))
+    						continue;
+    					String tmp = replace(curr_str, j, c);
+    					if (tmp.equals(end))
+    						return len + 1;
+    					if (dict.contains(tmp))
+    					{
+    						queue.offer(tmp);
+    						dict.remove(tmp);
+    					}
+    				}
+    			}
+    		}
+    		len++;
+    	}
         return 0;
     }
     
-    private String ladderLength_sub(String s, int i, char to_sub)
+    private String replace(String s, int i, char to_sub)
     {
     	char[] tmp = s.toCharArray();
     	tmp[i] = to_sub;
