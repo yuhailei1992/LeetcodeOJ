@@ -1,20 +1,23 @@
 package problems;
-
 import java.util.HashMap;
 
 public class LRUCache {
+    // some variables
 	private int curr_size;
     private int capacity;
     private HashMap<Integer, Entry> hm;
     private Entry head;
     private Entry tail;
-    
+    // functions
     public LRUCache(int capacity) {
+        head = new Entry();
+        tail = new Entry();
+        head.next = tail;
+        tail.prev = head;
+        
         this.capacity = capacity;
         this.curr_size = 0;
         hm = new HashMap<Integer, Entry>();
-        head = null;
-        tail = null;
     }
     
     public int get(int key) {
@@ -38,15 +41,17 @@ public class LRUCache {
         	node.key = key;
         	node.value = value;
         	// update the cache
-        	head = node;
-        	tail = node;
+        	head.next = node;
+        	node.prev = head;
+        	node.next = tail;
+        	tail.prev = node;
+        	
         	this.curr_size++;
         	// update the hashmap
         	hm.put(key, node);
         }
         else
         {
-        	this.show();
         	//check if the key already exist
         	Entry node = hm.get(key);
         	if (node == null)//doesn't exist
@@ -57,83 +62,74 @@ public class LRUCache {
         		node.value = value;
         		// update the cache
         		
-        		move_to_head(node);
+        		set_new_head(node);
         		
         		this.curr_size++;
         		if (this.curr_size > this.capacity)
         		{
-        			System.out.println("remove");
+        			hm.remove(tail.prev.key);
+        		
         			remove_tail();
+        			this.curr_size--;
         		}
         		// update the hashmap
         		hm.put(key, node);
+        		
         	}
         	else if  (node.key == key && node.value != value)// duplicate
         	{
-        		Entry t = new Entry();
-        		t.key = key;
-        		t.value = value;
-        		move_to_head(t);
-        		this.curr_size++;
-        		if (this.curr_size > this.capacity)
-        		{
-        			System.out.println("remove");
-        			remove_tail();
-        		}
-        		// update the hashmap
-        		hm.put(key, node);
-        		
+        		//update
+        		node.value = value;
+        		hm.put(node.key, node);
+        		move_to_head(node);
         	}
         	else // already exist. size doesn't change
         	{
         		move_to_head(node);
         	}
-        	System.out.println("tail is " + tail.key);
         }
     	
     }
     
     public void remove_tail () 
     {
-    	System.out.println("tail" + tail.key);
-    	if (tail == null)
+    	if (tail.prev == head)
     	{
-    		return;
-    	}
-    	else if (tail.prev == null)
-    	{
-    		head = null;
-    		tail = null;
+    	    return;
     	}
     	else
     	{
-    		hm.remove(tail.key);
-    		tail = tail.prev;
-    		tail.next = null;
+    	    tail.prev = tail.prev.prev;
+    	    tail.prev.next = tail;
     	}
+    }
+    
+    public void set_new_head(Entry node)
+    {
+        node.next = head.next;
+        node.next.prev = node;
+        
+    	head.next = node;
+    	node.prev = head;
+    	
     }
     
     public void move_to_head (Entry node)
     {
-    	if (node == null || node.prev == null)
+    	if (head.next == tail) return;
+    	else
     	{
-    	
+    	    node.prev.next = node.next;
+    	    node.next.prev = node.prev;
+    	    
+    	    set_new_head(node);
     	}
     	
-    	else 
-    	{
-    		node.prev.next = node.next;
-    		if (node.next != null)
-    		{
-    			node.next.prev = node.prev;
-    		}
-    		node.next = head;
-    		head = node;
-    	}
     }
     
     public void show ()
     {
+    	System.out.println("currsize is " + curr_size);
     	if (head == null)
     	{
     		System.out.println("empty");
@@ -162,19 +158,8 @@ public class LRUCache {
     
     public static void test ()
     {
+
     	/*
-    	LRUCache te = new LRUCache(4);
-    	te.set(2, 3);
-    	te.set(3, 5);
-    	te.set(5, 7);
-    	te.show_cache();
-    	te.set(4, 8);
-    	te.set(6, 7);
-    	te.show_cache();
-    	te.get(3);
-    	te.show_cache();
-    	*/
-    	// set(2,1),set(1,1),get(2),set(4,1),get(1),get(2)
     	LRUCache t = new LRUCache(2);
     	t.set(2, 1);
     	t.set(2, 2);
@@ -190,6 +175,18 @@ public class LRUCache {
     	t.get(1);
     	t.get(2);
     	System.out.println("after getting 1 and 2");
+    	t.show();
+    	*/
+    	LRUCache t = new LRUCache(1);
+    	t.set(2, 1);
+    	t.show();
+    	t.get(2);
+    	t.show();
+    	t.set(3, 2);
+    	t.show();
+    	t.get(2);
+    	t.show();
+    	t.get(3);
     	t.show();
     }
 }
