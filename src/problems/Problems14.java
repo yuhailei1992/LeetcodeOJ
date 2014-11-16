@@ -9,6 +9,7 @@ import java.util.Set;
 
 import problems.Datastructures.Point;
 import problems.Datastructures.TreeNode;
+import problems.Datastructures.UndirectedGraphNode;
 
 public class Problems14 {
 	//141
@@ -382,7 +383,7 @@ public class Problems14 {
         if (points.length <= 2) return points.length;
         int max = 0;
         int dup = 1;
-    	Map<Double, Integer> hm = new HashMap<Double, Integer>();
+    	HashMap<Double, Integer> hm = new HashMap<Double, Integer>();
     	
         for (int i = 0; i < points.length; ++i)
         {
@@ -429,6 +430,36 @@ public class Problems14 {
         	}
         }
         return max;
+    }
+    
+    //150
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {//AC
+        if (node == null) return null;
+        java.util.LinkedList<UndirectedGraphNode> queue = new java.util.LinkedList<UndirectedGraphNode>();
+        HashMap<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+        UndirectedGraphNode copy = new UndirectedGraphNode(node.label);
+        map.put(node, copy);
+        // use a queue to do breadth first traversal
+        queue.offer(node);
+        while (!queue.isEmpty())
+        {
+        	UndirectedGraphNode cur = queue.poll();
+        	// traverse the current node's neighbors
+        	for (int i = 0; i < cur.neighbors.size(); ++i)
+        	{
+        		// if this node is not visited, then copy it
+        		if (!map.containsKey(cur.neighbors.get(i)))
+        		{
+        			copy = new UndirectedGraphNode(cur.neighbors.get(i).label);
+        			map.put(cur.neighbors.get(i), copy);
+        			queue.offer(cur.neighbors.get(i));
+        		}
+        		// copy the neighbors
+        		map.get(cur).neighbors.add(map.get(cur.neighbors.get(i)));
+        	}
+        }
+        // return the corresponding node
+        return map.get(node);
     }
     
 	public void test () {

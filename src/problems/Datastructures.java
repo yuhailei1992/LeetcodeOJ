@@ -1,5 +1,8 @@
 package problems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Datastructures {
     public static class ListNode {
         int val;
@@ -47,6 +50,12 @@ public class Datastructures {
         int y;
         Point() { x = 0; y = 0; }
         Point(int a, int b) { x = a; y = b; }
+    }
+    
+    static class UndirectedGraphNode {
+        int label;
+        List<UndirectedGraphNode> neighbors;
+        UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
     }
     
     public static class RandomListNode {
