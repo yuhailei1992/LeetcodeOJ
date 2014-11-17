@@ -155,7 +155,108 @@ public class Problems15 {
     	else
     		return false;
     }
+    //155 copied from blog
+        
+    class StringWithLevel {
+    	String str;
+    	int level;
+    	public StringWithLevel(String str, int level)
+    	{
+    		this.str = str;
+    		this.level = level;
+    	}
+    }
+        
+    public List<List<String>> findLadders(String start, String end, Set<String> dict) {
+        ArrayList<List<String>> res = new ArrayList<List<String>>();
+        HashSet<String> unvisited = new HashSet<String>();
+        unvisited.addAll(dict);
+        unvisited.add(start);
+        unvisited.remove(end);
+        
+        Map<String, List<String>> next = new HashMap<String, List<String>>();
+        for (String e : unvisited)
+        {
+        	next.put(e,  new ArrayList<String>());
+        }
+        
+        java.util.LinkedList<StringWithLevel> queue = new java.util.LinkedList<StringWithLevel>();
+        queue.add(new StringWithLevel(end, 0));
+        boolean found = false;
+        int finallevel = Integer.MAX_VALUE;
+        int curlevel = 0;
+        int prelevel = 0;
+        HashSet<String> visited = new HashSet<String> ();
+        while (!queue.isEmpty())
+        {
+        	StringWithLevel cur = queue.poll();
+        	String cur_str = cur.str;
+        	curlevel = cur.level;
+        	if (found && curlevel > finallevel)
+        	{
+        		break;
+        	}
+        	if (curlevel > prelevel)
+        	{
+        		unvisited.removeAll(visited);
+        	}
+        	prelevel = curlevel;
+        	char[] curarr = cur_str.toCharArray();
+        	for (int i = 0; i < curarr.length; ++i)
+        	{
+        		char orig_char = curarr[i];
+        		boolean foundcurcycle = false;
+        		for (char c = 'a'; c <= 'z'; ++c)
+        		{
+        			curarr[i] = c;
+        			String newstr = new String(curarr);
+        			if (c != orig_char && unvisited.contains(newstr))
+        			{
+        				next.get(newstr).add(cur_str);
+        				if (newstr.equals(start))
+        				{
+        					found = true;
+        					finallevel = curlevel;
+        					foundcurcycle = true;
+        					break;
+        				}
+        				if (visited.add(newstr))
+        				{
+        					queue.add(new StringWithLevel(newstr, curlevel+1));
+        				}
+        			}
+        		}
+        		if (foundcurcycle) break;
+        		curarr[i] = orig_char;
+        	}
+        }
+        if (found)
+    	{
+    		ArrayList<String> list = new ArrayList<String>();
+    		list.add(start);
+    		getPaths(start, end, list, finallevel+1, next, res);
+    	}
+    	return res;
+        
+    }
     
+    private void getPaths(String cur, String end, ArrayList<String> list, int level, Map<String, List<String>> next, ArrayList<List<String>> res)
+    {
+    	if (cur.equals(end))
+    	{
+    		res.add(new ArrayList<String>(list));
+    	}
+    	else if (level > 0)
+    	{
+    		List<String> parentsSet = next.get(cur);
+    		for (String parent : parentsSet) {
+    			list.add(parent);
+    			getPaths(parent, end, list, level-1, next, res);
+    			list.remove(list.size()-1);
+    		}
+    	}
+    }
+
     public void test () 
     {
     	int inorder[] = {1, 2, 3, 4, 5};
